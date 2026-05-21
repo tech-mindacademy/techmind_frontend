@@ -57,6 +57,9 @@ import AdminWallets from "./pages/admin/AdminWallets";
 import CoursesLandingPage from "./pages/CoursesLandingpage";
 import AboutUs from "./pages/AboutUs";
 import ContactUsPage from "./pages/ContactUsPage";
+import InternshipsPage from "./pages/InternshipPage";
+import CertificatePurchasePage from "./pages/CertificatePurchasePage";
+import InternshipManagement from "./pages/admin/InternshipManagement";
 
 function App() {
   const dispatch = useDispatch();
@@ -81,6 +84,8 @@ function App() {
       <Route path="/techmind-courses" element={<CoursesLandingPage />} />
       <Route path="/about" element={<AboutUs/>} />
        <Route path="/contact" element={<ContactUsPage/>} />
+       <Route path="/internships" element={<InternshipsPage />} />
+      <Route path="/certificate-purchase" element={<CertificatePurchasePage />} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
       {/* ── Auth pages: redirect away if already logged in ────────────────── */}
@@ -136,6 +141,7 @@ function App() {
           <Route path="/admin/revenue" element={<RevenueReports />} />
           <Route path="/admin/settings" element={<PlatformSettings />} />
           <Route path="/admin/wallets" element={<AdminWallets />} />
+          <Route path="/admin/internships" element={<InternshipManagement />} />
         </Route>
       </Route>
 

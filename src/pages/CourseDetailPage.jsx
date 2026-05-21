@@ -71,93 +71,62 @@ export default function CourseDetailPage() {
   }, [slug]);
 
   const handleEnroll = async () => {
-//     if (!isAuthenticated) { navigate("/login"); return; }
-//     if (role !== "student") { toast.error("Only students can enroll"); return; }
-//     setActionLoading(true);
-//     try {
-//       if (course.isFree || course.price === 0) {
-//         await enrollFree(course._id);
-//         toast.success("Enrolled! Let's start learning.");
-//         navigate(`/student/learn/${course._id}`);
-//       } else {
-//         const res = await api.post(`/payments/checkout/${course._id}`, {
-//   couponCode: couponResult ? couponCode : null,
-// }).then(r => r.data);
-//       }
-//     } catch (err) {
-//       toast.error(err.response?.data?.message || "Enrollment failed");
-//     } finally { setActionLoading(false); }
-const res = await api
-  .post(`/payments/checkout/${course._id}`, {
-    couponCode: couponResult ? couponCode : null,
-  })
-  .then((r) => r.data);
+  if (!isAuthenticated) { navigate("/login"); return; }
+  if (role !== "student") { toast.error("Only students can enroll"); return; }
 
-const options = {
-  key: res.keyId,
-  amount: res.amount,
-  currency: res.currency,
-  name: "Tech Minds",
-  description: res.courseName,
-  order_id: res.orderId,
-  method: {
-  // upi: true,
-  card: true,
-  netbanking: true,
-  wallet: true,
-},
-
-// config: {
-//   display: {
-//     blocks: {
-//       upi: {
-//         name: "UPI",
-//         instruments: [
-//           {
-//             method: "upi",
-//           },
-//         ],
-//       },
-//     },
-
-    // sequence: ["block.upi"],
-
-//     preferences: {
-//       show_default_blocks: true,
-//     },
-//   },
-// },
-
-  handler: async function (response) {
-    try {
-      const verifyRes = await api.post("/payments/verify", {
-        razorpay_order_id: response.razorpay_order_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-      });
-
-      toast.success("Payment successful!");
-
-      navigate(`/student/learn/${verifyRes.data.courseId}`);
-    } catch (err) {
-      toast.error("Payment verification failed");
+  setActionLoading(true);
+  try {
+    // ── Free course ───────────────────────────────────────────────────────
+    if (course.isFree || course.price === 0) {
+      await enrollFree(course._id);
+      toast.success("Enrolled! Let's start learning.");
+      navigate(`/student/learn/${course._id}`);
+      return;
     }
-  },
 
-  prefill: {
-    name: res.studentName,
-    email: res.studentEmail,
-  },
+    // ── Paid course — open Razorpay ───────────────────────────────────────
+    const res = await api.post(`/payments/checkout/${course._id}`, {
+      couponCode: couponResult ? couponCode : null,
+    }).then(r => r.data);
 
-  theme: {
-    color: "#4F46E5",
-  },
+    const options = {
+      key: res.keyId,
+      amount: res.amount,
+      currency: res.currency,
+      name: "Tech Minds",
+      description: res.courseName,
+      order_id: res.orderId,
+      prefill: { name: res.studentName, email: res.studentEmail },
+      theme: { color: "#4F46E5" },
+      modal: {
+        ondismiss: () => setActionLoading(false), // re-enable button if user closes popup
+      },
+      handler: async function (response) {
+        try {
+          const verifyRes = await api.post("/payments/verify", {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+          toast.success("Payment successful! You're enrolled.");
+          navigate(`/student/learn/${verifyRes.data.courseId}`);
+        } catch (err) {
+          toast.error(err.response?.data?.message || "Payment verification failed");
+          setActionLoading(false);
+        }
+      },
+    };
+
+    const razor = new window.Razorpay(options);
+    razor.open();
+
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Enrollment failed");
+    setActionLoading(false);
+  }
+  // Note: don't call setActionLoading(false) in finally — Razorpay popup is async.
+  // Loading state is cleared in handler, ondismiss, or catch instead.
 };
-
-const razor = new window.Razorpay(options);
-
-razor.open();
-  };
 
 
   const handleValidateCoupon = async () => {

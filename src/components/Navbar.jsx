@@ -70,6 +70,18 @@ export default function Navbar() {
             courses
           </Link>
           <Link
+            to="/internships"
+            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+          >
+            Internships
+          </Link>
+          <Link
+            to="/certificate-purchase"
+            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+          >
+            Certificates
+          </Link>
+          <Link
             to="/contact"
             className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
