@@ -60,7 +60,8 @@ import ContactUsPage from "./pages/ContactUsPage";
 import InternshipsPage from "./pages/InternshipPage";
 import CertificatePurchasePage from "./pages/CertificatePurchasePage";
 import InternshipManagement from "./pages/admin/InternshipManagement";
-import ProfileModal from './components/ProfileModal'
+import ProfileModal from "./components/ProfileModal";
+import Service from "./pages/Service";
 function App() {
   const dispatch = useDispatch();
 
@@ -78,20 +79,23 @@ function App() {
     <Routes>
       {/* ── Fully public pages (no auth needed) ──────────────────────────── */}
       <Route path="/" element={<LandingPage />} />
-      
+
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
       <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
       <Route path="/techmind-courses" element={<CoursesLandingPage />} />
-      <Route path="/about" element={<AboutUs/>} />
-       <Route path="/contact" element={<ContactUsPage/>} />
-       <Route path="/internships" element={<InternshipsPage />} />
-       <Route path="/profile" element={<ProfileModal/>} />
-      <Route path="/certificate-purchase" element={<CertificatePurchasePage />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/contact" element={<ContactUsPage />} />
+      <Route path="/internships" element={<InternshipsPage />} />
+      <Route path="/profile" element={<ProfileModal />} />
+      <Route
+        path="/certificate-purchase"
+        element={<CertificatePurchasePage />}
+      />
+      <Route path="/services" element={<Service/>} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
       {/* ── Auth pages: redirect away if already logged in ────────────────── */}
       <Route element={<PublicRoute />}>
-        
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -104,9 +108,18 @@ function App() {
         <Route element={<StudentLayout />}>
           <Route path="/student/dashboard" element={<StudentDashboard />} />
           <Route path="/student/my-courses" element={<MyCoursesPage />} />
-          <Route path="/student/learn/:courseId" element={<CoursePlayerPage />} />
-          <Route path="/student/learn/:courseId/lesson/:lessonId" element={<CoursePlayerPage />} />
-          <Route path="/student/certificate/:courseId" element={<CertificatePage />} />
+          <Route
+            path="/student/learn/:courseId"
+            element={<CoursePlayerPage />}
+          />
+          <Route
+            path="/student/learn/:courseId/lesson/:lessonId"
+            element={<CoursePlayerPage />}
+          />
+          <Route
+            path="/student/certificate/:courseId"
+            element={<CertificatePage />}
+          />
           <Route path="/student/profile" element={<StudentProfilePage />} />
           <Route path="/courses" element={<CourseCataloguePage />} />
           <Route path="/courses/:slug" element={<CourseDetailPage />} />
@@ -119,15 +132,30 @@ function App() {
           <Route path="/creator/dashboard" element={<CreatorDashboard />} />
           <Route path="/creator/courses" element={<MyCourses />} />
           <Route path="/creator/courses/new" element={<CourseBuilder />} />
-          <Route path="/creator/courses/:courseId/edit" element={<CourseBuilder />} />
-          <Route path="/creator/courses/:courseId/lessons/:lessonId" element={<LessonEditor />} />
-          <Route path="/creator/courses/:courseId/quiz/:lessonId" element={<QuizBuilder />} />
-          <Route path="/creator/courses/:courseId/assignment/:lessonId" element={<AssignmentBuilder />} />
+          <Route
+            path="/creator/courses/:courseId/edit"
+            element={<CourseBuilder />}
+          />
+          <Route
+            path="/creator/courses/:courseId/lessons/:lessonId"
+            element={<LessonEditor />}
+          />
+          <Route
+            path="/creator/courses/:courseId/quiz/:lessonId"
+            element={<QuizBuilder />}
+          />
+          <Route
+            path="/creator/courses/:courseId/assignment/:lessonId"
+            element={<AssignmentBuilder />}
+          />
           <Route path="/creator/submissions" element={<SubmissionsPage />} />
           <Route path="/creator/analytics" element={<CreatorAnalytics />} />
           <Route path="/creator/wallet" element={<CreatorWallet />} />
           <Route path="/creator/coupons" element={<CouponManager />} />
-          <Route path="/creator/certificates" element={<CertificateManager />} />
+          <Route
+            path="/creator/certificates"
+            element={<CertificateManager />}
+          />
         </Route>
       </Route>
 
