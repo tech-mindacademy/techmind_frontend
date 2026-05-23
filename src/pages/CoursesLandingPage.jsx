@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fetchCourses } from "../api/services/course.service";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -278,6 +279,7 @@ export default function CoursesLandingPage() {
           )}
         </main>
       </div>
+      <Footer/>
     </div>
   );
 }

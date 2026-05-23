@@ -60,7 +60,7 @@ import ContactUsPage from "./pages/ContactUsPage";
 import InternshipsPage from "./pages/InternshipPage";
 import CertificatePurchasePage from "./pages/CertificatePurchasePage";
 import InternshipManagement from "./pages/admin/InternshipManagement";
-
+import ProfileModal from './components/ProfileModal'
 function App() {
   const dispatch = useDispatch();
 
@@ -85,6 +85,7 @@ function App() {
       <Route path="/about" element={<AboutUs/>} />
        <Route path="/contact" element={<ContactUsPage/>} />
        <Route path="/internships" element={<InternshipsPage />} />
+       <Route path="/profile" element={<ProfileModal/>} />
       <Route path="/certificate-purchase" element={<CertificatePurchasePage />} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 

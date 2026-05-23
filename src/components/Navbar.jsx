@@ -27,13 +27,14 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../hooks/useAuth";
+import ProfileModal from "./ProfileModal";
 
 export default function Navbar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
-
+  const [profileOpen, setProfileOpen] = useState(false);
   // close on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -149,13 +150,23 @@ export default function Navbar() {
                   >
                     <button
                       onClick={() => {
-                        navigate("/student/profile");
+                        navigate("/profile");
                         setOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                       My Profile
                     </button>
+
+                    {/* <button
+                      onClick={() => {
+                        setProfileOpen(true);
+                        setOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      My Profile
+                    </button> */}
                     <button
                       onClick={() => {
                         navigate("/student/dashboard");
@@ -201,6 +212,7 @@ export default function Navbar() {
           )}
         </div>
       </div>
+     
     </nav>
   );
 }
