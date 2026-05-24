@@ -62,6 +62,7 @@ import CertificatePurchasePage from "./pages/CertificatePurchasePage";
 import InternshipManagement from "./pages/admin/InternshipManagement";
 import ProfileModal from "./components/ProfileModal";
 import Service from "./pages/Service";
+import AuthPage from "./pages/auth/AuthPage";
 function App() {
   const dispatch = useDispatch();
 
@@ -91,6 +92,7 @@ function App() {
         path="/certificate-purchase"
         element={<CertificatePurchasePage />}
       />
+      <Route path="/auth" element={<AuthPage />} />
       <Route path="/services" element={<Service/>} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 

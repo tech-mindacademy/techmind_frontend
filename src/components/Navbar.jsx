@@ -117,7 +117,13 @@ export default function Navbar() {
           </Link>
 
           {/* NOT LOGGED IN */}
-          {!user && (
+          <Link
+                to="/auth"
+                className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900"
+              >
+                Sign in
+              </Link>
+          {/* {!user && (
             <>
               <Link
                 to="/login"
@@ -133,7 +139,7 @@ export default function Navbar() {
                 Get started
               </Link>
             </>
-          )}
+          )} */}
 
           {/* LOGGED IN USER */}
           {user && (
