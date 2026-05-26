@@ -63,6 +63,7 @@ import InternshipManagement from "./pages/admin/InternshipManagement";
 import ProfileModal from "./components/ProfileModal";
 import Service from "./pages/Service";
 import AuthPage from "./pages/auth/AuthPage";
+import HeroImageManager from "./pages/admin/HeroImageManager";
 function App() {
   const dispatch = useDispatch();
 
@@ -173,6 +174,7 @@ function App() {
           <Route path="/admin/settings" element={<PlatformSettings />} />
           <Route path="/admin/wallets" element={<AdminWallets />} />
           <Route path="/admin/internships" element={<InternshipManagement />} />
+          <Route path="/admin/hero-images" element={<HeroImageManager />} />
         </Route>
       </Route>
 
