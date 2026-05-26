@@ -24,16 +24,25 @@
 // }
 
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../hooks/useAuth";
+import ProfileModal from "./ProfileModal";
 
 export default function Navbar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const navLinkClass = (path) =>
+    `text-sm transition hidden sm:block ${
+      location.pathname === path
+        ? "text-purple-400 font-semibold"
+        : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+    }`;
   // close on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -56,7 +65,8 @@ export default function Navbar() {
         {/* LOGO */}
         <Link
           to="/"
-          className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
+          className={navLinkClass("/")}
+          // className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
         >
           Tech Minds
         </Link>
@@ -65,37 +75,55 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link
             to="/techmind-courses"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+            className={navLinkClass("/techmind-courses")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
             courses
           </Link>
           <Link
             to="/internships"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+            className={navLinkClass("/internships")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
             Internships
           </Link>
-          <Link
+          {/* <Link
             to="/certificate-purchase"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+            className={navLinkClass("/certificate-purchase")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
             Certificates
-          </Link>
+          </Link> */}
           <Link
             to="/contact"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+            className={navLinkClass("/contact")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
             Contact
           </Link>
           <Link
+            to="/Services"
+            className={navLinkClass("/Services")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+          >
+            Services
+          </Link>
+          <Link
             to="/about"
-            className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
+            className={navLinkClass("/about")}
+            // className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition hidden sm:block"
           >
             About us
           </Link>
 
           {/* NOT LOGGED IN */}
-          {!user && (
+          <Link
+                to="/auth"
+                className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900"
+              >
+                Sign in
+              </Link>
+          {/* {!user && (
             <>
               <Link
                 to="/login"
@@ -111,7 +139,7 @@ export default function Navbar() {
                 Get started
               </Link>
             </>
-          )}
+          )} */}
 
           {/* LOGGED IN USER */}
           {user && (
@@ -149,13 +177,23 @@ export default function Navbar() {
                   >
                     <button
                       onClick={() => {
-                        navigate("/student/profile");
+                        navigate("/profile");
                         setOpen(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                       My Profile
                     </button>
+
+                    {/* <button
+                      onClick={() => {
+                        setProfileOpen(true);
+                        setOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      My Profile
+                    </button> */}
                     <button
                       onClick={() => {
                         navigate("/student/dashboard");
