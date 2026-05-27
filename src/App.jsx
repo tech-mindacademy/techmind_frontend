@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { selectIsInitialized } from "./store/slices/authSlice";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -64,8 +66,16 @@ import ProfileModal from "./components/ProfileModal";
 import Service from "./pages/Service";
 import AuthPage from "./pages/auth/AuthPage";
 import HeroImageManager from "./pages/admin/HeroImageManager";
+
+const SessionLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
 function App() {
   const dispatch = useDispatch();
+  const isInitialized = useSelector(selectIsInitialized);
 
   // On mount: try to restore session from httpOnly refresh token cookie
   useEffect(() => {
@@ -76,6 +86,8 @@ function App() {
         // No valid session — isInitialized will be set to true in rejected handler
       });
   }, [dispatch]);
+
+   if (!isInitialized) return <SessionLoader />;
 
   return (
     <Routes>
