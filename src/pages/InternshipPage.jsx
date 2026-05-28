@@ -175,7 +175,7 @@ export default function InternshipsPage() {
     (async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/api/internships");
+        const { data } = await axios.get("/internships");
         const backendList = data.internships || [];
         // Merge: backend first, then static items whose _id isn't already present
         const backendIds = new Set(backendList.map((i) => i._id?.toString()));
@@ -220,7 +220,7 @@ export default function InternshipsPage() {
   try {
     if (applying._id.startsWith("s")) {
       // Static internship — one call handles everything (create internship + apply + email)
-      await axios.post("/api/internships/apply-static", {
+      await axios.post("/internships/apply-static", {
         internship: {
           title: applying.title,
           company: applying.company,
