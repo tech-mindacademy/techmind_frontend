@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
+import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -175,7 +175,7 @@ export default function InternshipsPage() {
     (async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/internships");
+        const { data } = await api.get("/internships");
         const backendList = data.internships || [];
         // Merge: backend first, then static items whose _id isn't already present
         const backendIds = new Set(backendList.map((i) => i._id?.toString()));
@@ -220,7 +220,7 @@ export default function InternshipsPage() {
   try {
     if (applying._id.startsWith("s")) {
       // Static internship — one call handles everything (create internship + apply + email)
-      await axios.post("/internships/apply-static", {
+      await api.post("/internships/apply-static", {
         internship: {
           title: applying.title,
           company: applying.company,
@@ -239,7 +239,7 @@ export default function InternshipsPage() {
       });
     } else {
       // Real DB internship — call apply directly
-      await axios.post(`/api/internships/${applying._id}/apply`, form);
+      await api.post(`/api/internships/${applying._id}/apply`, form);
     }
     setSuccess(true);
   } catch (err) {
