@@ -70,6 +70,7 @@ export default function Navbar() {
         >
           Tech Minds
         </Link>
+        <img src="" alt="" />
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-4">

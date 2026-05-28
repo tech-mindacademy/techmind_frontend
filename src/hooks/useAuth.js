@@ -54,7 +54,7 @@ const useAuth = () => {
     const result = await dispatch(registerUser(formData));
     if (registerUser.fulfilled.match(result)) {
       toast.success("Account created! Check your email to verify.");
-      navigate("/login");
+      navigate("/auth");
       return true;
     } else {
       toast.error(result.payload || "Registration failed");
@@ -65,7 +65,7 @@ const useAuth = () => {
   const logout = async () => {
     await dispatch(logoutUser());
     toast.success("Logged out");
-    navigate("/login", { replace: true });
+    navigate("/auth", { replace: true });
   };
 
   const dismissError = () => dispatch(clearError());

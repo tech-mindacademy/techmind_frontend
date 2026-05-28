@@ -105,14 +105,15 @@ function App() {
         path="/certificate-purchase"
         element={<CertificatePurchasePage />}
       />
-      <Route path="/auth" element={<AuthPage />} />
+      
       <Route path="/services" element={<Service/>} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
       {/* ── Auth pages: redirect away if already logged in ────────────────── */}
       <Route element={<PublicRoute />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        {/* <Route path="/login" element={<LoginPage />} /> */}
+        {/* <Route path="/register" element={<RegisterPage />} /> */}
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         {/* <Route path="/techmind-courses" element={<CoursesLandingPage />} /> */}
