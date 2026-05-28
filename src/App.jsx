@@ -56,7 +56,7 @@ import CategoryManagement from "./pages/admin/CategoryManagement";
 import RevenueReports from "./pages/admin/RevenueReports";
 import PlatformSettings from "./pages/admin/PlatformSettings";
 import AdminWallets from "./pages/admin/AdminWallets";
-import CoursesLandingPage from "./pages/CoursesLandingpage";
+import CoursesLandingPage from "./pages/CoursesLandingPage";
 import AboutUs from "./pages/AboutUs";
 import ContactUsPage from "./pages/ContactUsPage";
 import InternshipsPage from "./pages/InternshipPage";
