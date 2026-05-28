@@ -4,8 +4,10 @@ import { setAccessToken, clearAuth } from "../store/slices/authSlice";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // send httpOnly refresh token cookie
-  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // ─── Request interceptor: attach access token ─────────────────────────────────
