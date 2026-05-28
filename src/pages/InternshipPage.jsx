@@ -239,7 +239,7 @@ export default function InternshipsPage() {
       });
     } else {
       // Real DB internship — call apply directly
-      await api.post(`/api/internships/${applying._id}/apply`, form);
+      await api.post(`/internships/${applying._id}/apply`, form);
     }
     setSuccess(true);
   } catch (err) {
