@@ -96,7 +96,7 @@ export function VerifyEmailPage() {
     try {
       await api.get(`/auth/verify-email/${token}`);
       setStatus("success");
-      setTimeout(() => navigate("/login"), 2500);
+      setTimeout(() => navigate("/auth"), 2500);
     } catch {
       setStatus("error");
     }
@@ -134,7 +134,7 @@ export function VerifyEmailPage() {
             </div>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Verification failed</h2>
             <p className="text-sm text-gray-500 mb-4">The link may have expired or already been used.</p>
-            <Link to="/login" className="text-indigo-600 text-sm hover:underline">Back to sign in</Link>
+            <Link to="/auth" className="text-indigo-600 text-sm hover:underline">Back to sign in</Link>
           </>
         )}
       </motion.div>
