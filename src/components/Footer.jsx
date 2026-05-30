@@ -83,7 +83,7 @@ export default function Footer() {
 
       {/* BOTTOM */}
       <div className="max-w-7xl mx-auto px-4 mt-12 border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-500">
-        <p>© {new Date().getFullYear()} Tech Minds. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Tech Mind Academy. All rights reserved.</p>
 
         <div className="flex gap-4">
           <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
