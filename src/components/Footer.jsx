@@ -10,7 +10,7 @@ export default function Footer() {
         {/* BRAND */}
         <div>
           <h2 className="text-2xl font-bold text-white">
-            Tech Minds
+            Tech Mind Academy
           </h2>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed">
             Learn real-world skills with practical courses, expert mentors,
@@ -38,6 +38,8 @@ export default function Footer() {
             <li><Link to="/techmind-courses" className="hover:text-white">Courses</Link></li>
             <li><Link to="/about" className="hover:text-white">About Us</Link></li>
             <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+            <li><Link to="/internships" className="hover:text-white">Internships</Link></li>
+            <li><Link to="/services" className="hover:text-white">Services</Link></li>
           </ul>
         </div>
 
