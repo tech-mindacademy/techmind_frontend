@@ -230,7 +230,7 @@ export default function AboutUs() {
             </h1>
 
             <p className="mt-8 text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Tech Minds is a modern online learning platform where students can
+              Tech Mind Academy is a modern online learning platform where students can
               discover expert-led courses, build valuable skills, and achieve
               their goals, while educators can create, publish, and share
               knowledge with learners around the world.
@@ -271,7 +271,7 @@ export default function AboutUs() {
             </h2>
 
             <p className="mt-6 text-gray-400 leading-relaxed text-lg">
-              Tech Minds is a modern online learning platform that connects
+              Tech Mind Academy is a modern online learning platform that connects
               learners with expert educators. Our goal is to make quality
               education accessible, engaging, and practical for everyone.
             </p>
@@ -417,7 +417,7 @@ export default function AboutUs() {
             </h2>
 
             <p className="mt-6 text-white/80 text-lg max-w-2xl mx-auto">
-              Join thousands of learners and educators already using Tech Minds.
+              Join thousands of learners and educators already using Tech Mind Academy.
               Discover courses, develop valuable skills, and achieve your goals.
             </p>
 
