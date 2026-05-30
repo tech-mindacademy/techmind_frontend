@@ -189,6 +189,7 @@ export default function TestimonialsSection() {
   const half = Math.ceil(reviews.length / 2);
   const row1 = reviews.slice(0, half);
   const row2 = reviews.slice(half);
+  const showTwoRows = reviews.length >= 6;
 
   const avgRating =
     reviews.length > 0
@@ -262,23 +263,20 @@ export default function TestimonialsSection() {
           </p>
         ) : (
           <div className="space-y-4">
-            <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
-              <MarqueeRow
-                reviews={row1.length > 0 ? row1 : reviews}
-                speed={0.35}
-              />
-            </div>
+  <div className="relative">
+    <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
+    <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
+    <MarqueeRow reviews={showTwoRows ? row1 : reviews} speed={0.35} />
+  </div>
 
-            {row2.length > 0 && (
-              <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
-                <MarqueeRow reviews={row2} reverse speed={0.28} />
-              </div>
-            )}
-          </div>
+  {showTwoRows && (
+    <div className="relative">
+      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
+      <MarqueeRow reviews={row2} reverse speed={0.28} />
+    </div>
+  )}
+</div>
         )}
 
         {/* Summary stats */}
