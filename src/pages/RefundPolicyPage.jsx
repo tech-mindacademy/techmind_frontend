@@ -315,7 +315,6 @@ export default function RefundPolicyPage() {
                   { label: "Support Email", value: "techmindacademy70@gmail.com" },
                   { label: "Response Time", value: "Within 48 business hours" },
                   { label: "Phone Support", value: "+91 98765 43210" },
-                  { label: "Live Chat", value: "Available on Dashboard" },
                 ].map((item) => (
                   <div key={item.label} className="bg-slate-900/60 rounded-xl px-4 py-3 border border-slate-800/60">
                     <p className="text-xs text-slate-500 mb-0.5">{item.label}</p>

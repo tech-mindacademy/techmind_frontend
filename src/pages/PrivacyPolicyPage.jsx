@@ -285,7 +285,7 @@ export default function PrivacyPolicyPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {[
-                  { label: "Email", value: "privacy@learnhub.com" },
+                  { label: "Email", value: "techmindacademy70@gmail.com" },
                   { label: "Response Time", value: "Within 48 hours" },
                   { label: "Address", value: "LearnHub Inc., Tech City, IN 141001" },
                   { label: "DPO", value: "dpo@learnhub.com" },
