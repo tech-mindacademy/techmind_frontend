@@ -236,7 +236,7 @@ function LandingCourseCard({ course }) {
 
 export default function LandingPage() {
   const { user } = useAuth();
-  const [activeReview, setActiveReview] = useState(0);
+  // const [activeReview, setActiveReview] = useState(0);
   const [hasImages, setHasImages] = useState(false);
   const [topCourses, setTopCourses] = useState([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
