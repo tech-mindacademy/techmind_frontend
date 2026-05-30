@@ -298,8 +298,6 @@ export default function InternshipsPage() {
             <div className="inline-flex items-center divide-x divide-white/10 bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm">
               {[
                 { v: "10+", l: "Tech Domains" },
-                { v: "50+", l: "Companies" },
-                { v: "100%", l: "Free to Apply" },
                 { v: "48hr", l: "Avg Response" },
               ].map((s) => (
                 <div key={s.l} className="px-5 py-3 text-center">
