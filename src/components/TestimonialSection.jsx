@@ -10,8 +10,16 @@ import {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const TYPE_CONFIG = {
   course: { label: "Course", color: "text-indigo-400", dot: "bg-indigo-400" },
-  platform: { label: "Platform", color: "text-purple-400", dot: "bg-purple-400" },
-  internship: { label: "Internship", color: "text-teal-400", dot: "bg-teal-400" },
+  platform: {
+    label: "Platform",
+    color: "text-purple-400",
+    dot: "bg-purple-400",
+  },
+  internship: {
+    label: "Internship",
+    color: "text-teal-400",
+    dot: "bg-teal-400",
+  },
 };
 
 function Stars({ rating }) {
@@ -54,7 +62,9 @@ function ReviewCard({ review }) {
   return (
     <div className="w-[320px] shrink-0 bg-white/5 border border-white/8 rounded-2xl p-5 space-y-3 backdrop-blur-sm">
       <div className="flex items-center justify-between">
-        <span className={`text-xs font-medium flex items-center gap-1.5 ${cfg.color}`}>
+        <span
+          className={`text-xs font-medium flex items-center gap-1.5 ${cfg.color}`}
+        >
           <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
           {cfg.label}
           {review.reviewType === "course" && review.course?.title && (
@@ -98,21 +108,25 @@ function ReviewCard({ review }) {
 }
 
 // ─── Infinite scroll ticker ───────────────────────────────────────────────────
+// ─── Infinite scroll ticker ───────────────────────────────────────────────────
 function MarqueeRow({ reviews = [], reverse = false, speed = 0.4 }) {
   const trackRef = useRef(null);
   const xRef = useRef(0);
 
   const safeReviews = Array.isArray(reviews) ? reviews : [];
-  const items = [...safeReviews, ...safeReviews];
+
+  // Repeat enough times to always fill the screen and loop smoothly
+  const repeatCount = Math.max(Math.ceil(6 / safeReviews.length), 2);
+  const items = Array(repeatCount).fill(safeReviews).flat();
 
   useAnimationFrame((_, delta) => {
     if (!trackRef.current || items.length === 0) return;
     const dir = reverse ? 1 : -1;
     xRef.current += dir * speed * (delta / 16);
 
-    const halfWidth = trackRef.current.scrollWidth / 2;
-    if (!reverse && xRef.current <= -halfWidth) xRef.current = 0;
-    if (reverse && xRef.current >= 0) xRef.current = -halfWidth;
+    const singleSetWidth = trackRef.current.scrollWidth / repeatCount;
+    if (!reverse && xRef.current <= -singleSetWidth) xRef.current = 0;
+    if (reverse && xRef.current >= 0) xRef.current = -singleSetWidth;
 
     trackRef.current.style.transform = `translateX(${xRef.current}px)`;
   });
@@ -184,7 +198,7 @@ export default function TestimonialsSection() {
   const recommendPct =
     reviews.length > 0
       ? Math.round(
-          (reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100
+          (reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100,
         )
       : 0;
 
@@ -231,6 +245,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Marquee rows */}
+        {/* Marquee rows */}
         {isLoading ? (
           <div className="space-y-4">
             {[0, 1].map((row) => (
@@ -247,28 +262,20 @@ export default function TestimonialsSection() {
           </p>
         ) : (
           <div className="space-y-4">
-            {row1.length >= 3 && (
-              <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
-                <MarqueeRow reviews={row1} speed={0.35} />
-              </div>
-            )}
+            <div className="relative">
+              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
+              <MarqueeRow
+                reviews={row1.length > 0 ? row1 : reviews}
+                speed={0.35}
+              />
+            </div>
 
-            {row2.length >= 3 && (
+            {row2.length > 0 && (
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
                 <MarqueeRow reviews={row2} reverse speed={0.28} />
-              </div>
-            )}
-
-            {/* Fallback: not enough for two rows */}
-            {row1.length < 3 && (
-              <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
-                <MarqueeRow reviews={reviews} speed={0.35} />
               </div>
             )}
           </div>
@@ -289,7 +296,9 @@ export default function TestimonialsSection() {
               { label: "Would recommend", value: `${recommendPct}%` },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="text-2xl font-bold text-indigo-300">{stat.value}</p>
+                <p className="text-2xl font-bold text-indigo-300">
+                  {stat.value}
+                </p>
                 <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
               </div>
             ))}
