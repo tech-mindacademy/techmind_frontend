@@ -224,7 +224,7 @@ function LandingCourseCard({ course }) {
             <div className="font-bold text-indigo-600">
               {course.isFree || course.price === 0
                 ? "Free"
-                : `₹${(course.discountPrice || course.price).toLocaleString()}`}
+                : `${(course.discountPrice || course.price).toLocaleString()}`}
             </div>
           </div>
         </div>
