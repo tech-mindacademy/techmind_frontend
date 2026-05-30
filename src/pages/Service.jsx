@@ -109,9 +109,9 @@ export default function Service() {
               <ArrowRight size={18} />
             </button>
 
-            <button className="border border-white/10 hover:border-purple-500 bg-white/5 transition px-8 py-4 rounded-2xl font-semibold">
+            {/* <button className="border border-white/10 hover:border-purple-500 bg-white/5 transition px-8 py-4 rounded-2xl font-semibold">
               View Portfolio
-            </button>
+            </button> */}
             <button onClick={()=> navigate("/certificate-purchase")} className="bg-purple-600 hover:bg-purple-500 transition px-8 py-4 rounded-2xl font-semibold flex items-center gap-2">
               Get Certificates
               <ArrowRight size={18} />
