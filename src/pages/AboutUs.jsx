@@ -139,19 +139,19 @@ import Footer from "../components/Footer";
 export default function AboutUs() {
   const features = [
     {
-      icon: <Rocket size={28} />,
-      title: "Modern Development",
-      desc: "Fast, scalable and modern websites, apps and digital platforms.",
+      icon: <GraduationCap size={28} />,
+      title: "HD Video Learning",
+      desc: "Learn through high-quality video lessons with subtitle support.",
     },
     {
-      icon: <Palette size={28} />,
-      title: "Premium UI/UX",
-      desc: "Clean and beautiful interfaces designed for modern users.",
+      icon: <CheckCircle size={28} />,
+      title: "Interactive Assessments",
+      desc: "Quizzes, assignments and instant feedback to improve learning.",
     },
     {
-      icon: <Users size={28} />,
-      title: "Client Focused",
-      desc: "We build solutions tailored to your business and audience.",
+      icon: <Sparkles size={28} />,
+      title: "Verified Certificates",
+      desc: "Earn certificates that validate your skills and achievements.",
     },
   ];
 
@@ -159,22 +159,22 @@ export default function AboutUs() {
     {
       icon: <GraduationCap size={26} />,
       title: "Students",
-      desc: "Portfolio websites, final-year projects and personal branding.",
+      desc: "Learn new skills and earn certificates.",
+    },
+    {
+      icon: <Users size={26} />,
+      title: "Professionals",
+      desc: "Upskill and advance your career.",
     },
     {
       icon: <Rocket size={26} />,
-      title: "Startups",
-      desc: "MVP development, SaaS products and scalable platforms.",
+      title: "Educators",
+      desc: "Create courses and share your expertise.",
     },
     {
-      icon: <Briefcase size={26} />,
-      title: "Businesses",
-      desc: "Professional websites and digital systems for growth.",
-    },
-    {
-      icon: <Sparkles size={26} />,
-      title: "Creators",
-      desc: "Personal brands, landing pages and audience platforms.",
+      icon: <Globe size={26} />,
+      title: "Organizations",
+      desc: "Train teams through scalable learning programs.",
     },
   ];
 
@@ -195,37 +195,35 @@ export default function AboutUs() {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-5 py-2 text-sm text-purple-300 mb-8">
-              🚀 Digital Product Studio
+              🎓 Modern Learning Platform
             </div>
-
             <h1 className="text-5xl md:text-7xl font-bold leading-tight max-w-5xl mx-auto">
-              Building digital experiences
+              Learn, Teach &
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
                 {" "}
-                that help brands grow.
+                Grow Together
               </span>
             </h1>
 
             <p className="mt-8 text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Tech Minds is a modern digital solutions studio helping startups,
-              students, creators and businesses launch websites, apps and
-              scalable digital products with premium design and development.
+              Tech Minds is a modern online learning platform where students can
+              discover expert-led courses, build valuable skills, and achieve
+              their goals, while educators can create, publish, and share
+              knowledge with learners around the world.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mt-10">
               <Link
-                to="/contact"
-                className="bg-purple-600 hover:bg-purple-500 transition px-8 py-4 rounded-2xl font-semibold flex items-center gap-2"
+                to="/register"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-2xl transition text-base shadow-lg shadow-indigo-900/40"
               >
-                Start Your Project
-                <ArrowRight size={18} />
+                Start learning for free →
               </Link>
-
               <Link
-                to="/services"
-                className="border border-white/10 hover:border-purple-500 bg-white/5 transition px-8 py-4 rounded-2xl font-semibold"
+                to="/courses"
+                className="bg-white/5 border border-white/10 hover:border-white/20 text-gray-200 font-semibold px-8 py-3.5 rounded-2xl transition text-base"
               >
-                Explore Services
+                Browse courses
               </Link>
             </div>
           </motion.div>
@@ -244,28 +242,31 @@ export default function AboutUs() {
             </p>
 
             <h2 className="text-4xl md:text-5xl font-bold mt-4 leading-tight">
-              More than development —
-              <span className="text-purple-400"> we build digital growth.</span>
+              Empowering Learning Through
+              <span className="text-purple-400"> Technology & Knowledge</span>
             </h2>
 
             <p className="mt-6 text-gray-400 leading-relaxed text-lg">
-              We started Tech Minds with a simple vision — to help individuals,
-              startups and businesses bring their ideas online with modern,
-              high-quality digital solutions.
+              Tech Minds is a modern online learning platform that connects
+              learners with expert educators. Our goal is to make quality
+              education accessible, engaging, and practical for everyone.
             </p>
 
             <p className="mt-5 text-gray-400 leading-relaxed">
-              From websites and mobile apps to startup MVPs and business
-              systems, we focus on creating experiences that are fast, scalable
-              and built for real users.
+              Students can explore expert-led courses, develop real-world
+              skills, and earn verified certificates, while educators can
+              create, publish, and manage courses that inspire learners around
+              the world.
             </p>
 
             <div className="mt-8 space-y-4">
               {[
-                "Modern UI/UX focused development",
-                "Scalable and responsive solutions",
-                "Startup-friendly approach",
-                "Long-term support & improvements",
+                "Expert-led courses across multiple domains",
+                "Interactive quizzes and assessments",
+                "Downloadable learning resources",
+                "Verified completion certificates",
+                "Progress tracking and analytics",
+                "Powerful tools for educators",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center">
@@ -288,10 +289,10 @@ export default function AboutUs() {
           >
             <div className="grid grid-cols-2 gap-6">
               {[
-                ["50+", "Projects Delivered"],
-                ["20+", "Happy Clients"],
-                ["10+", "Industries Served"],
-                ["99%", "Client Satisfaction"],
+                ["50K+", "Students Learning"],
+                ["1,200+", "Published Courses"],
+                ["800+", "Expert Educators"],
+                ["4.9★", "Average Rating"],
               ].map(([num, label]) => (
                 <div
                   key={label}
@@ -306,15 +307,15 @@ export default function AboutUs() {
             <div className="mt-8 bg-gradient-to-r from-purple-600/20 to-cyan-500/20 border border-white/10 rounded-2xl p-6">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-500 flex items-center justify-center">
-                  <Globe />
+                  <GraduationCap />
                 </div>
 
                 <div>
                   <h3 className="text-xl font-semibold">
-                    Websites • Apps • MVPs
+                    Learn • Teach • Grow
                   </h3>
                   <p className="text-gray-400 text-sm mt-1">
-                    Complete digital solutions for modern businesses.
+                    A complete learning platform for students and educators.
                   </p>
                 </div>
               </div>
@@ -326,11 +327,11 @@ export default function AboutUs() {
         <section className="relative z-10 py-24 px-4">
           <div className="max-w-7xl mx-auto text-center">
             <p className="text-cyan-400 uppercase tracking-[4px] text-sm">
-              Why Choose Us
+              Why Choose Tech Minds
             </p>
 
             <h2 className="text-4xl md:text-5xl font-bold mt-4">
-              Built for modern brands & businesses
+              Everything You Need To Learn And Grow
             </h2>
 
             <div className="grid md:grid-cols-3 gap-8 mt-16">
@@ -360,11 +361,11 @@ export default function AboutUs() {
           <div className="bg-white/5 border border-white/10 rounded-[40px] p-10 md:p-16">
             <div className="text-center">
               <p className="text-purple-400 uppercase tracking-[4px] text-sm">
-                Who We Work With
+                Who We Serve
               </p>
 
               <h2 className="text-4xl md:text-5xl font-bold mt-4">
-                Helping ideas become reality
+                Built For Learners, Educators & Organizations
               </h2>
             </div>
 
@@ -393,28 +394,20 @@ export default function AboutUs() {
         <section className="relative z-10 py-28 px-4">
           <div className="max-w-5xl mx-auto rounded-[40px] bg-gradient-to-r from-purple-700 to-indigo-700 p-12 md:p-20 text-center">
             <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-              Ready to build something amazing?
+              Ready To Start Your Learning Journey?
             </h2>
 
             <p className="mt-6 text-white/80 text-lg max-w-2xl mx-auto">
-              Whether you're launching a startup, growing your business or
-              building your personal brand — we can help bring your vision to
-              life.
+              Join thousands of learners and educators already using Tech Minds.
+              Discover courses, develop valuable skills, and achieve your goals.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mt-10">
-              <Link
-                to="/contact"
-                className="bg-white text-black hover:bg-gray-200 transition px-8 py-4 rounded-2xl font-semibold"
-              >
-                Start a Project
+              <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-2xl transition text-base shadow-lg shadow-indigo-900/40">
+                Start learning for free →
               </Link>
-
-              <Link
-                to="/services"
-                className="border border-white/30 hover:bg-white/10 transition px-8 py-4 rounded-2xl font-semibold"
-              >
-                View Services
+              <Link to="/courses" className="bg-white/5 border border-white/10 hover:border-white/20 text-gray-200 font-semibold px-8 py-3.5 rounded-2xl transition text-base">
+                Browse courses
               </Link>
             </div>
           </div>
