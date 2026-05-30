@@ -63,14 +63,24 @@ export default function Navbar() {
     <nav className="sticky top-0 z-30 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* LOGO */}
-        <Link
-          to="/"
-          className={navLinkClass("/")}
-          // className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
-        >
-          Tech Mind Academy
-        </Link>
-        <img src="" alt="" />
+        {/* LOGO */}
+<Link
+  to="/"
+  className="flex items-center gap-2.5"
+>
+  <img 
+    src="/logo.png" 
+    alt="Tech Mind Academy" 
+    className="w-9 h-9 rounded-full object-cover"
+  />
+  <span className={`text-base font-bold ${
+    location.pathname === "/" 
+      ? "text-purple-400" 
+      : "bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
+  }`}>
+    Tech Mind Academy
+  </span>
+</Link>
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-4">
