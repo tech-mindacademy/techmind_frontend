@@ -44,11 +44,6 @@ export default function CreatorDashboard() {
       <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-2xl font-bold text-white">Creator Studio</h1>
         <p className="text-gray-400 mt-1 text-sm">Hello {user?.name?.split(" ")[0]} — manage your courses and earnings.</p>
-        {!user?.isApprovedCreator && (
-          <div className="mt-3 bg-yellow-900/30 border border-yellow-800 text-yellow-300 rounded-xl px-4 py-3 text-sm flex items-center gap-2">
-            ⚠️ Your creator account is pending admin approval. You can build courses but won't be able to publish until approved.
-          </div>
-        )}
       </motion.div>
 
       {/* Stats */}
