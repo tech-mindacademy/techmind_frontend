@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import ReviewsSection from "./ReviewsSection";
+import ReviewsSection from "./ReviewSection";
 import { selectUser } from "../../store/slices/authSlice";
 
 export default function ReviewsPage() {
