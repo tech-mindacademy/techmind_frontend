@@ -1,8 +1,20 @@
-import { useSelector } from "react-redux";
-import ReviewsSection from "./ReviewSection";
-import { selectUser } from "../../store/slices/authSlice";
+import { useEffect, useState } from "react";
+import ReviewsSection from "./ReviewsSection";
+import api from "../../api/axios"; // adjust path
 
 export default function ReviewsPage() {
-  const user = useSelector(selectUser);
-  return <ReviewsSection enrolledCourses={user?.enrolledCourses || []} />;
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+
+  useEffect(() => {
+    api.get("/enrollments/my")
+      .then(({ data }) => {
+        const courses = data.enrollments.map((e) => ({
+          course: { _id: e.course._id, title: e.course.title },
+        }));
+        setEnrolledCourses(courses);
+      })
+      .catch(() => setEnrolledCourses([]));
+  }, []);
+
+  return <ReviewsSection enrolledCourses={enrolledCourses} />;
 }
