@@ -984,8 +984,8 @@ export default function LandingPage() {
               Ready to transform your career?
             </h2>
             <p className="text-indigo-200 text-lg">
-              Join 50,000+ students already building their future with Tech
-              Minds.
+              Join, 10+ students already building their future with Tech
+              Mind Academy.
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link
@@ -1001,10 +1001,7 @@ export default function LandingPage() {
                 Browse Courses
               </Link>
             </div>
-            <p className="text-indigo-300 text-sm">
-              ✅ No credit card required &nbsp;·&nbsp; ✅ Cancel anytime
-              &nbsp;·&nbsp; ✅ 30-day guarantee
-            </p>
+            
           </motion.div>
         </div>
       </section>
