@@ -159,7 +159,7 @@ function SidebarContent({ onClose, user, logout }) {
           to="/"
           className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
         >
-          Tech Minds
+          Tech Mind Academy
         </Link>
 
         {onClose && (
