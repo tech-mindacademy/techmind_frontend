@@ -172,25 +172,32 @@ export default function InternshipsPage() {
 
   // ── Fetch once (no params) — always merge backend + static, filter client-side
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const { data } = await api.get("/internships");
-        const backendList = data.internships || [];
-        // Merge: backend first, then static items whose _id isn't already present
-        const backendIds = new Set(backendList.map((i) => i._id?.toString()));
-        const merged = [
-          ...backendList,
-          ...STATIC_INTERNSHIPS.filter((i) => !backendIds.has(i._id)),
-        ];
-        setInternships(merged);
-      } catch {
-        setInternships(STATIC_INTERNSHIPS);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []); // fetch once on mount; filtering is client-side
+  (async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("/internships");
+      const backendList = data.internships || [];
+
+      // Deduplicate by title (since company is always "Tech Mind Academy")
+      const backendTitles = new Set(
+        backendList.map((i) => i.title?.toLowerCase().trim())
+      );
+
+      const merged = [
+        ...backendList,
+        ...STATIC_INTERNSHIPS.filter(
+          (i) => !backendTitles.has(i.title?.toLowerCase().trim())
+        ),
+      ];
+
+      setInternships(merged);
+    } catch {
+      setInternships(STATIC_INTERNSHIPS);
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, []); // fetch once on mount; filtering is client-side
 
   // ── Client-side filter (applied on static data too) ────────────────────────
   const filtered = internships.filter((i) => {
