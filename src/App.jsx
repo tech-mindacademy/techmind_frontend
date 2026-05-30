@@ -69,6 +69,7 @@ import HeroImageManager from "./pages/admin/HeroImageManager";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ReviewsPage from "./pages/student/ReviewPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -90,116 +91,128 @@ function App() {
       });
   }, [dispatch]);
 
-   if (!isInitialized) return <SessionLoader />;
+  if (!isInitialized) return <SessionLoader />;
 
   return (
-    <Routes>
-      {/* ── Fully public pages (no auth needed) ──────────────────────────── */}
-      <Route path="/" element={<LandingPage />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* ── Fully public pages (no auth needed) ──────────────────────────── */}
+        <Route path="/" element={<LandingPage />} />
 
-      <Route path="/unauthorized" element={<UnauthorizedPage />} />
-      <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
-      <Route path="/techmind-courses" element={<CoursesLandingPage />} />
-      <Route path="/about" element={<AboutUs />} />
-      <Route path="/contact" element={<ContactUsPage />} />
-      <Route path="/internships" element={<InternshipsPage />} />
-      <Route path="/profile" element={<ProfileModal />} />
-      <Route
-        path="/certificate-purchase"
-        element={<CertificatePurchasePage />}
-      />
-      
-      <Route path="/services" element={<Service/>} />
-      <Route path="/refund" element={<RefundPolicyPage />} />
-      <Route path="/privacy" element={<PrivacyPolicyPage />} />
-      {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
+        <Route path="/techmind-courses" element={<CoursesLandingPage />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/internships" element={<InternshipsPage />} />
+        <Route path="/profile" element={<ProfileModal />} />
+        <Route
+          path="/certificate-purchase"
+          element={<CertificatePurchasePage />}
+        />
 
-      {/* ── Auth pages: redirect away if already logged in ────────────────── */}
-      <Route element={<PublicRoute />}>
-        <Route path="/auth" element={<AuthPage />} />
-        {/* <Route path="/login" element={<LoginPage />} /> */}
-        {/* <Route path="/register" element={<RegisterPage />} /> */}
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-        {/* <Route path="/techmind-courses" element={<CoursesLandingPage />} /> */}
-      </Route>
+        <Route path="/services" element={<Service />} />
+        <Route path="/refund" element={<RefundPolicyPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
-      {/* ── Student routes: only role="student" ──────────────────────────── */}
-      <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
-        <Route element={<StudentLayout />}>
-          <Route path="/student/dashboard" element={<StudentDashboard />} />
-          <Route path="/student/my-courses" element={<MyCoursesPage />} />
+        {/* ── Auth pages: redirect away if already logged in ────────────────── */}
+        <Route element={<PublicRoute />}>
+          <Route path="/auth" element={<AuthPage />} />
+          {/* <Route path="/login" element={<LoginPage />} /> */}
+          {/* <Route path="/register" element={<RegisterPage />} /> */}
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
-            path="/student/learn/:courseId"
-            element={<CoursePlayerPage />}
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
           />
-          <Route
-            path="/student/learn/:courseId/lesson/:lessonId"
-            element={<CoursePlayerPage />}
-          />
-          <Route
-            path="/student/certificate/:courseId"
-            element={<CertificatePage />}
-          />
-          <Route path="/student/profile" element={<StudentProfilePage />} />
-          <Route path="/courses" element={<CourseCataloguePage />} />
-          <Route path="/courses/:slug" element={<CourseDetailPage />} />
-          <Route path="/reviews" element={<ReviewsPage />} />
+          {/* <Route path="/techmind-courses" element={<CoursesLandingPage />} /> */}
         </Route>
-      </Route>
 
-      {/* ── Creator routes: only role="creator" ──────────────────────────── */}
-      <Route element={<ProtectedRoute allowedRoles={["creator"]} />}>
-        <Route element={<CreatorLayout />}>
-          <Route path="/creator/dashboard" element={<CreatorDashboard />} />
-          <Route path="/creator/courses" element={<MyCourses />} />
-          <Route path="/creator/courses/new" element={<CourseBuilder />} />
-          <Route
-            path="/creator/courses/:courseId/edit"
-            element={<CourseBuilder />}
-          />
-          <Route
-            path="/creator/courses/:courseId/lessons/:lessonId"
-            element={<LessonEditor />}
-          />
-          <Route
-            path="/creator/courses/:courseId/quiz/:lessonId"
-            element={<QuizBuilder />}
-          />
-          <Route
-            path="/creator/courses/:courseId/assignment/:lessonId"
-            element={<AssignmentBuilder />}
-          />
-          <Route path="/creator/submissions" element={<SubmissionsPage />} />
-          <Route path="/creator/analytics" element={<CreatorAnalytics />} />
-          <Route path="/creator/wallet" element={<CreatorWallet />} />
-          <Route path="/creator/coupons" element={<CouponManager />} />
-          <Route
-            path="/creator/certificates"
-            element={<CertificateManager />}
-          />
+        {/* ── Student routes: only role="student" ──────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+          <Route element={<StudentLayout />}>
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/my-courses" element={<MyCoursesPage />} />
+            <Route
+              path="/student/learn/:courseId"
+              element={<CoursePlayerPage />}
+            />
+            <Route
+              path="/student/learn/:courseId/lesson/:lessonId"
+              element={<CoursePlayerPage />}
+            />
+            <Route
+              path="/student/certificate/:courseId"
+              element={<CertificatePage />}
+            />
+            <Route path="/student/profile" element={<StudentProfilePage />} />
+            <Route path="/courses" element={<CourseCataloguePage />} />
+            <Route path="/courses/:slug" element={<CourseDetailPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+          </Route>
         </Route>
-      </Route>
 
-      {/* ── Admin routes: only role="admin" ──────────────────────────────── */}
-      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-        <Route element={<AdminLayout />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<UserManagement />} />
-          <Route path="/admin/courses" element={<CourseManagement />} />
-          <Route path="/admin/course-approvals" element={<CourseApprovals />} />
-          <Route path="/admin/categories" element={<CategoryManagement />} />
-          <Route path="/admin/revenue" element={<RevenueReports />} />
-          <Route path="/admin/settings" element={<PlatformSettings />} />
-          <Route path="/admin/wallets" element={<AdminWallets />} />
-          <Route path="/admin/internships" element={<InternshipManagement />} />
-          <Route path="/admin/hero-images" element={<HeroImageManager />} />
+        {/* ── Creator routes: only role="creator" ──────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={["creator"]} />}>
+          <Route element={<CreatorLayout />}>
+            <Route path="/creator/dashboard" element={<CreatorDashboard />} />
+            <Route path="/creator/courses" element={<MyCourses />} />
+            <Route path="/creator/courses/new" element={<CourseBuilder />} />
+            <Route
+              path="/creator/courses/:courseId/edit"
+              element={<CourseBuilder />}
+            />
+            <Route
+              path="/creator/courses/:courseId/lessons/:lessonId"
+              element={<LessonEditor />}
+            />
+            <Route
+              path="/creator/courses/:courseId/quiz/:lessonId"
+              element={<QuizBuilder />}
+            />
+            <Route
+              path="/creator/courses/:courseId/assignment/:lessonId"
+              element={<AssignmentBuilder />}
+            />
+            <Route path="/creator/submissions" element={<SubmissionsPage />} />
+            <Route path="/creator/analytics" element={<CreatorAnalytics />} />
+            <Route path="/creator/wallet" element={<CreatorWallet />} />
+            <Route path="/creator/coupons" element={<CouponManager />} />
+            <Route
+              path="/creator/certificates"
+              element={<CertificateManager />}
+            />
+          </Route>
         </Route>
-      </Route>
 
-      {/* ── Catch-all ─────────────────────────────────────────────────────── */}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        {/* ── Admin routes: only role="admin" ──────────────────────────────── */}
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/courses" element={<CourseManagement />} />
+            <Route
+              path="/admin/course-approvals"
+              element={<CourseApprovals />}
+            />
+            <Route path="/admin/categories" element={<CategoryManagement />} />
+            <Route path="/admin/revenue" element={<RevenueReports />} />
+            <Route path="/admin/settings" element={<PlatformSettings />} />
+            <Route path="/admin/wallets" element={<AdminWallets />} />
+            <Route
+              path="/admin/internships"
+              element={<InternshipManagement />}
+            />
+            <Route path="/admin/hero-images" element={<HeroImageManager />} />
+          </Route>
+        </Route>
+
+        {/* ── Catch-all ─────────────────────────────────────────────────────── */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </>
   );
 }
 
