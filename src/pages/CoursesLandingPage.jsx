@@ -177,9 +177,27 @@ export default function CoursesLandingPage() {
       {/* BODY */}
       <div className="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-4 gap-6 pb-20">
         {/* FILTERS */}
-        <aside className="bg-white dark:bg-gray-900 p-5 rounded-2xl  h-fit sticky top-6">
+        <aside className="bg-white dark:bg-gray-900 p-5 rounded-2xl h-fit sticky top-6">
+          {/* Reset button — only shows when filters are active */}
+          {(category !== "All" || price !== "All" || rating > 0 || search) && (
+            <button
+              onClick={() => {
+                setCategory("All");
+                setPrice("All");
+                setRating(0);
+                setSearch("");
+                setPage(1);
+              }}
+              className="w-full mb-4 py-2 text-xs font-bold text-red-500 border border-red-200 dark:border-red-800 rounded-xl hover:bg-red-50 dark:hover:bg-red-950 transition"
+            >
+              ✕ Reset All Filters
+            </button>
+          )}
+
           {/* CATEGORY */}
-          <h3 className="font-semibold mb-3">Category</h3>
+          <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">
+            Category
+          </h3>
           {["All", "Development", "Design", "Business", "Marketing"].map(
             (c) => (
               <p
@@ -188,21 +206,24 @@ export default function CoursesLandingPage() {
                   setCategory(c);
                   setPage(1);
                 }}
-                className={`cursor-pointer text-sm mb-2 ${
+                className={`cursor-pointer text-sm mb-2 transition ${
                   category === c
                     ? "text-indigo-600 font-semibold"
-                    : "text-gray-600"
+                    : "text-gray-600 dark:text-gray-400 hover:text-indigo-500"
                 }`}
               >
+                {category === c ? "▸ " : ""}
                 {c}
               </p>
             ),
           )}
 
-          <hr className="my-4" />
+          <hr className="my-4 border-gray-100 dark:border-gray-800" />
 
           {/* PRICE */}
-          <h3 className="font-semibold mb-3">Price</h3>
+          <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">
+            Price
+          </h3>
           {["All", "Free", "Paid"].map((p) => (
             <p
               key={p}
@@ -210,30 +231,37 @@ export default function CoursesLandingPage() {
                 setPrice(p);
                 setPage(1);
               }}
-              className={`cursor-pointer text-sm mb-2 ${
-                price === p ? "text-indigo-600 font-semibold" : "text-gray-600"
+              className={`cursor-pointer text-sm mb-2 transition ${
+                price === p
+                  ? "text-indigo-600 font-semibold"
+                  : "text-gray-600 dark:text-gray-400 hover:text-indigo-500"
               }`}
             >
+              {price === p ? "▸ " : ""}
               {p}
             </p>
           ))}
 
-          <hr className="my-4" />
+          <hr className="my-4 border-gray-100 dark:border-gray-800" />
 
           {/* RATING */}
-          <h3 className="font-semibold mb-3">Rating</h3>
+          <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">
+            Min Rating
+          </h3>
           {[4, 3, 2].map((r) => (
             <p
               key={r}
               onClick={() => {
-                setRating(r);
+                setRating(rating === r ? 0 : r);
                 setPage(1);
               }}
-              className={`cursor-pointer text-sm mb-2 ${
-                rating === r ? "text-indigo-600 font-semibold" : "text-gray-600"
+              className={`cursor-pointer text-sm mb-2 transition ${
+                rating === r
+                  ? "text-indigo-600 font-semibold"
+                  : "text-gray-600 dark:text-gray-400 hover:text-indigo-500"
               }`}
             >
-              ⭐ {r}+
+              {rating === r ? "▸ " : ""}⭐ {r}+
             </p>
           ))}
         </aside>
@@ -279,7 +307,7 @@ export default function CoursesLandingPage() {
           )}
         </main>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }
