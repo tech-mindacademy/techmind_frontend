@@ -117,7 +117,7 @@
 //     </div>
 //   );
 // }
-
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -135,8 +135,32 @@ import {
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import api from "../api/axios";
 
 export default function AboutUs() {
+  const [stats, setStats] = useState([
+    { num: "...", label: "Students Learning" },
+    { num: "...", label: "Published Courses" },
+    { num: "...", label: "Expert Educators" },
+    { num: "4.9★", label: "Average Rating" },
+  ]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await api.get("/stats/public");
+        setStats([
+          { num: `${data.students}+`, label: "Students Learning" },
+          { num: `${data.courses}+`, label: "Published Courses" },
+          { num: `${data.creators}+`, label: "Expert Educators" },
+          { num: "4.9★", label: "Average Rating" },
+        ]);
+      } catch (err) {
+        console.log("Stats fetch failed", err);
+      }
+    };
+    fetchStats();
+  }, []);
   const features = [
     {
       icon: <GraduationCap size={28} />,
@@ -217,7 +241,7 @@ export default function AboutUs() {
                 to="/register"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-2xl transition text-base shadow-lg shadow-indigo-900/40"
               >
-                Start learning for free →
+                Start learning
               </Link>
               <Link
                 to="/courses"
@@ -288,12 +312,7 @@ export default function AboutUs() {
             className="bg-white/5 border border-white/10 rounded-[32px] p-10 backdrop-blur-xl"
           >
             <div className="grid grid-cols-2 gap-6">
-              {[
-                ["50K+", "Students Learning"],
-                ["1,200+", "Published Courses"],
-                ["800+", "Expert Educators"],
-                ["4.9★", "Average Rating"],
-              ].map(([num, label]) => (
+              {stats.map(({ num, label }) => (
                 <div
                   key={label}
                   className="bg-[#0B1225] border border-white/10 rounded-2xl p-6 text-center"
@@ -403,10 +422,16 @@ export default function AboutUs() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4 mt-10">
-              <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-2xl transition text-base shadow-lg shadow-indigo-900/40">
-                Start learning for free →
+              <Link
+                to="/register"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-2xl transition text-base shadow-lg shadow-indigo-900/40"
+              >
+                Start learning
               </Link>
-              <Link to="/courses" className="bg-white/5 border border-white/10 hover:border-white/20 text-gray-200 font-semibold px-8 py-3.5 rounded-2xl transition text-base">
+              <Link
+                to="/courses"
+                className="bg-white/5 border border-white/10 hover:border-white/20 text-gray-200 font-semibold px-8 py-3.5 rounded-2xl transition text-base"
+              >
                 Browse courses
               </Link>
             </div>
