@@ -34,12 +34,12 @@ const policies = [
       },
       {
         subtitle: "First Purchase Benefit",
-        text: "First-time buyers on our platform receive an extended 45-day refund window as part of our new learner welcome program.",
+        text: "First-time buyers on our platform receive an extended 24-hours refund window as part of our new learner welcome program.",
       },
-      {
-        subtitle: "Subscription Plans",
-        text: "Monthly subscriptions may be cancelled at any time; you will retain access until the end of the paid billing period. Annual subscriptions are refundable within 14 days of renewal if no more than 2 courses have been accessed.",
-      },
+    //   {
+    //     subtitle: "Subscription Plans",
+    //     text: "Monthly subscriptions may be cancelled at any time; you will retain access until the end of the paid billing period. Annual subscriptions are refundable within 14 days of renewal if no more than 2 courses have been accessed.",
+    //   },
     ],
   },
   {
