@@ -66,6 +66,8 @@ import ProfileModal from "./components/ProfileModal";
 import Service from "./pages/Service";
 import AuthPage from "./pages/auth/AuthPage";
 import HeroImageManager from "./pages/admin/HeroImageManager";
+import RefundPolicyPage from "./pages/RefundPolicyPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -107,6 +109,8 @@ function App() {
       />
       
       <Route path="/services" element={<Service/>} />
+      <Route path="/refund" element={<RefundPolicyPage />} />
+      <Route path="/privacy" element={<PrivacyPolicyPage />} />
       {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
       {/* ── Auth pages: redirect away if already logged in ────────────────── */}

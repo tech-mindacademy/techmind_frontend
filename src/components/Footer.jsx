@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import RefundPolicyPage from './../pages/RefundPolicyPage';
 
 export default function Footer() {
   return (
@@ -76,8 +77,8 @@ export default function Footer() {
         <p>© {new Date().getFullYear()} Tech Minds. All rights reserved.</p>
 
         <div className="flex gap-4">
-          <Link to="/privacy" className="hover:text-white">Privacy</Link>
-          <Link to="/terms" className="hover:text-white">Terms</Link>
+          <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
+          <Link to="/refund" className="hover:text-white">Refund Policy</Link>
         </div>
       </div>
     </footer>
