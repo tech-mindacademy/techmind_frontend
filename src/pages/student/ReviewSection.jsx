@@ -11,7 +11,7 @@ import {
   selectMyReviews,
   selectReviewLoading,
   clearReviewError,
-} from "../../store/slices/reviewsSlice";
+} from "../../store/slices/ReviewSlice";
 
 // ─── Star Rating picker ───────────────────────────────────────────────────────
 function StarPicker({ value, onChange }) {
