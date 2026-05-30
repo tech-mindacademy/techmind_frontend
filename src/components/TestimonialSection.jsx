@@ -53,7 +53,6 @@ function ReviewCard({ review }) {
 
   return (
     <div className="w-[320px] shrink-0 bg-white/5 border border-white/8 rounded-2xl p-5 space-y-3 backdrop-blur-sm">
-      {/* Type + stars */}
       <div className="flex items-center justify-between">
         <span className={`text-xs font-medium flex items-center gap-1.5 ${cfg.color}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
@@ -72,17 +71,14 @@ function ReviewCard({ review }) {
         <Stars rating={review.rating} />
       </div>
 
-      {/* Title */}
       <p className="font-semibold text-sm text-white leading-snug line-clamp-2">
         {review.title}
       </p>
 
-      {/* Body */}
       <p className="text-gray-400 text-xs leading-relaxed line-clamp-3">
         {review.body}
       </p>
 
-      {/* Author */}
       <div className="flex items-center gap-3 pt-2 border-t border-white/8">
         <Avatar user={review.user} />
         <div>
@@ -102,15 +98,15 @@ function ReviewCard({ review }) {
 }
 
 // ─── Infinite scroll ticker ───────────────────────────────────────────────────
-function MarqueeRow({ reviews, reverse = false, speed = 0.4 }) {
+function MarqueeRow({ reviews = [], reverse = false, speed = 0.4 }) {
   const trackRef = useRef(null);
   const xRef = useRef(0);
 
-  // Duplicate cards so the scroll appears infinite
-  const items = [...reviews, ...reviews];
+  const safeReviews = Array.isArray(reviews) ? reviews : [];
+  const items = [...safeReviews, ...safeReviews];
 
   useAnimationFrame((_, delta) => {
-    if (!trackRef.current) return;
+    if (!trackRef.current || items.length === 0) return;
     const dir = reverse ? 1 : -1;
     xRef.current += dir * speed * (delta / 16);
 
@@ -120,6 +116,8 @@ function MarqueeRow({ reviews, reverse = false, speed = 0.4 }) {
 
     trackRef.current.style.transform = `translateX(${xRef.current}px)`;
   });
+
+  if (items.length === 0) return null;
 
   return (
     <div className="overflow-hidden">
@@ -164,17 +162,31 @@ function SkeletonCard() {
 // ─── Main export ──────────────────────────────────────────────────────────────
 export default function TestimonialsSection() {
   const dispatch = useDispatch();
-  const reviews = useSelector(selectFeatured) ?? []; 
+  const rawReviews = useSelector(selectFeatured);
   const isLoading = useSelector(selectReviewLoading);
+
+  // Always a safe array regardless of Redux hydration state
+  const reviews = Array.isArray(rawReviews) ? rawReviews : [];
 
   useEffect(() => {
     dispatch(fetchFeaturedReviews());
   }, [dispatch]);
 
-  // Split into two rows for the staggered marquee
   const half = Math.ceil(reviews.length / 2);
   const row1 = reviews.slice(0, half);
   const row2 = reviews.slice(half);
+
+  const avgRating =
+    reviews.length > 0
+      ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
+      : "0.0";
+
+  const recommendPct =
+    reviews.length > 0
+      ? Math.round(
+          (reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100
+        )
+      : 0;
 
   return (
     <section className="py-24 relative overflow-hidden">
@@ -235,7 +247,6 @@ export default function TestimonialsSection() {
           </p>
         ) : (
           <div className="space-y-4">
-            {/* Row 1 — left to right */}
             {row1.length >= 3 && (
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
@@ -244,7 +255,6 @@ export default function TestimonialsSection() {
               </div>
             )}
 
-            {/* Row 2 — right to left */}
             {row2.length >= 3 && (
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
@@ -253,7 +263,7 @@ export default function TestimonialsSection() {
               </div>
             )}
 
-            {/* Fallback: if not enough for two rows, show one row */}
+            {/* Fallback: not enough for two rows */}
             {row1.length < 3 && (
               <div className="relative">
                 <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
@@ -274,9 +284,9 @@ export default function TestimonialsSection() {
             className="flex justify-center gap-10 mt-14 px-4"
           >
             {[
-              { label: "Average rating", value: `${(reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)} ★` },
-              { label: "Total reviews", value: reviews.length + "+" },
-              { label: "Would recommend", value: `${Math.round((reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100)}%` },
+              { label: "Average rating", value: `${avgRating} ★` },
+              { label: "Total reviews", value: `${reviews.length}+` },
+              { label: "Would recommend", value: `${recommendPct}%` },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-2xl font-bold text-indigo-300">{stat.value}</p>
