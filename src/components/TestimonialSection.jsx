@@ -164,7 +164,7 @@ function SkeletonCard() {
 // ─── Main export ──────────────────────────────────────────────────────────────
 export default function TestimonialsSection() {
   const dispatch = useDispatch();
-  const reviews = useSelector(selectFeatured);
+  const reviews = useSelector(selectFeatured) ?? []; 
   const isLoading = useSelector(selectReviewLoading);
 
   useEffect(() => {

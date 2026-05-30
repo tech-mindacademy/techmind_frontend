@@ -129,9 +129,9 @@ const reviewsSlice = createSlice({
 export const { clearReviewError } = reviewsSlice.actions;
 
 // Selectors
-export const selectMyReviews    = (s) => s.reviews.myReviews;
-export const selectFeatured     = (s) => s.reviews.featured;
-export const selectReviewLoading = (s) => s.reviews.loading;
-export const selectReviewError   = (s) => s.reviews.error;
+export const selectFeatured      = (s) => s.reviews?.featured ?? [];
+export const selectMyReviews     = (s) => s.reviews?.myReviews ?? [];
+export const selectReviewLoading = (s) => s.reviews?.loading ?? false;
+export const selectReviewError   = (s) => s.reviews?.error ?? null;
 
 export default reviewsSlice.reducer;
