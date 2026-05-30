@@ -7,6 +7,7 @@ import useAuth from "../hooks/useAuth";
 import Footer from "../components/Footer";
 import HeroCarousel from "../components/HeroCarousel";
 import api from "../api/axios";
+import TestimonialsSection from "../components/TestimonialSection";
 
 const fadeUp = {
   initial: { opacity: 0, y: 32 },
@@ -68,68 +69,68 @@ const features = [
   },
 ];
 
-const reviews = [
-  {
-    name: "Arjun Mehta",
-    role: "Software Engineer at Infosys",
-    avatar: "AM",
-    avatarColor: "from-blue-500 to-indigo-600",
-    review:
-      "The Full Stack course completely transformed my career. The structured curriculum and hands-on projects gave me the confidence to crack my dream job interview.",
-    rating: 5,
-    course: "Full Stack Web Development",
-  },
-  {
-    name: "Priya Joshi",
-    role: "Data Analyst at TCS",
-    avatar: "PJ",
-    avatarColor: "from-purple-500 to-pink-600",
-    review:
-      "Best investment I made in 2024! The Python for Data Science course is incredibly well-structured. I went from zero to landing a data analyst role in just 4 months.",
-    rating: 5,
-    course: "Python for Data Science",
-  },
-  {
-    name: "Rohan Kumar",
-    role: "UI Designer at Zomato",
-    avatar: "RK",
-    avatarColor: "from-teal-500 to-emerald-600",
-    review:
-      "I was a complete beginner in design. Now I'm a professional UI/UX designer. The certificate helped me stand out in interviews. Highly recommend TechMinds!",
-    rating: 5,
-    course: "UI/UX Design Masterclass",
-  },
-  {
-    name: "Sneha Reddy",
-    role: "Cloud Engineer at Wipro",
-    avatar: "SR",
-    avatarColor: "from-orange-500 to-red-600",
-    review:
-      "The DevOps course content is cutting-edge. The instructors explain complex concepts so simply. Got placed within 2 weeks of completing the course!",
-    rating: 5,
-    course: "DevOps & Cloud Engineering",
-  },
-  {
-    name: "Vikram Singh",
-    role: "Full Stack Dev at Startup",
-    avatar: "VS",
-    avatarColor: "from-cyan-500 to-blue-600",
-    review:
-      "Tech Minds has changed the way I learn. The community, the quality of content, and the certificates are all top-notch. I recommend it to every student.",
-    rating: 5,
-    course: "Full Stack Web Development",
-  },
-  {
-    name: "Kavya Nair",
-    role: "ML Engineer at Accenture",
-    avatar: "KN",
-    avatarColor: "from-violet-500 to-purple-600",
-    review:
-      "Amazing platform. The ML course with real projects got me into my dream company. The instructors are super responsive and the content is always updated.",
-    rating: 5,
-    course: "Python for Data Science & ML",
-  },
-];
+// const reviews = [
+//   {
+//     name: "Arjun Mehta",
+//     role: "Software Engineer at Infosys",
+//     avatar: "AM",
+//     avatarColor: "from-blue-500 to-indigo-600",
+//     review:
+//       "The Full Stack course completely transformed my career. The structured curriculum and hands-on projects gave me the confidence to crack my dream job interview.",
+//     rating: 5,
+//     course: "Full Stack Web Development",
+//   },
+//   {
+//     name: "Priya Joshi",
+//     role: "Data Analyst at TCS",
+//     avatar: "PJ",
+//     avatarColor: "from-purple-500 to-pink-600",
+//     review:
+//       "Best investment I made in 2024! The Python for Data Science course is incredibly well-structured. I went from zero to landing a data analyst role in just 4 months.",
+//     rating: 5,
+//     course: "Python for Data Science",
+//   },
+//   {
+//     name: "Rohan Kumar",
+//     role: "UI Designer at Zomato",
+//     avatar: "RK",
+//     avatarColor: "from-teal-500 to-emerald-600",
+//     review:
+//       "I was a complete beginner in design. Now I'm a professional UI/UX designer. The certificate helped me stand out in interviews. Highly recommend TechMinds!",
+//     rating: 5,
+//     course: "UI/UX Design Masterclass",
+//   },
+//   {
+//     name: "Sneha Reddy",
+//     role: "Cloud Engineer at Wipro",
+//     avatar: "SR",
+//     avatarColor: "from-orange-500 to-red-600",
+//     review:
+//       "The DevOps course content is cutting-edge. The instructors explain complex concepts so simply. Got placed within 2 weeks of completing the course!",
+//     rating: 5,
+//     course: "DevOps & Cloud Engineering",
+//   },
+//   {
+//     name: "Vikram Singh",
+//     role: "Full Stack Dev at Startup",
+//     avatar: "VS",
+//     avatarColor: "from-cyan-500 to-blue-600",
+//     review:
+//       "Tech Minds has changed the way I learn. The community, the quality of content, and the certificates are all top-notch. I recommend it to every student.",
+//     rating: 5,
+//     course: "Full Stack Web Development",
+//   },
+//   {
+//     name: "Kavya Nair",
+//     role: "ML Engineer at Accenture",
+//     avatar: "KN",
+//     avatarColor: "from-violet-500 to-purple-600",
+//     review:
+//       "Amazing platform. The ML course with real projects got me into my dream company. The instructors are super responsive and the content is always updated.",
+//     rating: 5,
+//     course: "Python for Data Science & ML",
+//   },
+// ];
 
 function CountUp({ target, suffix = "" }) {
   const [count, setCount] = useState(0);
@@ -706,7 +707,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Reviews ── */}
-      <section className="py-24 px-4 bg-[#070B14] overflow-hidden">
+      {/* <section className="py-24 px-4 bg-[#070B14] overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <motion.p
@@ -732,10 +733,10 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Featured review */}
+          
           <div className="relative">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Main featured */}
+              
               <motion.div
                 key={activeReview}
                 initial={{ opacity: 0, x: 20 }}
@@ -769,7 +770,7 @@ export default function LandingPage() {
                 </p>
               </motion.div>
 
-              {/* Side reviews */}
+              
               <div className="flex flex-col gap-4">
                 {reviews
                   .filter((_, i) => i !== activeReview)
@@ -801,7 +802,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Dots */}
+            
             <div className="flex justify-center gap-2 mt-8">
               {reviews.map((_, i) => (
                 <button
@@ -813,7 +814,9 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <TestimonialsSection/>
 
       {/* ── For Students & Creators ── */}
       <section className="py-24 px-4 bg-white dark:bg-gray-950">

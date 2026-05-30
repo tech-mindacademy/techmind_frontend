@@ -4,6 +4,7 @@ import courseReducer     from "./slices/courseSlice";
 import quizReducer       from "./slices/quizSlice";
 import assignmentReducer from "./slices/assignmentSlice";
 import adminReducer      from "./slices/adminSlice";
+import reviewsReducer from "./slices/ReviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     quiz:       quizReducer,
     assignment: assignmentReducer,
     admin:      adminReducer,
+    reviews: reviewsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

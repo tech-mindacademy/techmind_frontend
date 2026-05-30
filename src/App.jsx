@@ -68,6 +68,7 @@ import AuthPage from "./pages/auth/AuthPage";
 import HeroImageManager from "./pages/admin/HeroImageManager";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import ReviewsPage from "./pages/student/ReviewPage";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -143,6 +144,7 @@ function App() {
           <Route path="/student/profile" element={<StudentProfilePage />} />
           <Route path="/courses" element={<CourseCataloguePage />} />
           <Route path="/courses/:slug" element={<CourseDetailPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
         </Route>
       </Route>
 
