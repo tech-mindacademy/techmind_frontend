@@ -183,7 +183,7 @@ function ReviewForm({ enrolledCourses = [], onSuccess, editing = null, onCancel 
           <select
             value={form.course}
             onChange={(e) => set("course", e.target.value)}
-            className={inputClass + " bg-[#0c0e1a]"}
+            className={inputClass + " bg-[#0c0e1a] [&>option]:bg-[#0c0e1a] [&>option]:text-gray-300"}
           >
             <option value="">Select a course…</option>
             {enrolledCourses.map((ec) => (
