@@ -23,12 +23,12 @@ const fadeIn = {
   animate: { opacity: 1, transition: { duration: 0.7 } },
 };
 
-const stats = [
-  { value: "10+", label: "Students enrolled", icon: "👨‍🎓" },
-  { value: "2+", label: "Courses published", icon: "📚" },
-  { value: "10+", label: "Expert creators", icon: "🎓" },
-  { value: "4.9★", label: "Average rating", icon: "⭐" },
-];
+// const stats = [
+//   { value: "10+", label: "Students enrolled", icon: "👨‍🎓" },
+//   { value: "2+", label: "Courses published", icon: "📚" },
+//   { value: "10+", label: "Expert creators", icon: "🎓" },
+//   { value: "4.9★", label: "Average rating", icon: "⭐" },
+// ];
 
 const features = [
   {
@@ -247,6 +247,34 @@ export default function LandingPage() {
   });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  const [stats, setStats] = useState([
+    { value: "...", label: "Students enrolled", icon: "👨‍🎓" },
+    { value: "...", label: "Courses published", icon: "📚" },
+    { value: "...", label: "Expert creators", icon: "🎓" },
+    { value: "4.9★", label: "Average rating", icon: "⭐" },
+  ]);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await api.get("/stats/public");
+        setStats([
+          {
+            value: `${data.students}+`,
+            label: "Students enrolled",
+            icon: "👨‍🎓",
+          },
+          { value: `${data.courses}+`, label: "Courses published", icon: "📚" },
+          { value: `${data.creators}+`, label: "Expert creators", icon: "🎓" },
+          { value: "4.9★", label: "Average rating", icon: "⭐" },
+        ]);
+      } catch (err) {
+        console.log("Stats fetch failed", err);
+      }
+    };
+    fetchStats();
+  }, []);
 
   // Auto-rotate reviews
   useEffect(() => {
@@ -816,7 +844,7 @@ export default function LandingPage() {
         </div>
       </section> */}
 
-      <TestimonialsSection/>
+      <TestimonialsSection />
 
       {/* ── For Students & Creators ── */}
       <section className="py-24 px-4 bg-white dark:bg-gray-950">
