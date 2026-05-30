@@ -312,7 +312,7 @@ export default function RefundPolicyPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {[
-                  { label: "Support Email", value: "support@learnhub.com" },
+                  { label: "Support Email", value: "techmindacademy70@gmail.com" },
                   { label: "Response Time", value: "Within 48 business hours" },
                   { label: "Phone Support", value: "+91 98765 43210" },
                   { label: "Live Chat", value: "Available on Dashboard" },
