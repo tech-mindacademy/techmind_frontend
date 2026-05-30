@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReviewsSection from "./ReviewsSection";
+import ReviewsSection from "./ReviewSection";
 import api from "../../api/axios"; // adjust path
 
 export default function ReviewsPage() {
