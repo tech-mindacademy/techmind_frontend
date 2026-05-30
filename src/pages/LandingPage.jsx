@@ -23,9 +23,9 @@ const fadeIn = {
 };
 
 const stats = [
-  { value: "50K+", label: "Students enrolled", icon: "👨‍🎓" },
-  { value: "1,200+", label: "Courses published", icon: "📚" },
-  { value: "800+", label: "Expert creators", icon: "🎓" },
+  { value: "10+", label: "Students enrolled", icon: "👨‍🎓" },
+  { value: "2+", label: "Courses published", icon: "📚" },
+  { value: "10+", label: "Expert creators", icon: "🎓" },
   { value: "4.9★", label: "Average rating", icon: "⭐" },
 ];
 
