@@ -277,13 +277,13 @@ export default function LandingPage() {
   }, []);
 
   // Auto-rotate reviews
-  useEffect(() => {
-    const t = setInterval(
-      () => setActiveReview((p) => (p + 1) % reviews.length),
-      4000,
-    );
-    return () => clearInterval(t);
-  }, []);
+  // useEffect(() => {
+  //   const t = setInterval(
+  //     () => setActiveReview((p) => (p + 1) % reviews.length),
+  //     4000,
+  //   );
+  //   return () => clearInterval(t);
+  // }, []);
   useEffect(() => {
     const fetchCourses = async () => {
       try {
