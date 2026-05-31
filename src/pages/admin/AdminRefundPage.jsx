@@ -330,7 +330,7 @@ export default function AdminRefundPage() {
         ) : (
           <div className="space-y-3">
             {refunds.map((refund) => {
-              const s = STATUS_STYLES[refund.status];
+              const s = STATUS_STYLES[refund.status] || STATUS_STYLES.pending;
               return (
                 <div
                   key={refund._id}
