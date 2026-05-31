@@ -285,15 +285,14 @@ export default function LandingPage() {
   //   return () => clearInterval(t);
   // }, []);
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const { data } = await api.get("/courses");
-
-        const raw = data.courses || data?.data || [];
-if (!Array.isArray(raw)) {
-  setCoursesLoading(false);
-  return;
-}
+  api.get("/courses")
+    .then(({ data }) => {
+      const raw = Array.isArray(data.courses) ? data.courses : [];
+      setTopCourses(raw.slice(0, 4));
+    })
+    .catch(console.log)
+    .finally(() => setCoursesLoading(false));
+}, []);
 const latestCourses = raw.slice(0, 4).map((course, index) => ({
   id: course._id,
   title: course.title,
