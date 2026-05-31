@@ -21,7 +21,10 @@ export default function HeroCarousel({ className = "", onHasImages }) {
   useEffect(() => {
     api
       .get("/hero-images")
-      .then(({ data }) => setImages(data.images))
+      .then(({ data }) => {
+  const imgs = data?.images;
+  setImages(Array.isArray(imgs) ? imgs : []);
+})
       .catch(() => {}) // silently fall back to no carousel
       .finally(() => setLoading(false));
   }, []);
