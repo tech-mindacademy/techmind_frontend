@@ -336,9 +336,7 @@ export default function LandingPage() {
             ][index % 4],
 
             tags:
-              course.tags?.slice(0, 3) || course.category
-                ? [course.category]
-                : ["Programming"],
+              (course.tags?.slice(0, 3) || course.category) ? [course.category] : ["Programming"],
 
             icon: ["💻", "🤖", "🎨", "☁️"][index % 4],
 
