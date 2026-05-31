@@ -186,7 +186,7 @@ function LandingCourseCard({ course }) {
       transition={{ duration: 0.2 }}
       className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition"
     >
-      <Link to={`/courses/${course.slug || course._id}`}>
+      <Link to={`/courses/${course.slug || course.id}`}>
         <div className="relative aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-gray-800">
           {course.thumbnail?.url || course.thumbnail ? (
             <img
