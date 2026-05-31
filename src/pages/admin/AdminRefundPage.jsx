@@ -225,7 +225,7 @@ export default function AdminRefundPage() {
         getRefundStats(),
       ])
         .then(([refundData, statsData]) => {
-          setRefunds(refundData?.refunds || []);
+          setRefunds(Array.isArray(refundData) ? refundData : refundData?.refunds || []);
           setPagination(
             refundData?.pagination || {
               page: 1,
@@ -233,7 +233,7 @@ export default function AdminRefundPage() {
               total: 0,
             },
           );
-          setStats(statsData.stats);
+          setStats(statsData?.stats);
         })
         .catch(() => toast.error("Failed to load refunds"))
         .finally(() => setLoading(false));
