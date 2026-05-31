@@ -629,7 +629,7 @@ setTopCourses(latestCourses);
                   />
                 ))
               : topCourses.map((course) => (
-                  <LandingCourseCard key={course._id} course={course} />
+                  <LandingCourseCard key={course.id} course={course} />
                 ))}
           </div>
 
