@@ -306,7 +306,9 @@ const latestCourses = raw.slice(0, 4).map((course, index) => ({
   badge: ["Bestseller", "Trending", "Hot", "New"][index] || "New",
   badgeColor: ["bg-amber-500", "bg-violet-500", "bg-rose-500", "bg-emerald-500"][index] || "bg-emerald-500",
   gradient: ["from-blue-600 to-indigo-600", "from-purple-600 to-pink-600", "from-pink-600 to-rose-600", "from-teal-600 to-cyan-600"][index % 4],
-  tags: Array.isArray(course.tags) ? course.tags.slice(0, 3) : [course.category || "Programming"],
+  tags: Array.isArray(course.tags) && course.tags.length > 0
+  ? course.tags.slice(0, 3)
+  : [course.category || "Programming"],
   icon: ["💻", "🤖", "🎨", "☁️"][index % 4],
   thumbnail: course.thumbnail,
   slug: course.slug,
