@@ -70,6 +70,8 @@ import RefundPolicyPage from "./pages/RefundPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ReviewsPage from "./pages/student/ReviewPage";
 import ScrollToTop from "./components/ScrollToTop";
+import AdminRefundPage from "./pages/admin/AdminRefundPage";
+import MyRefundPage from "./pages/student/MyRefundPage";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -151,6 +153,8 @@ function App() {
             <Route path="/courses" element={<CourseCataloguePage />} />
             <Route path="/courses/:slug" element={<CourseDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/student/refunds" element={<MyRefundPage />} />
+
           </Route>
         </Route>
 
@@ -206,6 +210,7 @@ function App() {
               element={<InternshipManagement />}
             />
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
+            <Route path="/admin/refunds" element={<AdminRefundPage />} />
           </Route>
         </Route>
 

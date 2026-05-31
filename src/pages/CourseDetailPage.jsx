@@ -7,6 +7,7 @@ import { fetchCourseBySlug, enrollFree } from "../api/services/course.service";
 import { validateCoupon } from "../api/services/wallet.service";
 import api from "../api/axios";
 import { selectIsAuthenticated, selectUserRole } from "../store/slices/authSlice";
+import RefundRequestModal from "../components/RefundRequestModal";
 
 const fmtDuration = (s) => { const h = Math.floor(s/3600), m = Math.floor((s%3600)/60); return h > 0 ? `${h}h ${m}m` : `${m}m`; };
 
@@ -62,6 +63,8 @@ export default function CourseDetailPage() {
   const [couponResult, setCouponResult] = useState(null); // { discountAmount, finalPrice, message }
   const [couponLoading, setCouponLoading] = useState(false);
   const [showDemoVideo, setShowDemoVideo] = useState(false);
+  const [showRefund, setShowRefund] = useState(false);
+
 
   useEffect(() => {
     fetchCourseBySlug(slug)
