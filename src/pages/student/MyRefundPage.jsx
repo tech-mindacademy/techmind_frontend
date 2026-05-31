@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getMyRefunds, cancelRefund } from "../api/services/refund.service";
+import { getMyRefunds, cancelRefund } from "../../api/services/refund.service";
 
 const STATUS_STYLES = {
   pending:  { pill: "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300",  dot: "bg-amber-500",  label: "Pending" },
