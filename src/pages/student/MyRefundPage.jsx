@@ -17,7 +17,7 @@ export default function MyRefundPage() {
   const load = () => {
     setLoading(true);
     getMyRefunds()
-      .then((d) => setRefunds(d.refunds))
+      .then((d) => setRefunds(d?.refunds || []))
       .catch(() => toast.error("Failed to load refunds"))
       .finally(() => setLoading(false));
   };
