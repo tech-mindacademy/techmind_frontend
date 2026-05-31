@@ -153,7 +153,7 @@ function App() {
             <Route path="/courses" element={<CourseCataloguePage />} />
             <Route path="/courses/:slug" element={<CourseDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/student/refunds" element={<MyRefundPage />} />
+            {/* <Route path="/student/refunds" element={<MyRefundPage />} /> */}
 
           </Route>
         </Route>
@@ -210,7 +210,7 @@ function App() {
               element={<InternshipManagement />}
             />
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
-            <Route path="/admin/refunds" element={<AdminRefundPage />} />
+            {/* <Route path="/admin/refunds" element={<AdminRefundPage />} /> */}
           </Route>
         </Route>
 
