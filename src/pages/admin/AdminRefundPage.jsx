@@ -381,8 +381,7 @@ export default function AdminRefundPage() {
                           <span
                             className={`w-1.5 h-1.5 rounded-full ${s.dot}`}
                           />
-                          {refund.status.charAt(0).toUpperCase() +
-                            refund.status.slice(1)}
+                          {(refund.status || "pending").charAt(0).toUpperCase() + (refund.status || "pending").slice(1)}
                         </span>
                       </div>
 
