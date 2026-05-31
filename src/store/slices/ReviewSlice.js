@@ -8,9 +8,9 @@ export const fetchMyReviews = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await api.get("/reviews/my");
-      return data.reviews;
+      return Array.isArray(data.reviews) ? data.reviews : [];  // ← guard
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch reviews");
+      return rejectWithValue(err.response?.data?.message || "Failed");
     }
   }
 );
@@ -56,9 +56,9 @@ export const fetchFeaturedReviews = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await api.get("/reviews/featured");
-      return data.reviews;
+      return Array.isArray(data.reviews) ? data.reviews : [];  // ← guard
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch reviews");
+      return rejectWithValue(err.response?.data?.message || "Failed");
     }
   }
 );
@@ -86,9 +86,9 @@ const reviewsSlice = createSlice({
       // fetchMy
       .addCase(fetchMyReviews.pending, pending)
       .addCase(fetchMyReviews.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.myReviews = payload;
-      })
+  state.loading = false;
+  state.myReviews = Array.isArray(payload) ? payload : [];  // ← guard
+})
       .addCase(fetchMyReviews.rejected, rejected)
 
       // create
@@ -119,9 +119,9 @@ const reviewsSlice = createSlice({
       // featured
       .addCase(fetchFeaturedReviews.pending, pending)
       .addCase(fetchFeaturedReviews.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.featured = payload;
-      })
+  state.loading = false;
+  state.featured = Array.isArray(payload) ? payload : [];   // ← guard
+})
       .addCase(fetchFeaturedReviews.rejected, rejected);
   },
 });
