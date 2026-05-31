@@ -153,7 +153,7 @@ function App() {
             <Route path="/courses" element={<CourseCataloguePage />} />
             <Route path="/courses/:slug" element={<CourseDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/student/refunds" element={<MyRefundPage />} />
+            {/* <Route path="/student/refunds" element={<MyRefundPage />} /> */}
 
           </Route>
         </Route>
