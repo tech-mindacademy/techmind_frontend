@@ -72,6 +72,7 @@ import ReviewsPage from "./pages/student/ReviewPage";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminRefundPage from "./pages/admin/AdminRefundPage";
 import MyRefundPage from "./pages/student/MyRefundPage";
+import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -211,6 +212,7 @@ function App() {
             />
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
             <Route path="/admin/refunds" element={<AdminRefundPage />} />
+            <Route path="/admin/issue-certificate" element={<AdminIssueCertificate />} />
           </Route>
         </Route>
 
