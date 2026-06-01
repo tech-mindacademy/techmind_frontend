@@ -21,7 +21,7 @@
 // function SidebarContent({ onClose, user, logout }) {
 //   return (
 //     <div className="flex flex-col h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800">
-    
+
 //       <div className="h-16 flex items-center px-6 border-b border-gray-100 dark:border-gray-800 gap-3">
 //         <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Tech Minds</Link>
 //         {onClose && (
@@ -87,22 +87,6 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { useState } from "react";
 import { Outlet, NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -149,7 +133,12 @@ function NavIcon({ path }) {
       stroke="currentColor"
       viewBox="0 0 24 24"
     >
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d={path} />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.8}
+        d={path}
+      />
     </svg>
   );
 }
@@ -157,13 +146,13 @@ function NavIcon({ path }) {
 function SidebarContent({ onClose, user, logout }) {
   return (
     <div className="flex flex-col h-full w-72 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800">
-
       {/* HEADER */}
       <div className="h-16 flex items-center px-6 border-b border-gray-100 dark:border-gray-800">
         <Link
           to="/"
-          className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
+          className="flex items-center gap-2 text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
         >
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
           Tech Mind Academy
         </Link>
 
@@ -204,7 +193,6 @@ function SidebarContent({ onClose, user, logout }) {
 
       {/* USER SECTION */}
       <div className="p-4 border-t border-gray-100 dark:border-gray-800">
-
         <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-gray-800 mb-3">
           <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center font-bold text-indigo-600 dark:text-indigo-300">
             {user?.name?.charAt(0).toUpperCase()}
@@ -234,13 +222,13 @@ export default function StudentLayout() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">  {/* 👈 HERE */}
-      
+    <div className="flex h-screen overflow-hidden">
+      {" "}
+      {/* 👈 HERE */}
       {/* SIDEBAR */}
       <div className="hidden lg:flex w-64 shrink-0">
         <SidebarContent user={user} logout={logout} />
       </div>
-
       {/* MOBILE SIDEBAR */}
       <AnimatePresence>
         {open && (
@@ -249,9 +237,7 @@ export default function StudentLayout() {
               className="fixed inset-0 bg-black/40 z-40 lg:hidden"
               onClick={() => setOpen(false)}
             />
-            <motion.div
-              className="fixed left-0 top-0 h-full z-50 lg:hidden"
-            >
+            <motion.div className="fixed left-0 top-0 h-full z-50 lg:hidden">
               <SidebarContent
                 onClose={() => setOpen(false)}
                 user={user}
@@ -261,10 +247,8 @@ export default function StudentLayout() {
           </>
         )}
       </AnimatePresence>
-
       {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col min-w-0">
-        
         {/* TOP MOBILE BAR */}
         <div className="lg:hidden h-16 flex items-center px-4 border-b">
           <button onClick={() => setOpen(true)}>☰</button>
