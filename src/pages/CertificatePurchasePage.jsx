@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import axios from "axios";
+import api from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -97,7 +97,7 @@ export default function CertificatePurchasePage() {
       }
 
       // Create Razorpay order
-      const { data } = await axios.post("/api/certificates/create-order", form);
+      const { data } = await api.post("/api/certificates/create-order", form);
 
       const options = {
         key: data.key,
@@ -108,7 +108,7 @@ export default function CertificatePurchasePage() {
         order_id: data.orderId,
         handler: async (response) => {
           try {
-            const verifyRes = await axios.post("/api/certificates/verify-payment", {
+            const verifyRes = await api.post("/api/certificates/verify-payment", {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
