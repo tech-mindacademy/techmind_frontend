@@ -4,12 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fetchCourses } from "../api/services/course.service";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import api from "../api/axios";
 
 const ITEMS_PER_PAGE = 6;
 
 /* ───────────────────────── COURSE CARD ───────────────────────── */
 
 function CourseCard({ course }) {
+  const avgRating = course.stats?.avgRating;
+
   return (
     <motion.div
       whileHover={{ y: -6, scale: 1.01 }}
@@ -38,11 +41,25 @@ function CourseCard({ course }) {
             {course.title}
           </h3>
           <p className="text-xs text-gray-500 mt-1">{course.creator?.name}</p>
+
           <div className="flex items-center justify-between mt-3">
-            <div className="flex items-center gap-1 text-sm">
-              <span className="text-yellow-500">★</span>
-              <span>{course.rating || 4.5}</span>
-            </div>
+            {/* Rating — only show if reviews exist */}
+            {avgRating > 0 ? (
+              <div className="flex items-center gap-1 text-sm">
+                <span className="text-yellow-500">★</span>
+                <span className="text-gray-700 dark:text-gray-300 font-medium">
+                  {avgRating.toFixed(1)}
+                </span>
+                {course.stats?.totalReviews > 0 && (
+                  <span className="text-xs text-gray-400">
+                    ({course.stats.totalReviews})
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="text-xs text-gray-400">No reviews yet</span>
+            )}
+
             <div className="font-bold text-indigo-600">
               {course.isFree || course.price === 0
                 ? "Free"
@@ -55,10 +72,10 @@ function CourseCard({ course }) {
   );
 }
 
-/* ─────────────────── FILTER PANEL (shared content) ─────────────────── */
+/* ─────────────────── FILTER PANEL ─────────────────── */
 
-function FilterPanel({ category, setCategory, price, setPrice, rating, setRating, setSearch, setPage, onClose }) {
-  const hasActiveFilters = category !== "All" || price !== "All" || rating > 0;
+function FilterPanel({ category, setCategory, price, setPrice, setPage, categories, onClose }) {
+  const hasActiveFilters = category !== "All" || price !== "All";
 
   return (
     <div className="p-5">
@@ -67,8 +84,6 @@ function FilterPanel({ category, setCategory, price, setPrice, rating, setRating
           onClick={() => {
             setCategory("All");
             setPrice("All");
-            setRating(0);
-            setSearch("");
             setPage(1);
             onClose?.();
           }}
@@ -80,7 +95,7 @@ function FilterPanel({ category, setCategory, price, setPrice, rating, setRating
 
       {/* CATEGORY */}
       <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">Category</h3>
-      {["All", "Development", "Design", "Business", "Marketing"].map((c) => (
+      {["All", ...categories].map((c) => (
         <p
           key={c}
           onClick={() => { setCategory(c); setPage(1); }}
@@ -111,24 +126,6 @@ function FilterPanel({ category, setCategory, price, setPrice, rating, setRating
           {price === p ? "▸ " : ""}{p}
         </p>
       ))}
-
-      <hr className="my-4 border-gray-100 dark:border-gray-800" />
-
-      {/* RATING */}
-      <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">Min Rating</h3>
-      {[4, 3, 2].map((r) => (
-        <p
-          key={r}
-          onClick={() => { setRating(rating === r ? 0 : r); setPage(1); }}
-          className={`cursor-pointer text-sm mb-2 transition ${
-            rating === r
-              ? "text-indigo-600 font-semibold"
-              : "text-gray-600 dark:text-gray-400 hover:text-indigo-500"
-          }`}
-        >
-          {rating === r ? "▸ " : ""}⭐ {r}+
-        </p>
-      ))}
     </div>
   );
 }
@@ -136,21 +133,29 @@ function FilterPanel({ category, setCategory, price, setPrice, rating, setRating
 /* ───────────────────────── MAIN PAGE ───────────────────────── */
 export default function CoursesLandingPage() {
   const [courses, setCourses] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [price, setPrice] = useState("All");
-  const [rating, setRating] = useState(0);
   const [sort, setSort] = useState("newest");
   const [page, setPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  // Fetch courses and categories in parallel
   useEffect(() => {
     async function load() {
-      const data = await fetchCourses({ limit: 50 });
-      setCourses(data.courses || []);
-      setLoading(false);
+      try {
+        const [coursesData, catData] = await Promise.all([
+          fetchCourses({ limit: 100 }),
+          api.get("/courses/categories").then(r => r.data),
+        ]);
+        setCourses(coursesData.courses || []);
+        setCategories(catData.categories || []);
+      } finally {
+        setLoading(false);
+      }
     }
     load();
   }, []);
@@ -161,12 +166,11 @@ export default function CoursesLandingPage() {
     if (category !== "All") result = result.filter((c) => c.category === category);
     if (price === "Free") result = result.filter((c) => c.isFree || c.price === 0);
     if (price === "Paid") result = result.filter((c) => !c.isFree && c.price > 0);
-    if (rating > 0) result = result.filter((c) => (c.rating || 0) >= rating);
     if (sort === "priceLow") result.sort((a, b) => (a.discountPrice || a.price) - (b.discountPrice || b.price));
     if (sort === "priceHigh") result.sort((a, b) => (b.discountPrice || b.price) - (a.discountPrice || a.price));
     if (sort === "newest") result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     return result;
-  }, [courses, search, category, price, rating, sort]);
+  }, [courses, search, category, price, sort]);
 
   const totalPages = Math.ceil(filteredCourses.length / ITEMS_PER_PAGE);
   const paginatedCourses = useMemo(() => {
@@ -174,7 +178,7 @@ export default function CoursesLandingPage() {
     return filteredCourses.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredCourses, page]);
 
-  const activeFilterCount = [category !== "All", price !== "All", rating > 0].filter(Boolean).length;
+  const activeFilterCount = [category !== "All", price !== "All"].filter(Boolean).length;
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen">
@@ -230,7 +234,7 @@ export default function CoursesLandingPage() {
         </div>
       </div>
 
-      {/* MOBILE FILTER DRAWER — pushes content down, no overlap */}
+      {/* MOBILE FILTER DRAWER */}
       <div className="lg:hidden max-w-7xl mx-auto px-4 mt-4">
         <AnimatePresence>
           {filtersOpen && (
@@ -245,8 +249,8 @@ export default function CoursesLandingPage() {
                 <FilterPanel
                   category={category} setCategory={setCategory}
                   price={price} setPrice={setPrice}
-                  rating={rating} setRating={setRating}
-                  setSearch={setSearch} setPage={setPage}
+                  setPage={setPage}
+                  categories={categories}
                   onClose={() => setFiltersOpen(false)}
                 />
               </div>
@@ -263,8 +267,8 @@ export default function CoursesLandingPage() {
           <FilterPanel
             category={category} setCategory={setCategory}
             price={price} setPrice={setPrice}
-            rating={rating} setRating={setRating}
-            setSearch={setSearch} setPage={setPage}
+            setPage={setPage}
+            categories={categories}
           />
         </aside>
 
@@ -290,7 +294,6 @@ export default function CoursesLandingPage() {
                 ))}
               </div>
 
-              {/* PAGINATION */}
               {totalPages > 1 && (
                 <div className="flex justify-center mt-10 gap-2 flex-wrap">
                   {Array.from({ length: totalPages }, (_, i) => (
