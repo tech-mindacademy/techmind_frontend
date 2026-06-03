@@ -125,11 +125,11 @@ function MarqueeRow({ reviews = [], reverse = false, speed = 0.4 }) {
 
     if (!reverse && xRef.current <= -singleSetWidth) {
       xRef.current = 0;
-      pauseUntilRef.current = time + 6000; // 6 second pause
+      pauseUntilRef.current = time + 10000; // 6 second pause
     }
     if (reverse && xRef.current >= 0) {
       xRef.current = -singleSetWidth;
-      pauseUntilRef.current = time + 6000; // 6 second pause
+      pauseUntilRef.current = time + 10000; // 6 second pause
     }
 
     trackRef.current.style.transform = `translateX(${xRef.current}px)`;
