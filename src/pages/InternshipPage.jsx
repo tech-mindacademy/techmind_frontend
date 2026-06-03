@@ -4,9 +4,6 @@ import api from "../api/axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// STATIC JSON DATA (shown when API returns empty or fails)
-// ─────────────────────────────────────────────────────────────────────────────
 const STATIC_INTERNSHIPS = [
   {
     _id: "s1", title: "Full Stack Developer Intern", company: "Tech Mind Academy",
@@ -101,23 +98,23 @@ const STATIC_INTERNSHIPS = [
 ];
 
 const DOMAIN_META = {
-  "Web Development":    { icon: "💻", color: "from-blue-500 to-cyan-500",    light: "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" },
-  "Data Science":       { icon: "📊", color: "from-emerald-500 to-teal-500",  light: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" },
-  "Machine Learning":   { icon: "🤖", color: "from-violet-500 to-purple-500", light: "bg-violet-50 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300" },
-  "Cybersecurity":      { icon: "🔐", color: "from-red-500 to-rose-500",      light: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300" },
-  "Cloud Computing":    { icon: "☁️", color: "from-sky-500 to-blue-500",      light: "bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300" },
-  "Mobile Development": { icon: "📱", color: "from-orange-500 to-amber-500",  light: "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300" },
-  "UI/UX Design":       { icon: "🎨", color: "from-pink-500 to-fuchsia-500",  light: "bg-pink-50 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300" },
-  "DevOps":             { icon: "⚙️", color: "from-gray-500 to-slate-500",    light: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300" },
-  "Blockchain":         { icon: "🔗", color: "from-yellow-500 to-orange-500", light: "bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300" },
-  "AI Research":        { icon: "🧠", color: "from-indigo-500 to-violet-500", light: "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" },
-  "Game Development":   { icon: "🎮", color: "from-purple-500 to-pink-500",   light: "bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300" },
+  "Web Development":    { icon: "💻", color: "from-blue-500 to-cyan-500",    light: "bg-blue-50 text-blue-700" },
+  "Data Science":       { icon: "📊", color: "from-emerald-500 to-teal-500",  light: "bg-emerald-50 text-emerald-700" },
+  "Machine Learning":   { icon: "🤖", color: "from-violet-500 to-purple-500", light: "bg-violet-50 text-violet-700" },
+  "Cybersecurity":      { icon: "🔐", color: "from-red-500 to-rose-500",      light: "bg-red-50 text-red-700" },
+  "Cloud Computing":    { icon: "☁️", color: "from-sky-500 to-blue-500",      light: "bg-sky-50 text-sky-700" },
+  "Mobile Development": { icon: "📱", color: "from-orange-500 to-amber-500",  light: "bg-orange-50 text-orange-700" },
+  "UI/UX Design":       { icon: "🎨", color: "from-pink-500 to-fuchsia-500",  light: "bg-pink-50 text-pink-700" },
+  "DevOps":             { icon: "⚙️", color: "from-gray-500 to-slate-500",    light: "bg-gray-100 text-gray-700" },
+  "Blockchain":         { icon: "🔗", color: "from-yellow-500 to-orange-500", light: "bg-yellow-50 text-yellow-700" },
+  "AI Research":        { icon: "🧠", color: "from-indigo-500 to-violet-500", light: "bg-indigo-50 text-indigo-700" },
+  "Game Development":   { icon: "🎮", color: "from-purple-500 to-pink-500",   light: "bg-purple-50 text-purple-700" },
 };
 
 const TYPE_STYLE = {
-  remote:  "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-  onsite:  "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-  hybrid:  "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
+  remote: "bg-emerald-100 text-emerald-700",
+  onsite: "bg-blue-100 text-blue-700",
+  hybrid: "bg-violet-100 text-violet-700",
 };
 const TYPE_ICON = { remote: "🌐", onsite: "🏢", hybrid: "🔀" };
 
@@ -131,9 +128,6 @@ const BLANK_FORM = {
   linkedIn: "", github: "",
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────────────────────────────────────
 const isPast = (d) => d && new Date(d) < new Date();
 const daysLeft = (d) => {
   if (!d) return null;
@@ -142,19 +136,18 @@ const daysLeft = (d) => {
 const fmtDate = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
 const inputCls =
-  "w-full px-3.5 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl " +
-  "bg-white dark:bg-gray-800/80 text-gray-900 dark:text-white text-sm " +
-  "focus:outline-none focus:ring-2 focus:ring-indigo-500 transition";
+  "w-full px-3.5 py-2.5 border border-[#0D1B3E]/10 rounded-xl " +
+  "bg-white text-black text-sm " +
+  "focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/40 focus:border-[#1A56DB] transition";
 
-// ─────────────────────────────────────────────────────────────────────────────
-  const Field = ({ label, children, span }) => (
-    <div className={span ? "sm:col-span-2" : ""}>
-      <label className="block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1.5">
-        {label}
-      </label>
-      {children}
-    </div>
-  );
+const Field = ({ label, children, span }) => (
+  <div className={span ? "sm:col-span-2" : ""}>
+    <label className="block text-xs font-black text-black/50 uppercase tracking-widest mb-1.5">
+      {label}
+    </label>
+    {children}
+  </div>
+);
 
 export default function InternshipsPage() {
   const [internships, setInternships] = useState([]);
@@ -170,36 +163,26 @@ export default function InternshipsPage() {
   const [error, setError] = useState("");
   const modalRef = useRef(null);
 
-  // ── Fetch once (no params) — always merge backend + static, filter client-side
   useEffect(() => {
-  (async () => {
-    setLoading(true);
-    try {
-      const { data } = await api.get("/internships");
-      const backendList = data.internships || [];
+    (async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get("/internships");
+        const backendList = data.internships || [];
+        const backendTitles = new Set(backendList.map((i) => i.title?.toLowerCase().trim()));
+        const merged = [
+          ...backendList,
+          ...STATIC_INTERNSHIPS.filter((i) => !backendTitles.has(i.title?.toLowerCase().trim())),
+        ];
+        setInternships(merged);
+      } catch {
+        setInternships(STATIC_INTERNSHIPS);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-      // Deduplicate by title (since company is always "Tech Mind Academy")
-      const backendTitles = new Set(
-        backendList.map((i) => i.title?.toLowerCase().trim())
-      );
-
-      const merged = [
-        ...backendList,
-        ...STATIC_INTERNSHIPS.filter(
-          (i) => !backendTitles.has(i.title?.toLowerCase().trim())
-        ),
-      ];
-
-      setInternships(merged);
-    } catch {
-      setInternships(STATIC_INTERNSHIPS);
-    } finally {
-      setLoading(false);
-    }
-  })();
-}, []); // fetch once on mount; filtering is client-side
-
-  // ── Client-side filter (applied on static data too) ────────────────────────
   const filtered = internships.filter((i) => {
     const q = search.toLowerCase();
     const matchSearch = !search ||
@@ -211,7 +194,6 @@ export default function InternshipsPage() {
     return matchSearch && matchType && matchDomain;
   });
 
-  // ── Apply handlers ─────────────────────────────────────────────────────────
   const openApply = (intern) => {
     setApplying(intern);
     setForm(BLANK_FORM);
@@ -221,125 +203,106 @@ export default function InternshipsPage() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setSubmitting(true);
-  setError("");
-  try {
-    if (applying._id.startsWith("s")) {
-      // Static internship — one call handles everything (create internship + apply + email)
-      await api.post("/internships/apply-static", {
-        internship: {
-          title: applying.title,
-          company: applying.company,
-          domain: applying.domain,
-          location: applying.location,
-          duration: applying.duration,
-          stipend: applying.stipend,
-          type: applying.type,
-          openings: applying.openings,
-          skills: applying.skills,
-          description: applying.description,
-          requirements: applying.requirements,
-          lastDate: applying.lastDate,
-        },
-        ...form,  // spread applicant fields directly at top level
-      });
-    } else {
-      // Real DB internship — call apply directly
-      await api.post(`/internships/${applying._id}/apply`, form);
+    e.preventDefault();
+    setSubmitting(true);
+    setError("");
+    try {
+      if (applying._id.startsWith("s")) {
+        await api.post("/internships/apply-static", {
+          internship: {
+            title: applying.title, company: applying.company, domain: applying.domain,
+            location: applying.location, duration: applying.duration, stipend: applying.stipend,
+            type: applying.type, openings: applying.openings, skills: applying.skills,
+            description: applying.description, requirements: applying.requirements, lastDate: applying.lastDate,
+          },
+          ...form,
+        });
+      } else {
+        await api.post(`/internships/${applying._id}/apply`, form);
+      }
+      setSuccess(true);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-    setSuccess(true);
-  } catch (err) {
-    setError(err.response?.data?.message || "Failed to submit. Please try again.");
-  } finally {
-    setSubmitting(false);
-  }
-};
-
-
+  };
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#F5F6FA] dark:bg-gray-950 font-sans">
+      <div className="min-h-screen bg-white font-sans">
 
-        {/* ── HERO ─────────────────────────────────────────────────────────── */}
-        <section className="relative bg-[#0B0F1E] overflow-hidden pt-20 pb-16 px-4">
-          {/* Background layers */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(99,102,241,0.25),transparent)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:48px_48px]" />
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(139,92,246,0.12),transparent_70%)]" />
-
+        {/* ── HERO ── */}
+        <section className="relative bg-white overflow-hidden pt-20 pb-16 px-4 border-b border-[#0D1B3E]/8">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="relative max-w-5xl mx-auto text-center"
           >
-            <span className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest mb-5">
+            <span className="inline-flex items-center gap-2 bg-[#1A56DB]/10 border border-[#1A56DB]/20 text-[#1A56DB] text-xs font-black px-4 py-2 rounded-full uppercase tracking-widest mb-5">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-400" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1A56DB] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1A56DB]" />
               </span>
               {STATIC_INTERNSHIPS.length} Live Opportunities
             </span>
 
-            <h1 className="text-5xl sm:text-6xl font-black text-white leading-[1.1] tracking-tight mb-4">
+            <h1 className="text-5xl sm:text-6xl font-black text-[#1A56DB] leading-[1.1] tracking-tight mb-4">
               Find Your Perfect{" "}
-              <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E] bg-clip-text text-transparent">
                 Internship
               </span>
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-lg text-black/60 max-w-2xl mx-auto leading-relaxed mb-8">
               Explore real internship opportunities from top companies. Apply directly, build experience, and launch your tech career.
             </p>
 
-            {/* Quick stats */}
-            <div className="inline-flex items-center divide-x divide-white/10 bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm">
+            <div className="inline-flex items-center divide-x divide-[#0D1B3E]/10 bg-white border border-[#0D1B3E]/8 rounded-2xl overflow-hidden shadow-sm">
               {[
                 { v: "10+", l: "Tech Domains" },
                 { v: "48hr", l: "Avg Response" },
               ].map((s) => (
                 <div key={s.l} className="px-5 py-3 text-center">
-                  <p className="text-xl font-black text-white leading-none">{s.v}</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">{s.l}</p>
+                  <p className="text-xl font-black text-[#1A56DB] leading-none">{s.v}</p>
+                  <p className="text-[11px] text-black/40 mt-0.5">{s.l}</p>
                 </div>
               ))}
             </div>
           </motion.div>
         </section>
 
-        {/* ── STICKY FILTERS ───────────────────────────────────────────────── */}
-        <div className="sticky top-16 z-20 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        {/* ── STICKY FILTERS ── */}
+        <div className="sticky top-16 z-20 bg-white border-b border-[#0D1B3E]/8 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 py-3">
-            {/* Search + type */}
             <div className="flex flex-col sm:flex-row gap-2 mb-3">
               <div className="relative flex-1">
-                <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-black/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input type="text" placeholder="Search by role, company, skill..."
                   value={search} onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                  className="w-full pl-10 pr-4 py-2.5 border border-[#0D1B3E]/10 rounded-xl bg-white text-sm text-black placeholder-black/30 focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/30 focus:border-[#1A56DB] transition" />
               </div>
               <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 min-w-[140px]">
+                className="px-4 py-2.5 border border-[#0D1B3E]/10 rounded-xl bg-white text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/30 focus:border-[#1A56DB] min-w-[140px] transition">
                 <option value="">All Types</option>
                 <option value="remote">🌐 Remote</option>
                 <option value="onsite">🏢 Onsite</option>
                 <option value="hybrid">🔀 Hybrid</option>
               </select>
             </div>
-            {/* Domain chips */}
             <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
               {DOMAINS.map((d) => {
-                const active = domain === d || (d === "All" && domain === "All");
+                const active = domain === d;
                 return (
                   <button key={d} onClick={() => setDomain(d)}
                     className={`flex-shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition-all whitespace-nowrap ${
                       active
-                        ? "bg-indigo-600 text-white shadow"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400"
+                        ? "bg-[#1A56DB] text-white shadow"
+                        : "bg-[#0D1B3E]/5 text-black/60 hover:bg-[#1A56DB]/10 hover:text-[#1A56DB]"
                     }`}>
                     {DOMAIN_META[d]?.icon} {d}
                   </button>
@@ -349,38 +312,38 @@ export default function InternshipsPage() {
           </div>
         </div>
 
-        {/* ── RESULTS COUNT ────────────────────────────────────────────────── */}
+        {/* ── RESULTS COUNT ── */}
         <div className="max-w-7xl mx-auto px-4 pt-5 pb-1 flex items-center justify-between">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-bold text-gray-900 dark:text-white">{filtered.length}</span> internship{filtered.length !== 1 ? "s" : ""}
-            {search && <> for "<span className="text-indigo-600">{search}</span>"</>}
+          <p className="text-sm text-black/50">
+            Showing <span className="font-black text-black">{filtered.length}</span> internship{filtered.length !== 1 ? "s" : ""}
+            {search && <> for "<span className="text-[#1A56DB]">{search}</span>"</>}
           </p>
           {(search || typeFilter || domain !== "All") && (
             <button onClick={() => { setSearch(""); setTypeFilter(""); setDomain("All"); }}
-              className="text-xs text-indigo-600 hover:underline font-semibold">
+              className="text-xs text-[#1A56DB] hover:underline font-bold">
               Clear filters ×
             </button>
           )}
         </div>
 
-        {/* ── LISTINGS ─────────────────────────────────────────────────────── */}
+        {/* ── LISTINGS ── */}
         <section className="max-w-7xl mx-auto px-4 pb-20 pt-4">
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {Array(6).fill(0).map((_, i) => (
-                <div key={i} className="animate-pulse bg-white dark:bg-gray-900 rounded-2xl h-72 border border-gray-100 dark:border-gray-800" />
+                <div key={i} className="animate-pulse bg-[#0D1B3E]/5 rounded-2xl h-72 border border-[#0D1B3E]/8" />
               ))}
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-24">
               <p className="text-5xl mb-3">🔍</p>
-              <p className="text-xl font-bold text-gray-800 dark:text-white mb-1">No internships found</p>
-              <p className="text-gray-400 text-sm">Try different search terms or clear filters</p>
+              <p className="text-xl font-black text-[#1A56DB] mb-1">No internships found</p>
+              <p className="text-black/40 text-sm">Try different search terms or clear filters</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filtered.map((intern, i) => {
-                const meta = DOMAIN_META[intern.domain] || { icon: "💼", color: "from-indigo-500 to-violet-500", light: "bg-indigo-50 text-indigo-700" };
+                const meta = DOMAIN_META[intern.domain] || { icon: "💼", color: "from-[#1A56DB] to-[#0D1B3E]", light: "bg-blue-50 text-blue-700" };
                 const expired = isPast(intern.lastDate);
                 const days = daysLeft(intern.lastDate);
                 const isExp = expanded === intern._id;
@@ -390,21 +353,19 @@ export default function InternshipsPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04, duration: 0.4 }}
-                    className="group bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
+                    className="group bg-white border border-[#0D1B3E]/8 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-[#1A56DB]/10 hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
                   >
-                    {/* Domain color bar */}
                     <div className={`h-1.5 bg-gradient-to-r ${meta.color}`} />
 
                     <div className="p-5 flex flex-col flex-1">
-                      {/* Header row */}
                       <div className="flex items-start justify-between gap-2 mb-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${meta.color} flex items-center justify-center text-xl flex-shrink-0 shadow-md`}>
                             {meta.icon}
                           </div>
                           <div className="min-w-0">
-                            <h3 className="font-bold text-gray-900 dark:text-white text-sm leading-snug line-clamp-2">{intern.title}</h3>
-                            <p className="text-indigo-600 dark:text-indigo-400 text-xs font-semibold truncate">{intern.company}</p>
+                            <h3 className="font-black text-black text-sm leading-snug line-clamp-2">{intern.title}</h3>
+                            <p className="text-[#1A56DB] text-xs font-semibold truncate">{intern.company}</p>
                           </div>
                         </div>
                         <span className={`flex-shrink-0 text-[11px] font-bold px-2 py-1 rounded-full ${TYPE_STYLE[intern.type]}`}>
@@ -412,13 +373,11 @@ export default function InternshipsPage() {
                         </span>
                       </div>
 
-                      {/* Domain tag */}
                       <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full w-fit mb-3 ${meta.light}`}>
                         {meta.icon} {intern.domain}
                       </span>
 
-                      {/* Meta pills */}
-                      <div className="grid grid-cols-2 gap-y-1.5 gap-x-2 mb-3 text-xs text-gray-500 dark:text-gray-400">
+                      <div className="grid grid-cols-2 gap-y-1.5 gap-x-2 mb-3 text-xs text-black/50">
                         {[
                           { e: "📍", v: intern.location },
                           { e: "⏱", v: intern.duration },
@@ -431,51 +390,47 @@ export default function InternshipsPage() {
                         ))}
                       </div>
 
-                      {/* Description */}
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2 mb-3">
+                      <p className="text-xs text-black/50 leading-relaxed line-clamp-2 mb-3">
                         {intern.description}
                       </p>
 
-                      {/* Requirements (expanded) */}
                       <AnimatePresence>
                         {isExp && intern.requirements && (
                           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mb-3">
-                            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-3">
-                              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Requirements</p>
-                              <p className="text-xs text-gray-600 dark:text-gray-300">{intern.requirements}</p>
+                            <div className="bg-[#1A56DB]/5 rounded-xl p-3 border border-[#1A56DB]/10">
+                              <p className="text-[10px] font-black text-[#1A56DB] uppercase tracking-wider mb-1">Requirements</p>
+                              <p className="text-xs text-black/60">{intern.requirements}</p>
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
 
-                      {/* Skill tags */}
                       {intern.skills?.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-4">
                           {intern.skills.slice(0, 4).map((s, j) => (
-                            <span key={j} className="text-[11px] bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-lg font-medium">
+                            <span key={j} className="text-[11px] bg-[#1A56DB]/8 text-[#1A56DB] px-2 py-0.5 rounded-lg font-medium">
                               {s}
                             </span>
                           ))}
                           {intern.skills.length > 4 && (
-                            <span className="text-[11px] text-gray-400 px-1 py-0.5">+{intern.skills.length - 4}</span>
+                            <span className="text-[11px] text-black/30 px-1 py-0.5">+{intern.skills.length - 4}</span>
                           )}
                         </div>
                       )}
 
-                      {/* Footer */}
-                      <div className="mt-auto pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-2">
+                      <div className="mt-auto pt-3 border-t border-[#0D1B3E]/8 flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           {intern.lastDate && (
                             <span className={`text-[11px] font-semibold px-2 py-1 rounded-lg ${
-                              expired ? "bg-red-50 dark:bg-red-900/20 text-red-500"
-                                : days != null && days <= 7 ? "bg-amber-50 dark:bg-amber-900/20 text-amber-600"
-                                : "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
+                              expired ? "bg-red-50 text-red-500"
+                                : days != null && days <= 7 ? "bg-amber-50 text-amber-600"
+                                : "bg-green-50 text-green-600"
                             }`}>
                               {expired ? "⛔ Closed" : days != null && days <= 7 ? `⚡ ${days}d left` : `📅 ${fmtDate(intern.lastDate)}`}
                             </span>
                           )}
                           <button onClick={() => setExpanded(isExp ? null : intern._id)}
-                            className="text-[11px] text-gray-400 hover:text-indigo-500 transition font-medium">
+                            className="text-[11px] text-black/30 hover:text-[#1A56DB] transition font-medium">
                             {isExp ? "Less ▲" : "More ▼"}
                           </button>
                         </div>
@@ -484,8 +439,8 @@ export default function InternshipsPage() {
                           disabled={expired}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                             expired
-                              ? "bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed"
-                              : "bg-indigo-600 hover:bg-indigo-700 text-white shadow hover:shadow-indigo-200 dark:hover:shadow-none group-hover:scale-105"
+                              ? "bg-[#0D1B3E]/5 text-black/30 cursor-not-allowed"
+                              : "bg-[#1A56DB] hover:bg-[#0D1B3E] text-white shadow hover:shadow-[#1A56DB]/20 group-hover:scale-105"
                           }`}>
                           {expired ? "Closed" : "Apply →"}
                         </button>
@@ -499,12 +454,12 @@ export default function InternshipsPage() {
         </section>
       </div>
 
-      {/* ── APPLICATION MODAL ────────────────────────────────────────────────── */}
+      {/* ── APPLICATION MODAL ── */}
       <AnimatePresence>
         {applying && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
             onClick={(e) => e.target === e.currentTarget && setApplying(null)}
           >
             <motion.div
@@ -512,27 +467,27 @@ export default function InternshipsPage() {
               initial={{ opacity: 0, scale: 0.93, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.93, y: 24 }}
-              className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto"
+              className="bg-white rounded-3xl shadow-2xl shadow-[#1A56DB]/10 w-full max-w-2xl max-h-[92vh] overflow-y-auto border border-[#0D1B3E]/8"
             >
               {/* Modal header */}
-              <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 rounded-t-3xl px-6 py-5 flex items-start justify-between">
+              <div className="sticky top-0 z-10 bg-white border-b border-[#0D1B3E]/8 rounded-t-3xl px-6 py-5 flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${DOMAIN_META[applying.domain]?.color || "from-indigo-500 to-violet-500"} flex items-center justify-center text-2xl shadow-lg`}>
+                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${DOMAIN_META[applying.domain]?.color || "from-[#1A56DB] to-[#0D1B3E]"} flex items-center justify-center text-2xl shadow-lg`}>
                     {DOMAIN_META[applying.domain]?.icon || "💼"}
                   </div>
                   <div>
-                    <h2 className="font-black text-gray-900 dark:text-white leading-tight">{applying.title}</h2>
-                    <p className="text-indigo-600 dark:text-indigo-400 text-sm font-semibold">{applying.company}</p>
+                    <h2 className="font-black text-black leading-tight">{applying.title}</h2>
+                    <p className="text-[#1A56DB] text-sm font-semibold">{applying.company}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${TYPE_STYLE[applying.type]}`}>
                         {TYPE_ICON[applying.type]} {applying.type}
                       </span>
-                      <span className="text-xs text-gray-400">{applying.location} · {applying.duration} · {applying.stipend}</span>
+                      <span className="text-xs text-black/40">{applying.location} · {applying.duration} · {applying.stipend}</span>
                     </div>
                   </div>
                 </div>
                 <button onClick={() => setApplying(null)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                  className="text-black/30 hover:text-black p-2 rounded-xl hover:bg-[#0D1B3E]/5 transition">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -543,24 +498,23 @@ export default function InternshipsPage() {
                 <div className="p-12 text-center">
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 240 }}
                     className="text-7xl mb-5">🎉</motion.div>
-                  <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">You're Shortlisted!</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto leading-relaxed text-sm">
+                  <h3 className="text-2xl font-black text-[#1A56DB] mb-2">You're Shortlisted!</h3>
+                  <p className="text-black/50 mb-6 max-w-sm mx-auto leading-relaxed text-sm">
                     Congratulations! Your application has been automatically <strong className="text-emerald-600">shortlisted</strong>. Check your email for a confirmation and next steps.
                   </p>
-                  <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 mb-6 max-w-sm mx-auto">
-                    <p className="text-sm text-emerald-700 dark:text-emerald-400">✅ A confirmation email has been sent. Our team will reach out within 2–3 business days.</p>
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6 max-w-sm mx-auto">
+                    <p className="text-sm text-emerald-700">✅ A confirmation email has been sent. Our team will reach out within 2–3 business days.</p>
                   </div>
                   <button onClick={() => setApplying(null)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl transition">
+                    className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-3 rounded-xl transition">
                     Done
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                  {/* Info banner */}
-                  <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900 rounded-xl px-4 py-3 flex items-start gap-2">
-                    <span className="text-indigo-500 mt-0.5">ℹ️</span>
-                    <p className="text-xs text-indigo-700 dark:text-indigo-300 leading-relaxed">
+                  <div className="bg-[#1A56DB]/5 border border-[#1A56DB]/15 rounded-xl px-4 py-3 flex items-start gap-2">
+                    <span className="text-[#1A56DB] mt-0.5">ℹ️</span>
+                    <p className="text-xs text-[#1A56DB] leading-relaxed">
                       Applications are <strong>automatically shortlisted</strong>. Fill out all required fields accurately — our team reviews every submission personally.
                     </p>
                   </div>
@@ -615,18 +569,18 @@ export default function InternshipsPage() {
                   </div>
 
                   {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3 text-sm text-red-600 dark:text-red-400 flex gap-2">
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-sm text-red-600 flex gap-2">
                       <span>⚠️</span> {error}
                     </div>
                   )}
 
-                  <div className="flex gap-3 sticky bottom-0 bg-white dark:bg-gray-900 pt-2 pb-1 -mx-0">
+                  <div className="flex gap-3 sticky bottom-0 bg-white pt-2 pb-1">
                     <button type="button" onClick={() => setApplying(null)}
-                      className="flex-1 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                      className="flex-1 py-3 border border-[#0D1B3E]/10 rounded-xl text-sm font-semibold text-black/60 hover:bg-[#0D1B3E]/5 transition">
                       Cancel
                     </button>
                     <button type="submit" disabled={submitting}
-                      className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white font-bold py-3 rounded-xl text-sm transition flex items-center justify-center gap-2">
+                      className="flex-1 bg-[#1A56DB] hover:bg-[#0D1B3E] disabled:opacity-60 text-white font-black py-3 rounded-xl text-sm transition flex items-center justify-center gap-2">
                       {submitting ? (
                         <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
