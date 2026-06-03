@@ -6,7 +6,6 @@
 // - Auto-advances every 5 seconds; has prev/next arrows and dot indicators
 //
 // src/components/HeroCarousel.jsx
-// src/components/HeroCarousel.jsx
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axios";
@@ -17,7 +16,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
   const [images, setImages] = useState([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [touched, setTouched] = useState(null);
+  const [touched, setTouched] = useState(null); // for swipe support
 
   /* ── Fetch images ── */
   useEffect(() => {
@@ -53,12 +52,17 @@ export default function HeroCarousel({ className = "", onHasImages }) {
     return () => clearInterval(t);
   }, [next, images.length]);
 
-  /* ── Touch / swipe ── */
-  const handleTouchStart = (e) => setTouched(e.touches[0].clientX);
+  /* ── Touch / swipe support ── */
+  const handleTouchStart = (e) => {
+    setTouched(e.touches[0].clientX);
+  };
+
   const handleTouchEnd = (e) => {
     if (touched === null) return;
     const delta = touched - e.changedTouches[0].clientX;
-    if (Math.abs(delta) > 40) delta > 0 ? next() : prev();
+    if (Math.abs(delta) > 40) {
+      delta > 0 ? next() : prev();
+    }
     setTouched(null);
   };
 
@@ -69,7 +73,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
   return (
     <div
       className={`relative w-full overflow-hidden ${className}`}
-      style={{ height: "clamp(260px, 55vw, 680px)" }}
+      style={{ height: "clamp(260px, 55vw, 680px)" }}   /* fluid height — works on all screen sizes */
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -89,19 +93,10 @@ export default function HeroCarousel({ className = "", onHasImages }) {
             className="w-full h-full object-cover"
             draggable={false}
           />
-          {/* Gradient: navy-heavy bottom for readability, matching logo dark */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/80 via-[#0D1B3E]/20 to-[#0D1B3E]/5" />
-          {/* Subtle blue accent vignette on the right */}
-          <div className="absolute inset-0 bg-gradient-to-l from-[#1A56DB]/15 via-transparent to-transparent" />
+          {/* Gradient overlay — bottom-heavy for caption readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
         </motion.div>
       </AnimatePresence>
-
-      {/* ── Brand watermark (top-left) ── */}
-      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
-        <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-white/50 bg-[#0D1B3E]/40 backdrop-blur-sm border border-white/10 px-2.5 py-1 rounded-full">
-          Tech Mind Academy
-        </span>
-      </div>
 
       {/* ── Caption ── */}
       <AnimatePresence mode="wait">
@@ -114,29 +109,26 @@ export default function HeroCarousel({ className = "", onHasImages }) {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="absolute bottom-10 sm:bottom-14 left-0 right-0 z-20 px-4 sm:px-8 text-center pointer-events-none"
           >
-            <span
-              className="inline-block text-white text-xs sm:text-sm md:text-base
-                         backdrop-blur-sm bg-[#0D1B3E]/50 border border-white/15
-                         px-4 sm:px-6 py-1.5 sm:py-2 rounded-full max-w-[90vw] truncate
-                         font-medium tracking-wide"
-            >
+            <span className="inline-block text-white/90 text-xs sm:text-sm md:text-base
+                             backdrop-blur-sm bg-black/25 border border-white/10
+                             px-3 sm:px-5 py-1.5 sm:py-2 rounded-full max-w-[90vw] truncate">
               {active.caption}
             </span>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── Prev / Next arrows ── */}
+      {/* ── Prev / Next arrows — hidden on small phones, shown from sm ── */}
       {images.length > 1 && (
         <>
           <button
             onClick={prev}
             aria-label="Previous slide"
             className="hidden sm:flex absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20
-                       w-9 h-9 md:w-11 md:h-11 rounded-full
-                       bg-[#0D1B3E]/50 hover:bg-[#1A56DB] active:scale-95
+                       w-8 h-8 md:w-10 md:h-10 rounded-full
+                       bg-black/30 hover:bg-black/60 active:scale-95
                        border border-white/20 text-white
-                       items-center justify-center transition-all duration-200 shadow-lg"
+                       items-center justify-center transition-all duration-200"
           >
             <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -147,10 +139,10 @@ export default function HeroCarousel({ className = "", onHasImages }) {
             onClick={next}
             aria-label="Next slide"
             className="hidden sm:flex absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20
-                       w-9 h-9 md:w-11 md:h-11 rounded-full
-                       bg-[#0D1B3E]/50 hover:bg-[#1A56DB] active:scale-95
+                       w-8 h-8 md:w-10 md:h-10 rounded-full
+                       bg-black/30 hover:bg-black/60 active:scale-95
                        border border-white/20 text-white
-                       items-center justify-center transition-all duration-200 shadow-lg"
+                       items-center justify-center transition-all duration-200"
           >
             <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -169,7 +161,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
               aria-label={`Go to slide ${i + 1}`}
               className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
                 i === current
-                  ? "w-6 sm:w-8 bg-[#1A56DB] shadow-sm shadow-[#1A56DB]/50"
+                  ? "w-5 sm:w-7 bg-white"
                   : "w-1 sm:w-1.5 bg-white/40 hover:bg-white/70"
               }`}
             />
@@ -177,24 +169,14 @@ export default function HeroCarousel({ className = "", onHasImages }) {
         </div>
       )}
 
-      {/* ── Slide counter (mobile) ── */}
+      {/* ── Slide counter (mobile only, top-right) ── */}
       {images.length > 1 && (
         <div className="sm:hidden absolute top-3 right-3 z-20
-                        text-[10px] font-bold text-white/70
-                        bg-[#0D1B3E]/50 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
+                        text-[10px] font-semibold text-white/70
+                        bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
           {current + 1} / {images.length}
         </div>
       )}
-
-      {/* ── Bottom cream curve transition into page ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-6 sm:h-8 z-10"
-        style={{
-          background: "#F7F5F0",
-          borderRadius: "50% 50% 0 0 / 100% 100% 0 0",
-          transform: "scaleX(1.05)",
-        }}
-      />
     </div>
   );
 }
