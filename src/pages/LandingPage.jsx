@@ -256,7 +256,7 @@ export default function LandingPage() {
       {/* ── Top Courses ── */}
       <section className="py-20 px-4 bg-white relative">
         {/* Subtle grey grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" /> */}
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <motion.p
@@ -325,7 +325,7 @@ export default function LandingPage() {
       {/* ── Features ── */}
       <section className="py-20 px-4 bg-[#F7F5F0] relative">
         {/* Grey grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.1)_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none" />
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.1)_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none" /> */}
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <motion.h2
@@ -383,7 +383,7 @@ export default function LandingPage() {
       {/* ── For Students & Creators ── */}
       <section className="py-20 px-4 bg-white relative">
         {/* Grey grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" /> */}
         <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Student card */}
           <motion.div
@@ -505,7 +505,7 @@ export default function LandingPage() {
 
       {/* ── CTA ── */}
       <section className="py-20 px-4 relative overflow-hidden bg-white">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+        {/* <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" /> */}
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
