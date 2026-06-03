@@ -5,8 +5,9 @@ import useAuth from "../hooks/useAuth";
 
 export default function Navbar() {
   const { user } = useAuth();
-  const [open, setOpen] = useState(false);          // user dropdown
+  const [open, setOpen] = useState(false);             // desktop user dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // hamburger menu
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false); // mobile profile accordion
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -209,41 +210,73 @@ export default function Navbar() {
                 </Link>
               )}
 
-              {/* LOGGED IN — mobile user section */}
+              {/* LOGGED IN — mobile profile dropdown */}
               {user && (
                 <>
-                  <div className="flex items-center gap-3 px-3 py-2.5">
-                    {user.avatar?.url ? (
-                      <img src={user.avatar.url} alt="profile"
-                        className="w-9 h-9 rounded-full object-cover border" />
-                    ) : (
-                      <div className="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center font-bold text-indigo-600 dark:text-indigo-300">
-                        {user.name?.charAt(0)}
-                      </div>
-                    )}
-                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{user.name}</span>
-                  </div>
-
-                  {[
-                    { label: "My Profile",  path: "/profile" },
-                    { label: "Dashboard",   path: "/student/dashboard" },
-                    { label: "My Courses",  path: "/student/my-courses" },
-                    { label: "Settings",    path: "/settings" },
-                  ].map(({ label, path }) => (
-                    <button key={path}
-                      onClick={() => { navigate(path); setMobileOpen(false); }}
-                      className="text-left px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                    >
-                      {label}
-                    </button>
-                  ))}
-
+                  {/* Profile toggle button */}
                   <button
-                    onClick={handleLogout}
-                    className="text-left px-3 py-2.5 rounded-lg text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition"
+                    onClick={() => setMobileProfileOpen((prev) => !prev)}
+                    className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   >
-                    Logout
+                    <div className="flex items-center gap-3">
+                      {user.avatar?.url ? (
+                        <img src={user.avatar.url} alt="profile"
+                          className="w-9 h-9 rounded-full object-cover border" />
+                      ) : (
+                        <div className="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center font-bold text-indigo-600 dark:text-indigo-300">
+                          {user.name?.charAt(0)}
+                        </div>
+                      )}
+                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{user.name}</span>
+                    </div>
+
+                    {/* Chevron icon */}
+                    <motion.svg
+                      animate={{ rotate: mobileProfileOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </motion.svg>
                   </button>
+
+                  {/* Collapsible sub-items */}
+                  <AnimatePresence>
+                    {mobileProfileOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="overflow-hidden pl-3"
+                      >
+                        <div className="border-l-2 border-indigo-200 dark:border-indigo-800 pl-3 flex flex-col gap-0.5 py-1">
+                          {[
+                            { label: "My Profile",  path: "/profile" },
+                            { label: "Dashboard",   path: "/student/dashboard" },
+                            { label: "My Courses",  path: "/student/my-courses" },
+                            { label: "Settings",    path: "/settings" },
+                          ].map(({ label, path }) => (
+                            <button key={path}
+                              onClick={() => { navigate(path); setMobileOpen(false); setMobileProfileOpen(false); }}
+                              className="text-left px-3 py-2 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                            >
+                              {label}
+                            </button>
+                          ))}
+
+                          <button
+                            onClick={handleLogout}
+                            className="text-left px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition"
+                          >
+                            Logout
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </>
               )}
             </div>
