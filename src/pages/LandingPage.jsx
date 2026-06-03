@@ -504,10 +504,8 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-20 px-4 relative overflow-hidden bg-[#0D1B3E]">
-        {/* Grey grid inside dark CTA */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(26,86,219,0.2),transparent_70%)]" />
+      <section className="py-20 px-4 relative overflow-hidden bg-white">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -518,7 +516,7 @@ export default function LandingPage() {
             <h2 className="text-4xl sm:text-5xl font-black text-[#60A5FA]">
               Ready to transform your career?
             </h2>
-            <p className="text-blue-200/60 text-lg">
+            <p className="text-black text-lg">
               Join students already building their future with Tech Mind
               Academy.
             </p>
