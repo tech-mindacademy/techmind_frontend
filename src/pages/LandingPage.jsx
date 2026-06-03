@@ -158,12 +158,12 @@ export default function LandingPage() {
         </div>
 
         {/* Stats bar */}
-        <div className="relative z-10 border-t border-white/[0.07] bg-white/[0.04] backdrop-blur-sm w-full">
+        <div className="relative z-10 border-t border-black/10 bg-black/[0.02] w-full">
           <div className="max-w-5xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             {stats.map((s, i) => (
               <motion.div key={i} initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay: 0.6+i*0.1 }}>
-                <p className="text-2xl font-black text-[#60A5FA]">{s.value}</p>
-                <p className="text-xs text-blue-200/60 mt-0.5">{s.label}</p>
+                <p className="text-2xl font-black text-black">{s.value}</p>
+                <p className="text-xs text-black/60 mt-0.5">{s.label}</p>
               </motion.div>
             ))}
           </div>
@@ -357,8 +357,8 @@ export default function LandingPage() {
 function HeroContent({ user, stagger, fadeUp }) {
   return (
     <motion.div variants={stagger} initial="initial" animate="animate" className="space-y-7">
-      <motion.div variants={fadeUp}>
-        <span className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-blue-300 text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm">
+      <motion.div>
+        <span variants={fadeUp} className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-black-300 text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
@@ -376,7 +376,7 @@ function HeroContent({ user, stagger, fadeUp }) {
         </span>
       </motion.h1>
 
-      <motion.p variants={fadeUp} className="text-xl text-blue-200/70 max-w-2xl mx-auto leading-relaxed font-light">
+      <motion.p variants={fadeUp} className="text-xl text-black/70 max-w-2xl mx-auto leading-relaxed font-light">
         Expert-led courses, real projects, verified certificates — everything you need to go from student to professional.
       </motion.p>
 
