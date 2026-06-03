@@ -61,13 +61,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-5">
           {navLinks.map(({ to, label, dot }) => (
             <Link key={to} to={to} className={`${navLinkClass(to)} relative inline-flex items-center gap-1.5`}>
-              {label}
               {dot && (
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1A56DB] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1A56DB]" />
                 </span>
               )}
+              {label}
             </Link>
           ))}
         </div>
@@ -167,13 +167,13 @@ export default function Navbar() {
                       ? "text-[#1A56DB] bg-blue-50 font-semibold"
                       : "text-[#0D1B3E] hover:bg-blue-50 hover:text-[#1A56DB]"
                   }`}>
-                  {label}
                   {dot && (
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1A56DB] opacity-75" />
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1A56DB]" />
                     </span>
                   )}
+                  {label}
                 </Link>
               ))}
 
