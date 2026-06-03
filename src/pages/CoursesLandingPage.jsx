@@ -17,7 +17,7 @@ function CourseCard({ course }) {
       transition={{ duration: 0.2 }}
       className="group bg-white rounded-2xl overflow-hidden border border-blue-100 shadow-sm hover:shadow-xl hover:shadow-blue-100/60 transition"
     >
-      <Link to={`/courses/${course.slug}`}>
+      <Link to={`/auth`}>
         <div className="relative aspect-[16/10] overflow-hidden bg-blue-50">
           {course.thumbnail?.url ? (
             <img src={course.thumbnail.url}
