@@ -108,17 +108,30 @@ function ReviewCard({ review }) {
 function MarqueeRow({ reviews = [], reverse = false, speed = 0.4 }) {
   const trackRef = useRef(null);
   const xRef = useRef(0);
+  const pauseUntilRef = useRef(0);
   const safeReviews = Array.isArray(reviews) ? reviews : [];
   const repeatCount = Math.max(Math.ceil(6 / safeReviews.length), 2);
   const items = Array(repeatCount).fill(safeReviews).flat();
 
-  useAnimationFrame((_, delta) => {
+  useAnimationFrame((time, delta) => {
     if (!trackRef.current || items.length === 0) return;
+
+    // If we're in a pause window, do nothing
+    if (time < pauseUntilRef.current) return;
+
     const dir = reverse ? 1 : -1;
     xRef.current += dir * speed * (delta / 16);
     const singleSetWidth = trackRef.current.scrollWidth / repeatCount;
-    if (!reverse && xRef.current <= -singleSetWidth) xRef.current = 0;
-    if (reverse && xRef.current >= 0) xRef.current = -singleSetWidth;
+
+    if (!reverse && xRef.current <= -singleSetWidth) {
+      xRef.current = 0;
+      pauseUntilRef.current = time + 6000; // 6 second pause
+    }
+    if (reverse && xRef.current >= 0) {
+      xRef.current = -singleSetWidth;
+      pauseUntilRef.current = time + 6000; // 6 second pause
+    }
+
     trackRef.current.style.transform = `translateX(${xRef.current}px)`;
   });
 
