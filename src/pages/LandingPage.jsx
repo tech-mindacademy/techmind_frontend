@@ -248,7 +248,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero CAROUSEL — always below content */}
-        <div className="relative w-full">
+        <div className="relative w-full max-h-[320px] overflow-hidden">
           <HeroCarousel onHasImages={setHasImages} />
         </div>
       </section>
