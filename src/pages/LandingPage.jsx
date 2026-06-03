@@ -18,17 +18,51 @@ import TestimonialsSection from "../components/TestimonialSection";
 
 const fadeUp = {
   initial: { opacity: 0, y: 32 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 const stagger = { animate: { transition: { staggerChildren: 0.12 } } };
 
 const features = [
-  { icon: "🎬", title: "HD Video Lessons",   desc: "Crystal-clear streaming with adaptive quality for any connection speed.",       color: "from-[#1A56DB] to-[#0D1B3E]" },
-  { icon: "✅", title: "Smart Quizzes",      desc: "Auto-graded quizzes with instant feedback and unlimited retry attempts.",        color: "from-[#2563EB] to-[#1A56DB]" },
-  { icon: "🏆", title: "Certificates",       desc: "Shareable, verified certificates on course completion. Add to LinkedIn easily.", color: "from-[#0D1B3E] to-[#1A56DB]" },
-  { icon: "📊", title: "Analytics",          desc: "Deep insights into student progress and creator revenue in real time.",          color: "from-[#1A56DB] to-[#0D1B3E]" },
-  { icon: "📄", title: "Notes & Resources",  desc: "Attach PDFs, slides, and files directly to any lesson for download.",           color: "from-[#2563EB] to-[#1A56DB]" },
-  { icon: "💬", title: "Community Q&A",      desc: "Per-course discussion boards so students can help each other grow.",            color: "from-[#0D1B3E] to-[#2563EB]" },
+  {
+    icon: "🎬",
+    title: "HD Video Lessons",
+    desc: "Crystal-clear streaming with adaptive quality for any connection speed.",
+    color: "from-[#1A56DB] to-[#0D1B3E]",
+  },
+  {
+    icon: "✅",
+    title: "Smart Quizzes",
+    desc: "Auto-graded quizzes with instant feedback and unlimited retry attempts.",
+    color: "from-[#2563EB] to-[#1A56DB]",
+  },
+  {
+    icon: "🏆",
+    title: "Certificates",
+    desc: "Shareable, verified certificates on course completion. Add to LinkedIn easily.",
+    color: "from-[#0D1B3E] to-[#1A56DB]",
+  },
+  {
+    icon: "📊",
+    title: "Analytics",
+    desc: "Deep insights into student progress and creator revenue in real time.",
+    color: "from-[#1A56DB] to-[#0D1B3E]",
+  },
+  {
+    icon: "📄",
+    title: "Notes & Resources",
+    desc: "Attach PDFs, slides, and files directly to any lesson for download.",
+    color: "from-[#2563EB] to-[#1A56DB]",
+  },
+  {
+    icon: "💬",
+    title: "Community Q&A",
+    desc: "Per-course discussion boards so students can help each other grow.",
+    color: "from-[#0D1B3E] to-[#2563EB]",
+  },
 ];
 
 function CountUp({ target }) {
@@ -42,8 +76,10 @@ function CountUp({ target }) {
         const step = Math.ceil(num / 60);
         const timer = setInterval(() => {
           start += step;
-          if (start >= num) { setCount(num); clearInterval(timer); }
-          else setCount(start);
+          if (start >= num) {
+            setCount(num);
+            clearInterval(timer);
+          } else setCount(start);
         }, 20);
         observer.disconnect();
       }
@@ -65,13 +101,20 @@ function LandingCourseCard({ course }) {
       <Link to={`/courses/${course.slug || course.id}`}>
         <div className="relative aspect-[16/10] overflow-hidden bg-slate-50">
           {course.thumbnail?.url || course.thumbnail ? (
-            <img src={course.thumbnail?.url || course.thumbnail} alt={course.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+            <img
+              src={course.thumbnail?.url || course.thumbnail}
+              alt={course.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            />
           ) : (
-            <div className="h-full flex items-center justify-center text-4xl">📚</div>
+            <div className="h-full flex items-center justify-center text-4xl">
+              📚
+            </div>
           )}
           {(course.isFree || course.price === 0) && (
-            <span className="absolute top-3 left-3 text-xs bg-[#1A56DB] text-white px-2.5 py-1 rounded-full font-bold shadow-sm">FREE</span>
+            <span className="absolute top-3 left-3 text-xs bg-[#1A56DB] text-white px-2.5 py-1 rounded-full font-bold shadow-sm">
+              FREE
+            </span>
           )}
         </div>
         <div className="p-4">
@@ -79,17 +122,25 @@ function LandingCourseCard({ course }) {
             {course.title}
           </h3>
           <p className="text-xs text-[#0D1B3E]/45 mt-1 font-medium">
-            {course.creator?.name || course.instructor?.name || "Tech Mind Academy"}
+            {course.creator?.name ||
+              course.instructor?.name ||
+              "Tech Mind Academy"}
           </p>
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#0D1B3E]/6">
             {avgRating > 0 ? (
               <div className="flex items-center gap-1 text-sm">
                 <span className="text-amber-400">★</span>
-                <span className="text-[#0D1B3E] font-bold text-xs">{Number(avgRating).toFixed(1)}</span>
+                <span className="text-[#0D1B3E] font-bold text-xs">
+                  {Number(avgRating).toFixed(1)}
+                </span>
               </div>
-            ) : <span className="text-xs text-[#0D1B3E]/35">New</span>}
+            ) : (
+              <span className="text-xs text-[#0D1B3E]/35">New</span>
+            )}
             <div className="font-black text-[#1A56DB] text-sm">
-              {course.isFree || course.price === 0 ? "Free" : `₹${(course.discountPrice || course.price || "").toLocaleString()}`}
+              {course.isFree || course.price === 0
+                ? "Free"
+                : `₹${(course.discountPrice || course.price || "").toLocaleString()}`}
             </div>
           </div>
         </div>
@@ -105,34 +156,56 @@ export default function LandingPage() {
   const [coursesLoading, setCoursesLoading] = useState(true);
 
   const [stats, setStats] = useState([
-    { value: "...", label: "Students enrolled",  icon: "👨‍🎓" },
-    { value: "...", label: "Courses published",   icon: "📚" },
-    { value: "...", label: "Expert creators",     icon: "🎓" },
-    { value: "4.9★", label: "Average rating",    icon: "⭐" },
+    { value: "...", label: "Students enrolled", icon: "👨‍🎓" },
+    { value: "...", label: "Courses published", icon: "📚" },
+    { value: "...", label: "Expert creators", icon: "🎓" },
+    { value: "4.9★", label: "Average rating", icon: "⭐" },
   ]);
 
   useEffect(() => {
-    api.get("/stats/public").then(({ data }) => {
-      setStats([
-        { value: `${data.students}+`, label: "Students enrolled", icon: "👨‍🎓" },
-        { value: `${data.courses}+`,  label: "Courses published",  icon: "📚" },
-        { value: `${data.creators}+`, label: "Expert creators",    icon: "🎓" },
-        { value: "4.9★",             label: "Average rating",     icon: "⭐" },
-      ]);
-    }).catch(() => {});
+    api
+      .get("/stats/public")
+      .then(({ data }) => {
+        setStats([
+          {
+            value: `${data.students}+`,
+            label: "Students enrolled",
+            icon: "👨‍🎓",
+          },
+          { value: `${data.courses}+`, label: "Courses published", icon: "📚" },
+          { value: `${data.creators}+`, label: "Expert creators", icon: "🎓" },
+          { value: "4.9★", label: "Average rating", icon: "⭐" },
+        ]);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    api.get("/courses").then(({ data }) => {
-      const raw = data.courses || data?.data || [];
-      if (!Array.isArray(raw)) { setCoursesLoading(false); return; }
-      setTopCourses(raw.slice(0, 4).map((c) => ({
-        id: c._id, title: c.title, slug: c.slug,
-        creator: c.creator, thumbnail: c.thumbnail,
-        isFree: c.isFree, price: c.price, discountPrice: c.discountPrice,
-        stats: c.stats, rating: c.stats?.avgRating || 0,
-      })));
-    }).catch(() => {}).finally(() => setCoursesLoading(false));
+    api
+      .get("/courses")
+      .then(({ data }) => {
+        const raw = data.courses || data?.data || [];
+        if (!Array.isArray(raw)) {
+          setCoursesLoading(false);
+          return;
+        }
+        setTopCourses(
+          raw.slice(0, 4).map((c) => ({
+            id: c._id,
+            title: c.title,
+            slug: c.slug,
+            creator: c.creator,
+            thumbnail: c.thumbnail,
+            isFree: c.isFree,
+            price: c.price,
+            discountPrice: c.discountPrice,
+            stats: c.stats,
+            rating: c.stats?.avgRating || 0,
+          })),
+        );
+      })
+      .catch(() => {})
+      .finally(() => setCoursesLoading(false));
   }, []);
 
   return (
@@ -161,7 +234,12 @@ export default function LandingPage() {
         <div className="relative z-10 border-t border-black/10 bg-black/[0.02] w-full">
           <div className="max-w-5xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             {stats.map((s, i) => (
-              <motion.div key={i} initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay: 0.6+i*0.1 }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + i * 0.1 }}
+              >
                 <p className="text-2xl font-black text-black">{s.value}</p>
                 <p className="text-xs text-black/60 mt-0.5">{s.label}</p>
               </motion.div>
@@ -181,16 +259,28 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }}
-              className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3"
+            >
               Top Rated This Month
             </motion.p>
-            <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl sm:text-4xl font-black text-[#1A56DB]"
+            >
               Courses Students Love
             </motion.h2>
-            <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }}
-              className="text-[#0D1B3E]/45 mt-3 max-w-xl mx-auto text-sm">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-[#0D1B3E]/45 mt-3 max-w-xl mx-auto text-sm"
+            >
               Handpicked, high-quality, and loved by students.
             </motion.p>
           </div>
@@ -198,17 +288,34 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {coursesLoading
               ? [...Array(4)].map((_, i) => (
-                  <div key={i} className="h-[300px] rounded-2xl bg-[#0D1B3E]/6 animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-[300px] rounded-2xl bg-[#0D1B3E]/6 animate-pulse"
+                  />
                 ))
-              : topCourses.map((course) => <LandingCourseCard key={course.id} course={course} />)}
+              : topCourses.map((course) => (
+                  <LandingCourseCard key={course.id} course={course} />
+                ))}
           </div>
 
           <div className="text-center mt-10">
-            <Link to="/techmind-courses"
-              className="inline-flex items-center gap-2 border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white font-bold px-8 py-3.5 rounded-2xl transition-all">
+            <Link
+              to="/techmind-courses"
+              className="inline-flex items-center gap-2 border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white font-bold px-8 py-3.5 rounded-2xl transition-all"
+            >
               View All Courses
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
               </svg>
             </Link>
           </div>
@@ -221,29 +328,49 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.1)_1px,transparent_1px)] bg-[size:36px_36px] pointer-events-none" />
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl sm:text-4xl font-black text-[#1A56DB]"
+            >
               Everything You Need to{" "}
               <span className="bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E] bg-clip-text text-transparent">
                 Succeed
               </span>
             </motion.h2>
-            <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }}
-              className="text-[#0D1B3E]/45 mt-3 max-w-xl mx-auto text-sm">
-              A fully featured platform with all the tools for effective online learning.
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-[#0D1B3E]/45 mt-3 max-w-xl mx-auto text-sm"
+            >
+              A fully featured platform with all the tools for effective online
+              learning.
             </motion.p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((f, i) => (
-              <motion.div key={i}
-                initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay: i*0.08 }}
-                className="group relative bg-white border border-[#0D1B3E]/8 rounded-2xl p-6 hover:shadow-lg hover:shadow-[#1A56DB]/8 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-[0.04] transition-opacity`} />
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} text-white text-2xl mb-4 shadow-sm`}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="group relative bg-white border border-[#0D1B3E]/8 rounded-2xl p-6 hover:shadow-lg hover:shadow-[#1A56DB]/8 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              >
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-[0.04] transition-opacity`}
+                />
+                <div
+                  className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} text-white text-2xl mb-4 shadow-sm`}
+                >
                   {f.icon}
                 </div>
                 <h3 className="font-black text-[#0D1B3E] mb-2">{f.title}</h3>
-                <p className="text-sm text-[#0D1B3E]/50 leading-relaxed">{f.desc}</p>
+                <p className="text-sm text-[#0D1B3E]/50 leading-relaxed">
+                  {f.desc}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -258,67 +385,120 @@ export default function LandingPage() {
         {/* Grey grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.07)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
         <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-
           {/* Student card */}
-          <motion.div initial={{ opacity:0, x:-24 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }}
-            className="bg-white border border-[#0D1B3E]/8 rounded-3xl p-8 relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-white border border-[#0D1B3E]/8 rounded-3xl p-8 relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
+          >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E]" />
             <div className="inline-flex items-center gap-2 bg-[#1A56DB]/8 text-[#1A56DB] text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 border border-[#1A56DB]/15">
               👨‍🎓 For Students
             </div>
-            <h3 className="text-2xl font-black text-[#1A56DB] mb-3">Build Skills. Earn Certificates.</h3>
+            <h3 className="text-2xl font-black text-[#1A56DB] mb-3">
+              Build Skills. Earn Certificates.
+            </h3>
             <p className="text-[#0D1B3E]/50 text-sm leading-relaxed mb-6">
-              Access expert-led courses. Learn at your pace, test yourself with quizzes, and earn certificates that recruiters respect.
+              Access expert-led courses. Learn at your pace, test yourself with
+              quizzes, and earn certificates that recruiters respect.
             </p>
             <ul className="space-y-3 mb-8">
-              {["HD video lessons with subtitles","Auto-graded quizzes & progress tracking","Downloadable notes & resources","Verified completion certificates","Community discussions per course"].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-[#0D1B3E]/70">
+              {[
+                "HD video lessons with subtitles",
+                "Auto-graded quizzes & progress tracking",
+                "Downloadable notes & resources",
+                "Verified completion certificates",
+                "Community discussions per course",
+              ].map((item, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-sm text-[#0D1B3E]/70"
+                >
                   <div className="w-5 h-5 rounded-full bg-[#1A56DB] flex items-center justify-center flex-shrink-0">
-                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
                   {item}
                 </li>
               ))}
             </ul>
-            <Link to="/register"
-              className="inline-flex items-center gap-2 bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md shadow-[#1A56DB]/20">
-              {user?.role === "student" ? "Go to Dashboard →" : "Start for Free →"}
+            <Link
+              to="/register"
+              className="inline-flex items-center gap-2 bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md shadow-[#1A56DB]/20"
+            >
+              {user?.role === "student"
+                ? "Go to Dashboard →"
+                : "Start for Free →"}
             </Link>
           </motion.div>
 
           {/* Creator card */}
-          <motion.div initial={{ opacity:0, x:24 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }}
-            className="bg-[#0D1B3E] border border-[#1A56DB]/20 rounded-3xl p-8 relative overflow-hidden shadow-sm">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#2563EB] to-[#60A5FA]" />
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.04)_1px,transparent_1px)] bg-[size:32px_32px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(37,99,235,0.15),transparent_60%)]" />
-            <div className="relative">
-              <div className="inline-flex items-center gap-2 bg-[#1A56DB]/20 text-blue-300 text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 border border-[#1A56DB]/30">
-                🎓 For Creators
-              </div>
-              <h3 className="text-2xl font-black text-[#60A5FA] mb-3">Teach the World. Earn While You Sleep.</h3>
-              <p className="text-blue-200/60 text-sm leading-relaxed mb-6">
-                Build and publish courses using our powerful creator tools. Reach thousands of eager students.
-              </p>
-              <ul className="space-y-3 mb-8">
-                {["Course builder with drag-drop sections","Video + PDF/PPTX notes per lesson","Auto-graded quizzes + manual grading","Student analytics and earnings reports","Payout dashboard with instant transfers"].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-blue-100/75">
-                    <div className="w-5 h-5 rounded-full bg-[#2563EB] flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/register?role=creator"
-                className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1A56DB] text-white font-bold px-6 py-3 rounded-xl transition-all">
-                Become a Creator →
-              </Link>
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-white border border-[#0D1B3E]/8 rounded-3xl p-8 relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E]" />
+            <div className="inline-flex items-center gap-2 bg-[#1A56DB]/8 text-[#1A56DB] text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 border border-[#1A56DB]/15">
+              🎓 For Creators
             </div>
+            <h3 className="text-2xl font-black text-[#1A56DB] mb-3">
+              Teach the World. Earn While You Sleep.
+            </h3>
+            <p className="text-[#0D1B3E]/50 text-sm leading-relaxed mb-6">
+              Build and publish courses using our powerful creator tools. Reach
+              thousands of eager students.
+            </p>
+            <ul className="space-y-3 mb-8">
+              {[
+                "Course builder with drag-drop sections",
+                "Video + PDF/PPTX notes per lesson",
+                "Auto-graded quizzes + manual grading",
+                "Student analytics and earnings reports",
+                "Payout dashboard with instant transfers",
+              ].map((item, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-sm text-[#0D1B3E]/70"
+                >
+                  <div className="w-5 h-5 rounded-full bg-[#1A56DB] flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link
+              to="/register?role=creator"
+              className="inline-flex items-center gap-2 bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md shadow-[#1A56DB]/20"
+            >
+              Become a Creator →
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -329,18 +509,30 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(26,86,219,0.2),transparent_70%)]" />
         <div className="relative max-w-3xl mx-auto text-center">
-          <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} className="space-y-6">
-            <h2 className="text-4xl sm:text-5xl font-black text-[#60A5FA]">Ready to transform your career?</h2>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <h2 className="text-4xl sm:text-5xl font-black text-[#60A5FA]">
+              Ready to transform your career?
+            </h2>
             <p className="text-blue-200/60 text-lg">
-              Join students already building their future with Tech Mind Academy.
+              Join students already building their future with Tech Mind
+              Academy.
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
-              <Link to="/register"
-                className="bg-[#1A56DB] hover:bg-[#2563EB] text-white font-black px-10 py-4 rounded-2xl transition shadow-2xl shadow-blue-900/50 text-base">
+              <Link
+                to="/register"
+                className="bg-[#1A56DB] hover:bg-[#2563EB] text-white font-black px-10 py-4 rounded-2xl transition shadow-2xl shadow-blue-900/50 text-base"
+              >
                 {user ? "Go to Dashboard →" : "Create Free Account →"}
               </Link>
-              <Link to="/techmind-courses"
-                className="bg-[#1A56DB] hover:bg-[#2563EB] text-white border-2 border-[#1A56DB] px-8 py-4 rounded-2xl transition font-bold text-base">
+              <Link
+                to="/techmind-courses"
+                className="bg-[#1A56DB] hover:bg-[#2563EB] text-white border-2 border-[#1A56DB] px-8 py-4 rounded-2xl transition font-bold text-base"
+              >
                 Browse Courses
               </Link>
             </div>
@@ -356,9 +548,17 @@ export default function LandingPage() {
 /* ── Hero text component ── */
 function HeroContent({ user, stagger, fadeUp }) {
   return (
-    <motion.div variants={stagger} initial="initial" animate="animate" className="space-y-7">
+    <motion.div
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+      className="space-y-7"
+    >
       <motion.div>
-        <span variants={fadeUp} className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-black-300 text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm">
+        <span
+          variants={fadeUp}
+          className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-black-300 text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm"
+        >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
@@ -367,7 +567,10 @@ function HeroContent({ user, stagger, fadeUp }) {
         </span>
       </motion.div>
 
-      <motion.h1 variants={fadeUp} className="text-5xl sm:text-7xl font-black text-[#60A5FA] leading-[1.08] tracking-tight">
+      <motion.h1
+        variants={fadeUp}
+        className="text-5xl sm:text-7xl font-black text-[#60A5FA] leading-[1.08] tracking-tight"
+      >
         Learn Fast.
         <span className="relative ml-3">
           <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1A56DB] bg-clip-text text-transparent">
@@ -376,24 +579,55 @@ function HeroContent({ user, stagger, fadeUp }) {
         </span>
       </motion.h1>
 
-      <motion.p variants={fadeUp} className="text-xl text-black/70 max-w-2xl mx-auto leading-relaxed font-light">
-        Expert-led courses, real projects, verified certificates — everything you need to go from student to professional.
+      <motion.p
+        variants={fadeUp}
+        className="text-xl text-black/70 max-w-2xl mx-auto leading-relaxed font-light"
+      >
+        Expert-led courses, real projects, verified certificates — everything
+        you need to go from student to professional.
       </motion.p>
 
-      <motion.div variants={fadeUp} className="flex items-center justify-center gap-4 flex-wrap pt-2">
-        <Link to="/register"
-          className="group relative bg-[#1A56DB] hover:bg-[#2563EB] text-white font-bold px-10 py-4 rounded-2xl transition-all text-base shadow-2xl shadow-blue-900/60 overflow-hidden">
+      <motion.div
+        variants={fadeUp}
+        className="flex items-center justify-center gap-4 flex-wrap pt-2"
+      >
+        <Link
+          to="/register"
+          className="group relative bg-[#1A56DB] hover:bg-[#2563EB] text-white font-bold px-10 py-4 rounded-2xl transition-all text-base shadow-2xl shadow-blue-900/60 overflow-hidden"
+        >
           <span className="relative z-10 flex items-center gap-2">
             Start Learning
-            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <svg
+              className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
             </svg>
           </span>
         </Link>
-        <Link to="/techmind-courses"
-          className="flex items-center gap-2 bg-[#1A56DB] hover:bg-[#2563EB] border border-[#1A56DB] text-white hover:border-[#1A56DB]/50 font-semibold px-8 py-4 rounded-2xl transition-all text-base backdrop-blur-sm">
-          <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        <Link
+          to="/techmind-courses"
+          className="flex items-center gap-2 bg-[#1A56DB] hover:bg-[#2563EB] border border-[#1A56DB] text-white hover:border-[#1A56DB]/50 font-semibold px-8 py-4 rounded-2xl transition-all text-base backdrop-blur-sm"
+        >
+          <svg
+            className="w-5 h-5 text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
           </svg>
           Explore Courses
         </Link>
@@ -1508,8 +1742,11 @@ function HeroContent({ user, stagger, fadeUp }) {
 //         </div>
 //       </section>
 
-      {/* ── Reviews ── */}
-      {/* <section className="py-24 px-4 bg-[#070B14] overflow-hidden">
+{
+  /* ── Reviews ── */
+}
+{
+  /* <section className="py-24 px-4 bg-[#070B14] overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <motion.p
@@ -1616,11 +1853,14 @@ function HeroContent({ user, stagger, fadeUp }) {
             </div>
           </div>
         </div>
-      </section> */}
+      </section> */
+}
 
-      // <TestimonialsSection />
+// <TestimonialsSection />
 
-      {/* ── For Students & Creators ── */}
+{
+  /* ── For Students & Creators ── */
+}
 //       <section className="py-24 px-4 bg-white dark:bg-gray-950">
 //         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
 //           {/* Student */}
@@ -1775,7 +2015,7 @@ function HeroContent({ user, stagger, fadeUp }) {
 //                 Browse Courses
 //               </Link>
 //             </div>
-            
+
 //           </motion.div>
 //         </div>
 //       </section>
