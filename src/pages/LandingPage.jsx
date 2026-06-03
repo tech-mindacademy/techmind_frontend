@@ -140,12 +140,12 @@ export default function LandingPage() {
       <Navbar />
 
       {/* ── Hero: content always on top, carousel always below ── */}
-      <section className="relative overflow-hidden bg-[#0D1B3E] w-full">
+      <section className="relative overflow-hidden bg-white w-full">
         {/* Grey grid pattern */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(156,163,175,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(156,163,175,0.12)_1px,transparent_1px)] bg-[size:48px_48px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(26,86,219,0.22),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(26,86,219,0.1),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(26,86,219,0.08),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(26,86,219,0.08),transparent_60%)]" />
           <motion.div animate={{ scale: [1,1.1,1], opacity:[0.1,0.18,0.1] }} transition={{ duration: 8, repeat: Infinity }}
             className="absolute top-16 right-1/4 w-80 h-80 bg-[#1A56DB] rounded-full blur-[110px]" />
           <motion.div animate={{ scale: [1,1.15,1], opacity:[0.07,0.13,0.07] }} transition={{ duration: 10, repeat: Infinity, delay: 2 }}
