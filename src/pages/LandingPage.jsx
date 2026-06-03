@@ -186,7 +186,7 @@ export default function LandingPage() {
               Top Rated This Month
             </motion.p>
             <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              className="text-3xl sm:text-4xl font-black text-[#0D1B3E]">
+              className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
               Courses Students Love
             </motion.h2>
             <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }}
@@ -222,7 +222,7 @@ export default function LandingPage() {
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
-              className="text-3xl sm:text-4xl font-black text-[#0D1B3E]">
+              className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
               Everything You Need to{" "}
               <span className="bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E] bg-clip-text text-transparent">
                 Succeed
@@ -266,7 +266,7 @@ export default function LandingPage() {
             <div className="inline-flex items-center gap-2 bg-[#1A56DB]/8 text-[#1A56DB] text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 border border-[#1A56DB]/15">
               👨‍🎓 For Students
             </div>
-            <h3 className="text-2xl font-black text-[#0D1B3E] mb-3">Build Skills. Earn Certificates.</h3>
+            <h3 className="text-2xl font-black text-[#1A56DB] mb-3">Build Skills. Earn Certificates.</h3>
             <p className="text-[#0D1B3E]/50 text-sm leading-relaxed mb-6">
               Access expert-led courses. Learn at your pace, test yourself with quizzes, and earn certificates that recruiters respect.
             </p>
@@ -298,7 +298,7 @@ export default function LandingPage() {
               <div className="inline-flex items-center gap-2 bg-[#1A56DB]/20 text-blue-300 text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full mb-5 border border-[#1A56DB]/30">
                 🎓 For Creators
               </div>
-              <h3 className="text-2xl font-black text-white mb-3">Teach the World. Earn While You Sleep.</h3>
+              <h3 className="text-2xl font-black text-[#60A5FA] mb-3">Teach the World. Earn While You Sleep.</h3>
               <p className="text-blue-200/60 text-sm leading-relaxed mb-6">
                 Build and publish courses using our powerful creator tools. Reach thousands of eager students.
               </p>
@@ -330,7 +330,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(26,86,219,0.2),transparent_70%)]" />
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} className="space-y-6">
-            <h2 className="text-4xl sm:text-5xl font-black text-white">Ready to transform your career?</h2>
+            <h2 className="text-4xl sm:text-5xl font-black text-[#60A5FA]">Ready to transform your career?</h2>
             <p className="text-blue-200/60 text-lg">
               Join students already building their future with Tech Mind Academy.
             </p>
@@ -340,7 +340,7 @@ export default function LandingPage() {
                 {user ? "Go to Dashboard →" : "Create Free Account →"}
               </Link>
               <Link to="/techmind-courses"
-                className="text-white border-2 border-white/20 hover:border-[#1A56DB] hover:bg-[#1A56DB]/10 px-8 py-4 rounded-2xl transition font-bold text-base">
+                className="bg-[#1A56DB] hover:bg-[#2563EB] text-white border-2 border-[#1A56DB] px-8 py-4 rounded-2xl transition font-bold text-base">
                 Browse Courses
               </Link>
             </div>
@@ -367,7 +367,7 @@ function HeroContent({ user, stagger, fadeUp }) {
         </span>
       </motion.div>
 
-      <motion.h1 variants={fadeUp} className="text-5xl sm:text-7xl font-black text-white leading-[1.08] tracking-tight">
+      <motion.h1 variants={fadeUp} className="text-5xl sm:text-7xl font-black text-[#60A5FA] leading-[1.08] tracking-tight">
         Learn Fast.
         <span className="relative ml-3">
           <span className="bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#1A56DB] bg-clip-text text-transparent">
@@ -391,7 +391,7 @@ function HeroContent({ user, stagger, fadeUp }) {
           </span>
         </Link>
         <Link to="/techmind-courses"
-          className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#1A56DB]/50 text-gray-200 font-semibold px-8 py-4 rounded-2xl transition-all text-base backdrop-blur-sm">
+          className="flex items-center gap-2 bg-[#1A56DB] hover:bg-[#2563EB] border border-[#1A56DB] text-white hover:border-[#1A56DB]/50 font-semibold px-8 py-4 rounded-2xl transition-all text-base backdrop-blur-sm">
           <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
