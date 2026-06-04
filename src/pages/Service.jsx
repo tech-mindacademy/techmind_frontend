@@ -269,32 +269,31 @@ export default function Service() {
 
       {/* ── CTA ── */}
       <motion.section
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#0D1B3E] overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
-        <div className="relative max-w-4xl mx-auto text-center px-6">
-          <p className="text-xs font-black uppercase tracking-widest text-[#60A5FA] mb-4">
-            Get Started
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
-            Ready to build your next digital product?
-          </h2>
-          <p className="text-white/50 mt-6 text-sm">
-            Let's create something modern, scalable and impactful together.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <button className="bg-[#1A56DB] hover:bg-[#2563EB] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/30">
-              Start Your Journey
-            </button>
-            <button className="border-2 border-white/20 hover:border-white/50 text-white px-8 py-4 rounded-2xl font-bold transition-all">
-              Get Free Consultation
-            </button>
-          </div>
-        </div>
-      </motion.section>
+  initial={{ opacity: 0, y: 32 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#F7F5F0] border border-[#0D1B3E]/8 overflow-hidden"
+>
+  <div className="relative max-w-4xl mx-auto text-center px-6">
+    <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-4">
+      Get Started
+    </p>
+    <h2 className="text-4xl md:text-5xl font-black text-[#1A56DB] leading-tight">
+      Ready to build your next digital product?
+    </h2>
+    <p className="text-black/70 mt-6 text-sm">
+      Let's create something modern, scalable and impactful together.
+    </p>
+    <div className="flex flex-wrap justify-center gap-4 mt-10">
+      <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
+        Start Your Journey
+      </button>
+      <button className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white px-8 py-4 rounded-2xl font-bold transition-all">
+        Get Free Consultation
+      </button>
+    </div>
+  </div>
+</motion.section>
 
       <Footer />
     </div>
