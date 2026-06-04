@@ -74,7 +74,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
     <div
       className={`relative w-full overflow-hidden ${className}`}
       // style={{ height: "clamp(260px, 55vw, 680px)" }}   /* fluid height — works on all screen sizes */
-      style={{ height: "520px" }}
+      style={{ height: "550px" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
