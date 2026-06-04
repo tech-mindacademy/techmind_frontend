@@ -288,7 +288,7 @@ export default function Service() {
       <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
         Start Your Journey
       </button>
-      <button className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white px-8 py-4 rounded-2xl font-bold transition-all">
+      <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
         Get Free Consultation
       </button>
     </div>
