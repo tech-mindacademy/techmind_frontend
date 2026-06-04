@@ -98,7 +98,30 @@ export default function Service() {
       <Navbar />
 
       {/* ── Hero ── */}
-      <motion.div variants={fadeUp}>
+      
+      <section className="relative z-10 overflow-hidden text-center pt-28 pb-24 px-6">
+        {/* Grid only in hero */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <motion.div
+            variants={stagger}
+            initial="initial"
+            animate="animate"
+            className="space-y-6"
+          >
+            <motion.div variants={fadeUp}>
+              <span className="inline-flex items-center gap-2 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-[#1A56DB] text-sm font-semibold px-5 py-2.5 rounded-full">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
+                </span>
+                Digital Solutions Studio
+              </span>
+            </motion.div>
+            <motion.div variants={fadeUp}>
         <div
           className="inline-flex items-center gap-3 bg-[#1A56DB] px-6 py-3 rounded-2xl"
           style={{
@@ -136,28 +159,6 @@ export default function Service() {
           />
         </div>
       </motion.div>
-      <section className="relative z-10 overflow-hidden text-center pt-28 pb-24 px-6">
-        {/* Grid only in hero */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <motion.div
-            variants={stagger}
-            initial="initial"
-            animate="animate"
-            className="space-y-6"
-          >
-            <motion.div variants={fadeUp}>
-              <span className="inline-flex items-center gap-2 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-[#1A56DB] text-sm font-semibold px-5 py-2.5 rounded-full">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
-                </span>
-                Digital Solutions Studio
-              </span>
-            </motion.div>
 
             <motion.h1
               variants={fadeUp}
