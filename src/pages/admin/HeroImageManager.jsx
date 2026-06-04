@@ -141,7 +141,7 @@ export default function HeroImageManager() {
           style={{ minHeight: 180 }}
         >
           {preview ? (
-            <img src={preview} alt="preview" className="w-full h-45 object-cover" />
+            <img src={preview} alt="preview" className="w-full h-48 object-cover" />
           ) : (
             <div className="flex flex-col items-center justify-center h-48 gap-2 text-slate-500 group-hover:text-indigo-400 transition">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
