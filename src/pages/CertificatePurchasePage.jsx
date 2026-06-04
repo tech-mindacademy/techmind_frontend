@@ -505,29 +505,29 @@ export default function CertificatePurchasePage() {
                 initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-[#0D1B3E] rounded-2xl p-6 text-white"
+                className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-2xl p-6"
               >
-                <h3 className="font-black text-lg mb-4 text-white">
+                <h3 className="font-black text-[#1A56DB] text-lg mb-4">
                   Order Summary
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-white/50">Certificate Type</span>
-                    <span className="font-bold text-white">
+                    <span className="text-black/50">Certificate Type</span>
+                    <span className="font-bold text-[#0D1B3E]">
                       {selectedCert?.label}
                     </span>
                   </div>
                   {form.courseName && (
                     <div className="flex justify-between">
-                      <span className="text-white/50">Course</span>
-                      <span className="font-bold text-white text-right max-w-32 truncate">
+                      <span className="text-black/50">Course</span>
+                      <span className="font-bold text-[#0D1B3E] text-right max-w-32 truncate">
                         {form.courseName}
                       </span>
                     </div>
                   )}
-                  <div className="border-t border-white/10 pt-3 flex justify-between text-base">
-                    <span className="font-bold text-white">Total</span>
-                    <span className="font-black text-xl text-[#60A5FA]">
+                  <div className="border-t border-[#0D1B3E]/8 pt-3 flex justify-between text-base">
+                    <span className="font-bold text-[#0D1B3E]">Total</span>
+                    <span className="font-black text-xl text-[#1A56DB]">
                       ₹{selectedCert?.price}
                     </span>
                   </div>
