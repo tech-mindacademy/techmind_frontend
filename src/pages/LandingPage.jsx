@@ -538,7 +538,7 @@ function HeroContent({ user, stagger, fadeUp }) {
 
       <motion.h1
         variants={fadeUp}
-        className="text-5xl sm:text-7xl font-black text-[#0D1B3E] leading-[1.08] tracking-tight"
+        className="text-5xl sm:text-7xl font-black text-[#1A56DB] leading-[1.08] tracking-tight"
       >
         Learn Fast.
         <span className="ml-3">Land Faster.</span>
