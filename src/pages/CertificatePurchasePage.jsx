@@ -43,25 +43,7 @@ const CERT_TYPES = [
     desc: "Standard certificate for completing the course",
     icon: GraduationCap,
     gradient: "from-[#1A56DB] to-[#0D1B3E]",
-    badge: "Most Popular",
-  },
-  {
-    value: "excellence",
-    label: "Certificate of Excellence",
-    price: 499,
-    desc: "Premium certificate for outstanding performance",
-    icon: Trophy,
-    gradient: "from-[#2563EB] to-[#1A56DB]",
-    badge: "Premium",
-  },
-  {
-    value: "participation",
-    label: "Certificate of Participation",
-    price: 199,
-    desc: "Certificate acknowledging course participation",
-    icon: ScrollText,
-    gradient: "from-[#0D1B3E] to-[#2563EB]",
-    badge: "Basic",
+    badge: "Official",
   },
 ];
 
@@ -389,32 +371,32 @@ export default function CertificatePurchasePage() {
                       </select>
                     </div>
                     {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> */}
-                      <div>
-                        <label className={labelClass}>Start Date *</label>
-                        <input
-                          type="date"
-                          required
-                          max={new Date().toISOString().split("T")[0]}
-                          value={form.startDate}
-                          onChange={(e) =>
-                            setForm({ ...form, startDate: e.target.value })
-                          }
-                          className={inputClass}
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Completion Date *</label>
-                        <input
-                          type="date"
-                          required
-                          max={new Date().toISOString().split("T")[0]}
-                          value={form.completionDate}
-                          onChange={(e) =>
-                            setForm({ ...form, completionDate: e.target.value })
-                          }
-                          className={inputClass}
-                        />
-                      </div>
+                    <div>
+                      <label className={labelClass}>Start Date *</label>
+                      <input
+                        type="date"
+                        required
+                        max={new Date().toISOString().split("T")[0]}
+                        value={form.startDate}
+                        onChange={(e) =>
+                          setForm({ ...form, startDate: e.target.value })
+                        }
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Completion Date *</label>
+                      <input
+                        type="date"
+                        required
+                        max={new Date().toISOString().split("T")[0]}
+                        value={form.completionDate}
+                        onChange={(e) =>
+                          setForm({ ...form, completionDate: e.target.value })
+                        }
+                        className={inputClass}
+                      />
+                    </div>
                     {/* </div> */}
                   </div>
                 </div>
@@ -436,71 +418,38 @@ export default function CertificatePurchasePage() {
                   </span>
                   Certificate Type
                 </h2>
-                <div className="space-y-3">
-                  {CERT_TYPES.map(
-                    ({
-                      value,
-                      label,
-                      price,
-                      desc,
-                      icon: Icon,
-                      gradient,
-                      badge,
-                    }) => (
-                      <label
-                        key={value}
-                        className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                          form.certificateType === value
-                            ? "border-[#1A56DB] bg-[#1A56DB]/5"
-                            : "border-[#0D1B3E]/10 bg-white hover:border-[#1A56DB]/30"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="certType"
-                          value={value}
-                          checked={form.certificateType === value}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              certificateType: e.target.value,
-                            })
-                          }
-                          className="sr-only"
-                        />
-                        <div
-                          className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0`}
-                          style={{
-                            boxShadow:
-                              "0 6px 16px rgba(26,86,219,0.3), inset 0 1px 0 rgba(255,255,255,0.15)",
-                          }}
-                        >
-                          <Icon
-                            size={20}
-                            className="text-white"
-                            strokeWidth={1.8}
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-black text-[#0D1B3E] text-sm">
-                              {label}
-                            </p>
-                            <span className="text-xs bg-[#1A56DB]/10 text-[#1A56DB] font-bold px-2 py-0.5 rounded-full border border-[#1A56DB]/20">
-                              {badge}
-                            </span>
-                          </div>
-                          <p className="text-xs text-black/50 mt-0.5">{desc}</p>
-                        </div>
-                        <p className="font-black text-[#1A56DB] text-base flex-shrink-0">
-                          ₹{price}
-                        </p>
-                      </label>
-                    ),
-                  )}
+                <div className="flex items-center gap-4 p-4 rounded-xl border-2 border-[#1A56DB] bg-[#1A56DB]/5">
+                  <div
+                    className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center flex-shrink-0"
+                    style={{
+                      boxShadow:
+                        "0 6px 16px rgba(26,86,219,0.3), inset 0 1px 0 rgba(255,255,255,0.15)",
+                    }}
+                  >
+                    <GraduationCap
+                      size={20}
+                      className="text-white"
+                      strokeWidth={1.8}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="font-black text-[#0D1B3E] text-sm">
+                        Certificate of Completion
+                      </p>
+                      <span className="text-xs bg-[#1A56DB]/10 text-[#1A56DB] font-bold px-2 py-0.5 rounded-full border border-[#1A56DB]/20">
+                        Official
+                      </span>
+                    </div>
+                    <p className="text-xs text-black/50 mt-0.5">
+                      Standard certificate for completing the course
+                    </p>
+                  </div>
+                  <p className="font-black text-[#1A56DB] text-base flex-shrink-0">
+                    ₹299
+                  </p>
                 </div>
               </motion.div>
-
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-600">
                   {error}
