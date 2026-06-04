@@ -151,22 +151,22 @@ export default function CoursesLandingPage() {
 
       {/* Page header */}
       <div className="bg-white relative overflow-hidden border-b border-[#0D1B3E]/8">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-        <div className="relative max-w-7xl mx-auto px-4 py-12">
-          <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }}
-            className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-2">
-            Tech Mind Academy
-          </motion.p>
-          <motion.h1 initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
-            className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
-            Browse Courses
-          </motion.h1>
-          <motion.p initial={{ opacity:0 }} animate={{ opacity:1, transition:{ delay:0.2 } }}
-            className="text-black/50 mt-2 text-sm">
-            {filteredCourses.length} courses available
-          </motion.p>
-        </div>
-      </div>
+  {/* Remove the grid div entirely */}
+  <div className="relative max-w-7xl mx-auto px-4 py-12 text-center">
+    <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }}
+      className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-2">
+      Tech Mind Academy
+    </motion.p>
+    <motion.h1 initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
+      className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
+      Browse Courses
+    </motion.h1>
+    <motion.p initial={{ opacity:0 }} animate={{ opacity:1, transition:{ delay:0.2 } }}
+      className="text-black/50 mt-2 text-sm">
+      {filteredCourses.length} courses available
+    </motion.p>
+  </div>
+</div>
 
       {/* Search + Sort toolbar */}
       <div className="bg-white border-b border-[#0D1B3E]/8 sticky top-16 z-20 shadow-sm">
