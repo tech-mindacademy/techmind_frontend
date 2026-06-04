@@ -90,7 +90,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
           <img
             src={active.url}
             alt={active.caption || "Hero"}
-            className="w-full h-full object-cover"
+            className="w-full max-h-[550px] object-cover"
             draggable={false}
           />
           {/* Gradient overlay — bottom-heavy for caption readability */}
