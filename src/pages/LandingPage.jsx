@@ -125,7 +125,7 @@ export default function LandingPage() {
     { value: "...", label: "Students enrolled", Icon: Users },
     { value: "...", label: "Courses published",  Icon: BookOpen },
     { value: "...", label: "Expert creators",    Icon: GraduationCap },
-    { value: "4.9★", label: "Average rating",   Icon: Star },
+    { value: "4.9", label: "Average rating",   Icon: Star },
   ]);
 
   useEffect(() => {
@@ -134,7 +134,7 @@ export default function LandingPage() {
         { value: `${data.students}+`, label: "Students enrolled", Icon: Users },
         { value: `${data.courses}+`,  label: "Courses published",  Icon: BookOpen },
         { value: `${data.creators}+`, label: "Expert creators",    Icon: GraduationCap },
-        { value: "4.9★",             label: "Average rating",     Icon: Star },
+        { value: "4.9",             label: "Average rating",     Icon: Star },
       ]);
     }).catch(() => {});
   }, []);
@@ -224,8 +224,7 @@ export default function LandingPage() {
           <div className="text-center mb-12">
             <motion.h2 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
               className="text-3xl sm:text-4xl font-black text-[#1A56DB]">
-              Everything You Need to{" "}
-              <span className="bg-gradient-to-r from-[#1A56DB] to-[#0D1B3E] bg-clip-text text-transparent">Succeed</span>
+              Everything You Need to Succeed
             </motion.h2>
             <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }}
               className="text-[#0D1B3E]/45 mt-3 max-w-xl mx-auto text-sm">

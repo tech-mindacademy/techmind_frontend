@@ -233,9 +233,7 @@ export default function TestimonialsSection() {
           >
             Loved by thousands of{" "}
             <span className="relative inline-block">
-              <span className="relative z-10 bg-gradient-to-r from-[#0D1B3E] to-[#1A56DB] bg-clip-text text-transparent">
                 learners
-              </span>
               <span className="absolute bottom-1 left-0 right-0 h-2 bg-[#1A56DB]/15 rounded-full -z-0" />
             </span>
           </motion.h2>
