@@ -85,8 +85,7 @@ export default function AboutUs() {
             </motion.div>
 
             <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl font-black leading-tight max-w-5xl mx-auto text-[#1A56DB]">
-              Learn, Teach &{" "}
-              <span className="text-[#0D1B3E]">Grow Together</span>
+              Learn, Teach & Grow Together
             </motion.h1>
 
             <motion.p variants={fadeUp} className="text-black/70 text-lg max-w-3xl mx-auto leading-relaxed">
@@ -99,7 +98,7 @@ export default function AboutUs() {
               <Link to="/register" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
                 Start Learning <ArrowRight size={18} />
               </Link>
-              <Link to="/techmind-courses" className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white font-bold px-8 py-4 rounded-2xl transition-all flex items-center gap-2">
+              <Link to="/techmind-courses" className="g-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
                 Browse Courses <ArrowRight size={18} />
               </Link>
             </motion.div>
@@ -117,8 +116,7 @@ export default function AboutUs() {
         >
           <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3">About Us</p>
           <h2 className="text-3xl md:text-4xl font-black text-[#1A56DB] leading-tight">
-            Empowering Learning Through{" "}
-            <span className="text-[#0D1B3E]">Technology & Knowledge</span>
+            Empowering Learning Through Technology & Knowledge
           </h2>
           <p className="mt-6 text-black/70 leading-relaxed">
             Tech Mind Academy is a modern online learning platform that connects learners with
