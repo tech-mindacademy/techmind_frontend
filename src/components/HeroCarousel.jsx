@@ -74,6 +74,7 @@ export default function HeroCarousel({ className = "", onHasImages }) {
     <div
       className={`relative w-full overflow-hidden ${className}`}
       // style={{ height: "clamp(260px, 55vw, 680px)" }}   /* fluid height — works on all screen sizes */
+      style={{ height: "520px" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -87,13 +88,13 @@ export default function HeroCarousel({ className = "", onHasImages }) {
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="relative w-full"
         >
-          // AFTER
-<img
-  src={active.url}
-  alt={active.caption || "Hero"}
-  className="w-full h-auto block"
-  draggable={false}
-/>
+          <img
+            src={active.url}
+            alt={active.caption || "Hero"}
+            className="w-full h-full"
+            style={{ objectFit: "contain", background: "#000" }}
+            draggable={false}
+          />
           {/* Gradient overlay — bottom-heavy for caption readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/10" />
         </motion.div>
@@ -110,9 +111,11 @@ export default function HeroCarousel({ className = "", onHasImages }) {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="absolute bottom-10 sm:bottom-14 left-0 right-0 z-20 px-4 sm:px-8 text-center pointer-events-none"
           >
-            <span className="inline-block text-white/90 text-xs sm:text-sm md:text-base
+            <span
+              className="inline-block text-white/90 text-xs sm:text-sm md:text-base
                              backdrop-blur-sm bg-black/25 border border-white/10
-                             px-3 sm:px-5 py-1.5 sm:py-2 rounded-full max-w-[90vw] truncate">
+                             px-3 sm:px-5 py-1.5 sm:py-2 rounded-full max-w-[90vw] truncate"
+            >
               {active.caption}
             </span>
           </motion.div>
@@ -131,8 +134,18 @@ export default function HeroCarousel({ className = "", onHasImages }) {
                        border border-white/20 text-white
                        items-center justify-center transition-all duration-200"
           >
-            <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            <svg
+              className="w-3.5 h-3.5 md:w-4 md:h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
 
@@ -145,8 +158,18 @@ export default function HeroCarousel({ className = "", onHasImages }) {
                        border border-white/20 text-white
                        items-center justify-center transition-all duration-200"
           >
-            <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            <svg
+              className="w-3.5 h-3.5 md:w-4 md:h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </>
@@ -172,9 +195,11 @@ export default function HeroCarousel({ className = "", onHasImages }) {
 
       {/* ── Slide counter (mobile only, top-right) ── */}
       {images.length > 1 && (
-        <div className="sm:hidden absolute top-3 right-3 z-20
+        <div
+          className="sm:hidden absolute top-3 right-3 z-20
                         text-[10px] font-semibold text-white/70
-                        bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                        bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full"
+        >
           {current + 1} / {images.length}
         </div>
       )}
