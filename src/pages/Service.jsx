@@ -8,6 +8,12 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+const fadeUp = {
+  initial: { opacity: 0, y: 32 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
+const stagger = { animate: { transition: { staggerChildren: 0.12 } } };
+
 export default function Service() {
   const navigate = useNavigate();
 
@@ -38,77 +44,113 @@ export default function Service() {
     <div className="bg-white min-h-screen overflow-x-hidden">
       <Navbar />
 
-      {/* Subtle grid background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
-      </div>
-
       {/* ── Hero ── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-24 text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <span className="inline-flex items-center gap-2 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-[#1A56DB] text-sm font-semibold px-5 py-2.5 rounded-full mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
-            </span>
-            Digital Solutions Studio
-          </span>
+      <section className="relative z-10 overflow-hidden text-center pt-28 pb-24 px-6">
+        {/* Grid only in hero */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        </div>
 
-          <h1 className="text-5xl md:text-7xl font-black leading-tight max-w-5xl mx-auto text-[#0D1B3E]">
-            Build modern websites,{" "}
-            <span className="text-[#1A56DB]">apps & digital products.</span>
-          </h1>
-
-          <p className="text-black/50 text-lg max-w-3xl mx-auto mt-8 leading-relaxed">
-            We help startups, students, creators and businesses build modern
-            digital experiences that grow brands and launch ideas faster.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-[#1A56DB]/20">
-              Start Your Project <ArrowRight size={18} />
-            </button>
-            <button
-              onClick={() => navigate("/certificate-purchase")}
-              className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white transition-all px-8 py-4 rounded-2xl font-bold flex items-center gap-2"
-            >
-              Get Certificates <ArrowRight size={18} />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-24">
-          {[
-            ["50+", "Projects Delivered"],
-            ["20+", "Happy Clients"],
-            ["10+", "Industries Served"],
-            ["99%", "Client Satisfaction"],
-          ].map(([number, label], i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i }}
-              className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-2xl py-6 px-4 shadow-sm"
-            >
-              <h2 className="text-4xl font-black text-[#1A56DB]">{number}</h2>
-              <p className="text-black/50 mt-2 text-sm">{label}</p>
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <motion.div
+            variants={stagger}
+            initial="initial"
+            animate="animate"
+            className="space-y-6"
+          >
+            <motion.div variants={fadeUp}>
+              <span className="inline-flex items-center gap-2 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-[#1A56DB] text-sm font-semibold px-5 py-2.5 rounded-full">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
+                </span>
+                Digital Solutions Studio
+              </span>
             </motion.div>
-          ))}
+
+            <motion.h1
+              variants={fadeUp}
+              className="text-5xl md:text-7xl font-black leading-tight max-w-5xl mx-auto text-[#1A56DB]"
+            >
+              Build modern websites,{" "}
+              <span className="text-[#0D1B3E]">apps & digital products.</span>
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUp}
+              className="text-black/70 text-lg max-w-3xl mx-auto leading-relaxed"
+            >
+              We help startups, students, creators and businesses build modern
+              digital experiences that grow brands and launch ideas faster.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-wrap justify-center gap-4 pt-2"
+            >
+              <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-[#1A56DB]/20">
+                Start Your Project <ArrowRight size={18} />
+              </button>
+              <button
+                onClick={() => navigate("/certificate-purchase")}
+                className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white transition-all px-8 py-4 rounded-2xl font-bold flex items-center gap-2"
+              >
+                Get Certificates <ArrowRight size={18} />
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-24">
+            {[
+              ["50+", "Projects Delivered"],
+              ["20+", "Happy Clients"],
+              ["10+", "Industries Served"],
+              ["99%", "Client Satisfaction"],
+            ].map(([number, label], i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
+                className="bg-white border border-[#0D1B3E]/8 rounded-2xl py-6 px-4 shadow-sm"
+              >
+                <h2 className="text-4xl font-black text-[#1A56DB]">{number}</h2>
+                <p className="text-black/70 mt-2 text-sm">{label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── Services ── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
-          <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3">Services</p>
-          <h2 className="text-3xl md:text-4xl font-black text-[#0D1B3E]">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3"
+          >
+            Services
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-black text-[#1A56DB]"
+          >
             Everything you need to build online
-          </h2>
-          <p className="text-black/45 mt-4 max-w-2xl mx-auto text-sm">
-            From websites to apps and startup MVPs — we create powerful digital solutions tailored to your goals.
-          </p>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-black/70 mt-4 max-w-2xl mx-auto text-sm"
+          >
+            From websites to apps and startup MVPs — we create powerful digital
+            solutions tailored to your goals.
+          </motion.p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -128,33 +170,51 @@ export default function Service() {
               >
                 <Icon size={24} strokeWidth={1.8} />
               </div>
-              <h3 className="text-xl font-black text-[#0D1B3E] mb-3 group-hover:text-[#1A56DB] transition">{title}</h3>
-              <p className="text-black/50 leading-relaxed text-sm">{desc}</p>
+              <h3 className="text-xl font-black text-[#1A56DB] mb-3 transition">
+                {title}
+              </h3>
+              <p className="text-black/70 leading-relaxed text-sm">{desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* ── Audience ── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-[40px] p-10 md:p-16 shadow-sm">
           <div className="text-center mb-14">
-            <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3">Who We Work With</p>
-            <h2 className="text-3xl md:text-4xl font-black text-[#0D1B3E]">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3"
+            >
+              Who We Work With
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-black text-[#1A56DB]"
+            >
               Solutions for every stage of growth
-            </h2>
+            </motion.h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {audiences.map((item, i) => (
               <motion.div
                 key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -4 }}
                 className="bg-white border border-[#0D1B3E]/8 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
               >
                 <div className="w-2 h-8 bg-gradient-to-b from-[#1A56DB] to-[#0D1B3E] rounded-full mb-4" />
                 <h3 className="text-lg font-black text-[#1A56DB] mb-2">{item.title}</h3>
-                <p className="text-black/50 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-black/70 text-sm leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -162,10 +222,24 @@ export default function Service() {
       </section>
 
       {/* ── Process ── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center mb-16">
-          <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3">Process</p>
-          <h2 className="text-3xl md:text-4xl font-black text-[#0D1B3E]">From idea to launch</h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-3"
+          >
+            Process
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-black text-[#1A56DB]"
+          >
+            From idea to launch
+          </motion.h2>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6">
@@ -176,9 +250,10 @@ export default function Service() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -4 }}
               className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-3xl p-8 relative overflow-hidden hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
             >
-              <span className="text-6xl font-black text-[#1A56DB]/8 absolute top-4 right-4">
+              <span className="text-6xl font-black text-[#1A56DB]/10 absolute top-4 right-4">
                 0{i + 1}
               </span>
               <div
@@ -187,21 +262,28 @@ export default function Service() {
               >
                 <CheckCircle className="w-5 h-5 text-white" strokeWidth={1.8} />
               </div>
-              <h3 className="text-lg font-black text-[#0D1B3E]">{step}</h3>
+              <h3 className="text-lg font-black text-[#1A56DB]">{step}</h3>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#0D1B3E] overflow-hidden">
+      <motion.section
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#0D1B3E] overflow-hidden"
+      >
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]" />
         <div className="relative max-w-4xl mx-auto text-center px-6">
-          <p className="text-xs font-black uppercase tracking-widest text-[#60A5FA] mb-4">Get Started</p>
+          <p className="text-xs font-black uppercase tracking-widest text-[#60A5FA] mb-4">
+            Get Started
+          </p>
           <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
             Ready to build your next digital product?
           </h2>
-          <p className="text-white/50 text-lg mt-6 text-sm">
+          <p className="text-white/50 mt-6 text-sm">
             Let's create something modern, scalable and impactful together.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-10">
@@ -213,7 +295,7 @@ export default function Service() {
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <Footer />
     </div>
