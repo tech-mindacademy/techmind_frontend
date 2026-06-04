@@ -388,7 +388,7 @@ export default function CertificatePurchasePage() {
                         ))}
                       </select>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> */}
                       <div>
                         <label className={labelClass}>Start Date *</label>
                         <input
@@ -415,7 +415,7 @@ export default function CertificatePurchasePage() {
                           className={inputClass}
                         />
                       </div>
-                    </div>
+                    {/* </div> */}
                   </div>
                 </div>
               </motion.div>
