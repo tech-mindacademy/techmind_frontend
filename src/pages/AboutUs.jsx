@@ -98,7 +98,7 @@ export default function AboutUs() {
               <Link to="/register" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
                 Start Learning <ArrowRight size={18} />
               </Link>
-              <Link to="/techmind-courses" className="g-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
+              <Link to="/techmind-courses" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
                 Browse Courses <ArrowRight size={18} />
               </Link>
             </motion.div>
