@@ -86,13 +86,13 @@ export default function HeroCarousel({ className = "", onHasImages }) {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full"
+          className="absolute inset-0 w-full h-full"
         >
           <img
             src={active.url}
             alt={active.caption || "Hero"}
             className="w-full h-full"
-            style={{ objectFit: "contain", background: "#000" }}
+            style={{ objectFit: "fill", background: "#000" }}
             draggable={false}
           />
           {/* Gradient overlay — bottom-heavy for caption readability */}
