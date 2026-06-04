@@ -72,8 +72,7 @@ export default function Service() {
               variants={fadeUp}
               className="text-5xl md:text-7xl font-black leading-tight max-w-5xl mx-auto text-[#1A56DB]"
             >
-              Build modern websites,{" "}
-              <span className="text-[#0D1B3E]">apps & digital products.</span>
+              Build modern websites, apps & digital products.
             </motion.h1>
 
             <motion.p
@@ -93,7 +92,7 @@ export default function Service() {
               </button>
               <button
                 onClick={() => navigate("/certificate-purchase")}
-                className="border-2 border-[#1A56DB] text-[#1A56DB] hover:bg-[#1A56DB] hover:text-white transition-all px-8 py-4 rounded-2xl font-bold flex items-center gap-2"
+                className="bg-[#1A56DB] hover:bg-[#0D1B3E] transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-[#1A56DB]/20"
               >
                 Get Certificates <ArrowRight size={18} />
               </button>
