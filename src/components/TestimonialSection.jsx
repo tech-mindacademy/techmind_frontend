@@ -232,10 +232,10 @@ export default function TestimonialsSection() {
             className="text-4xl md:text-5xl font-black text-[#1A56DB] leading-tight tracking-tight"
           >
             Loved by thousands of{" "}
-            <span className="relative inline-block">
+            {/* <span className="relative inline-block"> */}
                 learners
-              <span className="absolute bottom-1 left-0 right-0 h-2 bg-[#1A56DB]/15 rounded-full -z-0" />
-            </span>
+              {/* <span className="absolute bottom-1 left-0 right-0 h-2 bg-[#1A56DB]/15 rounded-full -z-0" /> */}
+            {/* </span> */}
           </motion.h2>
 
           <motion.p
