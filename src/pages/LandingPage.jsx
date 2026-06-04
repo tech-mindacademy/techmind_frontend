@@ -345,7 +345,7 @@ function HeroContent({ user, stagger, fadeUp }) {
   return (
     <motion.div variants={stagger} initial="initial" animate="animate" className="space-y-7">
       <motion.div>
-        <span className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-black-300 text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm">
+        <span className="inline-flex items-center gap-2.5 bg-[#1A56DB]/15 border border-[#1A56DB]/30 text-black text-sm font-semibold px-5 py-2.5 rounded-full backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-400" />
