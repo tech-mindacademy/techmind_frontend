@@ -1,7 +1,14 @@
 import React from "react";
 import {
-  Globe, Smartphone, Palette, Rocket, ShoppingCart,
-  GraduationCap, CheckCircle, ArrowRight,
+  Globe,
+  Smartphone,
+  Palette,
+  Rocket,
+  ShoppingCart,
+  GraduationCap,
+  CheckCircle,
+  ArrowRight,
+  BadgeCheck,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -10,7 +17,11 @@ import { motion } from "framer-motion";
 
 const fadeUp = {
   initial: { opacity: 0, y: 32 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 const stagger = { animate: { transition: { staggerChildren: 0.12 } } };
 
@@ -18,19 +29,61 @@ export default function Service() {
   const navigate = useNavigate();
 
   const services = [
-    { icon: Globe, title: "Website Development", desc: "Modern business websites, portfolios and high-converting landing pages.", gradient: "from-[#1A56DB] to-[#0D1B3E]" },
-    { icon: Smartphone, title: "App Development", desc: "Responsive mobile apps and scalable cross-platform solutions.", gradient: "from-[#2563EB] to-[#1A56DB]" },
-    { icon: Palette, title: "UI/UX Design", desc: "Beautiful and intuitive interfaces focused on user experience.", gradient: "from-[#0D1B3E] to-[#1A56DB]" },
-    { icon: Rocket, title: "Startup MVP", desc: "Launch your startup idea fast with production-ready MVP development.", gradient: "from-[#1A56DB] to-[#2563EB]" },
-    { icon: ShoppingCart, title: "eCommerce Solutions", desc: "Online stores with payments, inventory and admin dashboards.", gradient: "from-[#2563EB] to-[#0D1B3E]" },
-    { icon: GraduationCap, title: "College Projects", desc: "Custom academic and final-year projects with modern technologies.", gradient: "from-[#0D1B3E] to-[#2563EB]" },
+    {
+      icon: Globe,
+      title: "Website Development",
+      desc: "Modern business websites, portfolios and high-converting landing pages.",
+      gradient: "from-[#1A56DB] to-[#0D1B3E]",
+    },
+    {
+      icon: Smartphone,
+      title: "App Development",
+      desc: "Responsive mobile apps and scalable cross-platform solutions.",
+      gradient: "from-[#2563EB] to-[#1A56DB]",
+    },
+    {
+      icon: Palette,
+      title: "UI/UX Design",
+      desc: "Beautiful and intuitive interfaces focused on user experience.",
+      gradient: "from-[#0D1B3E] to-[#1A56DB]",
+    },
+    {
+      icon: Rocket,
+      title: "Startup MVP",
+      desc: "Launch your startup idea fast with production-ready MVP development.",
+      gradient: "from-[#1A56DB] to-[#2563EB]",
+    },
+    {
+      icon: ShoppingCart,
+      title: "eCommerce Solutions",
+      desc: "Online stores with payments, inventory and admin dashboards.",
+      gradient: "from-[#2563EB] to-[#0D1B3E]",
+    },
+    {
+      icon: GraduationCap,
+      title: "College Projects",
+      desc: "Custom academic and final-year projects with modern technologies.",
+      gradient: "from-[#0D1B3E] to-[#2563EB]",
+    },
   ];
 
   const audiences = [
-    { title: "Students", desc: "Portfolio websites, resume builders and final-year projects." },
-    { title: "Startups", desc: "MVPs, SaaS platforms and scalable digital products." },
-    { title: "Local Businesses", desc: "Bring your business online and reach more customers." },
-    { title: "Creators & Brands", desc: "Personal brands, course platforms and audience growth tools." },
+    {
+      title: "Students",
+      desc: "Portfolio websites, resume builders and final-year projects.",
+    },
+    {
+      title: "Startups",
+      desc: "MVPs, SaaS platforms and scalable digital products.",
+    },
+    {
+      title: "Local Businesses",
+      desc: "Bring your business online and reach more customers.",
+    },
+    {
+      title: "Creators & Brands",
+      desc: "Personal brands, course platforms and audience growth tools.",
+    },
   ];
 
   const process = [
@@ -45,6 +98,44 @@ export default function Service() {
       <Navbar />
 
       {/* ── Hero ── */}
+      <motion.div variants={fadeUp}>
+        <div
+          className="inline-flex items-center gap-3 bg-[#1A56DB] px-6 py-3 rounded-2xl"
+          style={{
+            boxShadow: `
+        4px 4px 0px #0D1B3E,
+        6px 6px 0px rgba(13,27,62,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        inset 0 -1px 0 rgba(0,0,0,0.1)
+      `,
+          }}
+        >
+          <BadgeCheck
+            size={20}
+            color="#000000"
+            strokeWidth={2}
+            style={{
+              filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
+              transform: "perspective(200px) rotateX(8deg) rotateY(-5deg)",
+            }}
+          />
+          <span className="text-black text-xs font-semibold uppercase tracking-[2px]">
+            Official Partner of
+          </span>
+          <span className="text-black text-xs font-black uppercase tracking-wider">
+            Webtech Solutions
+          </span>
+          <BadgeCheck
+            size={20}
+            color="#000000"
+            strokeWidth={2}
+            style={{
+              filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
+              transform: "perspective(200px) rotateX(8deg) rotateY(-5deg)",
+            }}
+          />
+        </div>
+      </motion.div>
       <section className="relative z-10 overflow-hidden text-center pt-28 pb-24 px-6">
         {/* Grid only in hero */}
         <div className="absolute inset-0 pointer-events-none">
@@ -165,7 +256,10 @@ export default function Service() {
             >
               <div
                 className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white mb-6`}
-                style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                style={{
+                  boxShadow:
+                    "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                }}
               >
                 <Icon size={24} strokeWidth={1.8} />
               </div>
@@ -212,8 +306,12 @@ export default function Service() {
                 className="bg-white border border-[#0D1B3E]/8 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
               >
                 <div className="w-2 h-8 bg-gradient-to-b from-[#1A56DB] to-[#0D1B3E] rounded-full mb-4" />
-                <h3 className="text-lg font-black text-[#1A56DB] mb-2">{item.title}</h3>
-                <p className="text-black/70 text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-black text-[#1A56DB] mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-black/70 text-sm leading-relaxed">
+                  {item.desc}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -257,7 +355,10 @@ export default function Service() {
               </span>
               <div
                 className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center mb-6"
-                style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                style={{
+                  boxShadow:
+                    "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                }}
               >
                 <CheckCircle className="w-5 h-5 text-white" strokeWidth={1.8} />
               </div>
@@ -269,31 +370,31 @@ export default function Service() {
 
       {/* ── CTA ── */}
       <motion.section
-  initial={{ opacity: 0, y: 32 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#F7F5F0] border border-[#0D1B3E]/8 overflow-hidden"
->
-  <div className="relative max-w-4xl mx-auto text-center px-6">
-    <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-4">
-      Get Started
-    </p>
-    <h2 className="text-4xl md:text-5xl font-black text-[#1A56DB] leading-tight">
-      Ready to build your next digital product?
-    </h2>
-    <p className="text-black/70 mt-6 text-sm">
-      Let's create something modern, scalable and impactful together.
-    </p>
-    <div className="flex flex-wrap justify-center gap-4 mt-10">
-      <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
-        Start Your Journey
-      </button>
-      <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
-        Get Free Consultation
-      </button>
-    </div>
-  </div>
-</motion.section>
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="relative z-10 py-24 mx-6 mb-16 rounded-3xl bg-[#F7F5F0] border border-[#0D1B3E]/8 overflow-hidden"
+      >
+        <div className="relative max-w-4xl mx-auto text-center px-6">
+          <p className="text-xs font-black uppercase tracking-widest text-[#1A56DB] mb-4">
+            Get Started
+          </p>
+          <h2 className="text-4xl md:text-5xl font-black text-[#1A56DB] leading-tight">
+            Ready to build your next digital product?
+          </h2>
+          <p className="text-black/70 mt-6 text-sm">
+            Let's create something modern, scalable and impactful together.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
+            <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
+              Start Your Journey
+            </button>
+            <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
+              Get Free Consultation
+            </button>
+          </div>
+        </div>
+      </motion.section>
 
       <Footer />
     </div>
