@@ -280,7 +280,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full h-full overflow-hidden">
           <HeroCarousel onHasImages={setHasImages} />
         </div>
       </section>
