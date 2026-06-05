@@ -10,8 +10,6 @@ import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 // Auth pages
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
@@ -73,6 +71,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import AdminRefundPage from "./pages/admin/AdminRefundPage";
 import MyRefundPage from "./pages/student/MyRefundPage";
 import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
+import CreatorProfilePage from "./pages/creator/CreatorProfilePage";
+import AdminProfilePage from "./pages/admin/AdminProfilePage";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -123,8 +123,6 @@ function App() {
         {/* ── Auth pages: redirect away if already logged in ────────────────── */}
         <Route element={<PublicRoute />}>
           <Route path="/auth" element={<AuthPage />} />
-          {/* <Route path="/login" element={<LoginPage />} /> */}
-          {/* <Route path="/register" element={<RegisterPage />} /> */}
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/reset-password/:token"
@@ -190,6 +188,7 @@ function App() {
               element={<CertificateManager />}
             />
           </Route>
+          <Route path="/creator/profile" element={<CreatorProfilePage />} />
         </Route>
 
         {/* ── Admin routes: only role="admin" ──────────────────────────────── */}
@@ -213,6 +212,8 @@ function App() {
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
             <Route path="/admin/refunds" element={<AdminRefundPage />} />
             <Route path="/admin/issue-certificate" element={<AdminIssueCertificate />} />
+            <Route path="/student/profile" element={<StudentProfilePage />} />
+            <Route path="/admin/profile" element={<AdminProfilePage />} />
           </Route>
         </Route>
 
