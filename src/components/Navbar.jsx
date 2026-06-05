@@ -51,7 +51,7 @@ export default function Navbar() {
 
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
-          <img src="/logo (2).png" alt="Tech Mind Academy" className="w-9 h-9 rounded-full object-cover" />
+          <img src="/logo (2).png" alt="Tech Mind Academy" className="w-15 h-15 rounded-full object-cover" />
         </Link>
 
         {/* DESKTOP NAV LINKS */}
