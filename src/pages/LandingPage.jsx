@@ -376,9 +376,9 @@ export default function LandingPage() {
                   className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-[0.04] transition-opacity`}
                 />
                 <div
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} text-white mb-4 shadow-sm`}
+                  className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#1A56DB]/10 mb-4`}
                 >
-                  <f.Icon className="w-6 h-6" />
+                  <f.Icon className="w-6 h-6 text-[#1A56DB]" />
                 </div>
                 <h3 className="font-black text-[#0D1B3E] mb-2">{f.title}</h3>
                 <p className="text-sm text-[#0D1B3E]/50 leading-relaxed">
