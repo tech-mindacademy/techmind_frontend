@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const fadeUp = {
@@ -124,36 +124,36 @@ export default function Service() {
             <motion.div variants={fadeUp}>
         <div
           className="inline-flex items-center gap-3 bg-[#1A56DB] px-6 py-3 rounded-2xl"
-          style={{
-            boxShadow: `
-        4px 4px 0px #0D1B3E,
-        6px 6px 0px rgba(13,27,62,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        inset 0 -1px 0 rgba(0,0,0,0.1)
-      `,
-          }}
+      //     style={{
+      //       boxShadow: `
+      //   4px 4px 0px #0D1B3E,
+      //   6px 6px 0px rgba(13,27,62,0.25),
+      //   inset 0 1px 0 rgba(255,255,255,0.15),
+      //   inset 0 -1px 0 rgba(0,0,0,0.1)
+      // `,
+      //     }}
         >
           <BadgeCheck
             size={20}
-            color="#000000"
+            color="#ffffff"
             strokeWidth={2}
             style={{
-              filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
+              // filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
               transform: "perspective(200px) rotateX(8deg) rotateY(-5deg)",
             }}
           />
-          <span className="text-black text-xs font-semibold uppercase tracking-[2px]">
-            Official Partner of
+          <span className="text-white text-xs font-semibold uppercase tracking-[2px]">
+            Official Partnership with
           </span>
-          <span className="text-black text-xs font-black uppercase tracking-wider">
-            Webtech Solutions
+          <span className="text-white text-xs font-black uppercase tracking-wider">
+            Webtech Solution
           </span>
           <BadgeCheck
             size={20}
-            color="#000000"
+            color="#f6f6f6"
             strokeWidth={2}
             style={{
-              filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
+              // filter: "drop-shadow(0 2px 3px rgba(0,0,0,0.3))",
               transform: "perspective(200px) rotateX(8deg) rotateY(-5deg)",
             }}
           />
@@ -256,11 +256,11 @@ export default function Service() {
               className="group bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-3xl p-8 hover:shadow-xl hover:shadow-[#1A56DB]/8 transition-all duration-300"
             >
               <div
-                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white mb-6`}
-                style={{
-                  boxShadow:
-                    "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
-                }}
+                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#1A56DB] text-white mb-6`}
+                // style={{
+                //   boxShadow:
+                //     "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                // }}
               >
                 <Icon size={24} strokeWidth={1.8} />
               </div>
@@ -355,11 +355,11 @@ export default function Service() {
                 0{i + 1}
               </span>
               <div
-                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center mb-6"
-                style={{
-                  boxShadow:
-                    "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
-                }}
+                className="w-12 h-12 rounded-2xl bg-[#1A56DB] flex items-center justify-center mb-6"
+                // style={{
+                //   boxShadow:
+                //     "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                // }}
               >
                 <CheckCircle className="w-5 h-5 text-white" strokeWidth={1.8} />
               </div>
@@ -390,8 +390,9 @@ export default function Service() {
             <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
               Start Your Journey
             </button>
-            <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
-              Get Free Consultation
+            <button  className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-[#1A56DB]/20">
+              {/* <a href="">Get Free Consultation</a> */}
+              <Link to='/contact' >Get Free Consultation</Link>
             </button>
           </div>
         </div>

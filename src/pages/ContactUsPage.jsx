@@ -128,10 +128,10 @@ export default function ContactUsPage() {
                 >
                   {/* 3D-style icon box */}
                   <div
-                    className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-lg flex-shrink-0`}
-                    style={{
-                      boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
-                    }}
+                    className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#1A56DB] text-white shadow-lg flex-shrink-0`}
+                    // style={{
+                    //   boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                    // }}
                   >
                     <Icon className="w-6 h-6" strokeWidth={1.8} />
                   </div>
