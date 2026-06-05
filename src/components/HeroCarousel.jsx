@@ -1,11 +1,3 @@
-// src/components/HeroCarousel.jsx
-//
-// Drop-in replacement for the static hero background.
-// - Fetches admin-uploaded images from /api/hero-images
-// - If no active images exist, renders null → caller shows the original gradient hero
-// - Auto-advances every 5 seconds; has prev/next arrows and dot indicators
-//
-// src/components/HeroCarousel.jsx
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axios";

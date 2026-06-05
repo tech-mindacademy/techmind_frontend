@@ -182,20 +182,7 @@ export default function RefundPolicyPage() {
         <div className="absolute bottom-0 right-1/3 w-72 h-64 bg-violet-600/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Sticky nav */}
-      {/* <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-slate-950/90 backdrop-blur-md border-b border-slate-800/60 shadow-lg shadow-black/20" : "bg-transparent"}`}>
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-violet-500/30">L</div>
-            <span className="font-semibold text-slate-200 tracking-tight">LearnHub</span>
-          </div>
-          <div className="hidden md:flex items-center gap-1 text-sm">
-            <a href="#" className="px-3 py-1.5 text-slate-400 hover:text-slate-200 transition-colors rounded-md hover:bg-slate-800/50">Home</a>
-            <a href="#" className="px-3 py-1.5 text-slate-400 hover:text-slate-200 transition-colors rounded-md hover:bg-slate-800/50">Courses</a>
-            <span className="px-3 py-1.5 text-violet-400 font-medium">Refund Policy</span>
-          </div>
-        </div>
-      </nav> */}
+      
       <Navbar/>
 
       <div className="max-w-7xl mx-auto px-6 py-16 relative">
@@ -312,9 +299,9 @@ export default function RefundPolicyPage() {
               </p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {[
-                  { label: "Support Email", value: "techmindacademy70@gmail.com" },
+                  { label: "Support Email", value: "techminds.help@gmail.com" },
                   { label: "Response Time", value: "Within 48 business hours" },
-                  { label: "Phone Support", value: "+91 98765 43210" },
+                  // { label: "Phone Support", value: "+91 98765 43210" },
                 ].map((item) => (
                   <div key={item.label} className="bg-slate-900/60 rounded-xl px-4 py-3 border border-slate-800/60">
                     <p className="text-xs text-slate-500 mb-0.5">{item.label}</p>
@@ -327,17 +314,7 @@ export default function RefundPolicyPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      {/* <footer className="border-t border-slate-800/60 mt-20 py-8">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-          <p>© 2025 LearnHub. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-300 transition-colors">Refund Policy</a>
-            <a href="#" className="hover:text-slate-300 transition-colors">Terms of Service</a>
-          </div>
-        </div>
-      </footer> */}
+     
       <Footer/>
     </div>
   );

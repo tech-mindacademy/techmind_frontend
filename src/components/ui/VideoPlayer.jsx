@@ -270,22 +270,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
       onMouseLeave={() => isPlaying && setShowControls(false)}
       onClick={togglePlay}
     >
-      {/* Video element */}
-      {/* <video
-        ref={videoRef}
-        src={src}
-        className="w-full h-full object-contain"
-        preload="metadata"
-        playsInline
-        onPlay={handlePlay}
-        onPause={handlePause}
-        onTimeUpdate={handleTimeUpdate}
-        onDurationChange={handleDurationChange}
-        onWaiting={handleWaiting}
-        onCanPlay={handleCanPlay}
-        onError={handleError}
-        onEnded={handleEnded}
-      /> */}
+     
       <video
         ref={videoRef}
         className="w-full h-full object-contain"

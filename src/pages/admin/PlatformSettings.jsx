@@ -27,8 +27,8 @@ function Toggle({ value, onChange }) {
 export default function PlatformSettings() {
   const [settings, setSettings] = useState({
     siteName: "Tech Minds",
-    siteUrl: "https://techvidya.com",
-    supportEmail: "support@techvidya.com",
+    siteUrl: "https://techmindacademy.in",
+    supportEmail: "techmids.help@gmail.com",
     platformFeePercent: 20,
     allowFreeRegistration: true,
     requireEmailVerification: true,
