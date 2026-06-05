@@ -187,8 +187,9 @@ function App() {
               path="/creator/certificates"
               element={<CertificateManager />}
             />
+            <Route path="/creator/profile" element={<CreatorProfilePage />} />
           </Route>
-          <Route path="/creator/profile" element={<CreatorProfilePage />} />
+          
         </Route>
 
         {/* ── Admin routes: only role="admin" ──────────────────────────────── */}
@@ -212,7 +213,6 @@ function App() {
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
             <Route path="/admin/refunds" element={<AdminRefundPage />} />
             <Route path="/admin/issue-certificate" element={<AdminIssueCertificate />} />
-            <Route path="/student/profile" element={<StudentProfilePage />} />
             <Route path="/admin/profile" element={<AdminProfilePage />} />
           </Route>
         </Route>
