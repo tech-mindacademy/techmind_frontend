@@ -10,13 +10,11 @@ export default function Footer() {
         {/* BRAND */}
         <div>
           <div className="flex items-center gap-2.5">
-            <img
-              src="/logo.png"
-              alt="Tech Mind Academy"
-              className="w-10 h-10 rounded-full object-cover"
-            />
             <h2 className="text-2xl font-bold text-white">
-              Tech Mind Academy
+              Tech Mind
+            </h2>
+            <h2 className="text-2xl font-bold text-[#1A56DB]">
+              Academy
             </h2>
           </div>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed">
