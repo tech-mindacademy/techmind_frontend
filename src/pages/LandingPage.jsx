@@ -272,7 +272,7 @@ export default function LandingPage() {
                 transition={{ delay: 0.6 + i * 0.1 }}
                 className="flex flex-col items-center gap-1"
               >
-                <s.Icon className="w-4 h-4 text-[#1A56DB] mb-0.5" />
+                <s.Icon className="w-7 h-7 text-[#1A56DB] mb-0.5" />
                 <p className="text-2xl font-black text-black">{s.value}</p>
                 <p className="text-xs text-black/60 mt-0.5">{s.label}</p>
               </motion.div>
@@ -342,7 +342,7 @@ export default function LandingPage() {
 
       {/* ── Features ── */}
       <section className="py-20 px-4 bg-white relative">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.04)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.04)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <motion.h2
@@ -373,12 +373,13 @@ export default function LandingPage() {
                 transition={{ delay: i * 0.08 }}
                 className="group relative rounded-2xl p-6 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                 style={{
-  background: "rgba(255, 255, 255, 0.5)",
-  backdropFilter: "blur(12px)",
-  WebkitBackdropFilter: "blur(12px)",
-  border: "1px solid rgba(26, 86, 219, 0.12)",
-  boxShadow: "0 4px 24px rgba(26, 86, 219, 0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
-}}
+                  background: "rgba(255, 255, 255, 0.5)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(26, 86, 219, 0.12)",
+                  boxShadow:
+                    "0 4px 24px rgba(26, 86, 219, 0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+                }}
               >
                 {/* <div
                   className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-[0.04] transition-opacity`}
