@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../hooks/useAuth";
 
 export default function Navbar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
@@ -41,10 +41,10 @@ export default function Navbar() {
     setMobileProfileOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/auth";
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   window.location.href = "/auth";
+  // };
 
   return (
     <nav className="sticky top-0 z-30 bg-white border-b border-blue-100 shadow-sm">
@@ -160,7 +160,10 @@ export default function Navbar() {
                     ))}
                     <div className="border-t border-blue-100" />
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+    logout();
+    setOpen(false);
+  }}
                       className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition"
                     >
                       Logout
@@ -320,7 +323,10 @@ export default function Navbar() {
                             </button>
                           ))}
                           <button
-                            onClick={handleLogout}
+                            onClick={() => {
+    logout();
+    setOpen(false);
+  }}
                             className="text-left px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 transition"
                           >
                             Logout
