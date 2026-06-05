@@ -1,21 +1,30 @@
 import { Link } from "react-router-dom";
 import RefundPolicyPage from './../pages/RefundPolicyPage';
+// import { Linkedin } from "lucide-react"
 
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300 pt-16 pb-8 border-t border-gray-800">
 
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-15 px-4">
 
         {/* BRAND */}
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-2xl font-bold text-white">
-              Tech Mind
+            <img
+              src="/logo.png"
+              alt="Tech Mind Academy"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <div className="flex items-center gap-1">
+              <h2 className="text-2xl font-bold text-white">
+              Tech Mind 
             </h2>
             <h2 className="text-2xl font-bold text-[#1A56DB]">
               Academy
             </h2>
+            </div>
+            
           </div>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed">
             Learn real-world skills with practical courses, expert mentors,
@@ -24,13 +33,8 @@ export default function Footer() {
 
           <div className="flex gap-3 mt-5">
             <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition">
-              f
-            </div>
-            <div className="w-9 h-9 rounded-full bg-sky-500 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition">
-              t
-            </div>
-            <div className="w-9 h-9 rounded-full bg-pink-600 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition">
-              ig
+              {/* <Linkedin className="w-5 h-5" /> */}
+              in
             </div>
           </div>
         </div>
