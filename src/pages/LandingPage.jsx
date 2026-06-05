@@ -487,7 +487,7 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <h2 className="text-4xl sm:text-5xl font-black text-[#60A5FA]">
+            <h2 className="text-4xl sm:text-5xl font-black text-[#1A56DB]">
               Ready to transform your career?
             </h2>
             <p className="text-black text-lg">
