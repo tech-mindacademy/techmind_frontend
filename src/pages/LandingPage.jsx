@@ -263,7 +263,7 @@ export default function LandingPage() {
         </div>
 
         <div className="relative z-10 border-t border-black/10 bg-black/[0.02] w-full">
-          <div className="max-w-5xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <div className="max-w-5xl mx-auto px-4 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
             {stats.map((s, i) => (
               <motion.div
                 key={i}
@@ -436,7 +436,7 @@ export default function LandingPage() {
               ))}
             </ul>
             <Link
-              to="/register"
+              to="/auth"
               className="inline-flex items-center gap-2 bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md shadow-[#1A56DB]/20"
             >
               {user?.role === "student"
@@ -477,7 +477,7 @@ export default function LandingPage() {
               ))}
             </ul>
             <Link
-              to="/register?role=creator"
+              to="/auth?role=creator"
               className="inline-flex items-center gap-2 bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md shadow-[#1A56DB]/20"
             >
               Become a Creator →
@@ -504,7 +504,7 @@ export default function LandingPage() {
             </p>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link
-                to="/register"
+                to="/auth"
                 className="bg-[#1A56DB] hover:bg-[#2563EB] text-white font-black px-10 py-4 rounded-2xl transition shadow-2xl shadow-blue-900/50 text-base"
               >
                 {user ? "Go to Dashboard →" : "Create Free Account →"}
@@ -565,7 +565,7 @@ function HeroContent({ user, stagger, fadeUp }) {
         className="flex items-center justify-center gap-4 flex-wrap pt-2"
       >
         <Link
-          to="/register"
+          to="/auth"
           className="group relative bg-[#1A56DB] hover:bg-[#2563EB] text-white font-bold px-10 py-4 rounded-2xl transition-all text-base shadow-2xl shadow-blue-900/60 overflow-hidden"
         >
           <span className="relative z-10 flex items-center gap-2">

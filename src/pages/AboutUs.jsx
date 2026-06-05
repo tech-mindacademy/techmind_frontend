@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   GraduationCap, CheckCircle, Sparkles, Users, Rocket, Globe,
-  ArrowRight, MapPin, Mail, Phone, BadgeCheck, Award,
+  ArrowRight, MapPin, Mail, Phone, BadgeCheck, Award,Link2
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -59,7 +59,8 @@ export default function AboutUs() {
   const contactInfo = [
     { icon: MapPin, title: "Office", desc: "Tech Mind Academy HQ, Punjab, India", gradient: "from-[#1A56DB] to-[#0D1B3E]" },
     { icon: Mail, title: "Email", desc: "support@techmindacademy.in", gradient: "from-[#2563EB] to-[#1A56DB]" },
-    { icon: Phone, title: "Phone", desc: "+91 98765 43210", gradient: "from-[#0D1B3E] to-[#2563EB]" },
+    // { icon: Link2, title: "Phone", desc: "https://www.linkedin.com/company/tech-mind-academy/", gradient: "from-[#0D1B3E] to-[#2563EB]" },
+
   ];
 
   return (
@@ -95,7 +96,7 @@ export default function AboutUs() {
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-4 pt-2">
-              <Link to="/register" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
+              <Link to="/auth" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
                 Start Learning <ArrowRight size={18} />
               </Link>
               <Link to="/techmind-courses" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
@@ -140,7 +141,7 @@ export default function AboutUs() {
                 className="flex items-center gap-3"
               >
                 <div
-                  className="w-6 h-6 rounded-full bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center flex-shrink-0"
+                  className="w-6 h-6 rounded-full bg-[#1A56DB] from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center flex-shrink-0"
                   style={{ boxShadow: "0 4px 12px rgba(26,86,219,0.3)" }}
                 >
                   <CheckCircle size={13} className="text-white" strokeWidth={2.5} />
@@ -178,8 +179,8 @@ export default function AboutUs() {
           <div className="mt-6 bg-[#1A56DB]/8 border border-[#1A56DB]/15 rounded-2xl p-6">
             <div className="flex items-center gap-4">
               <div
-                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center flex-shrink-0"
-                style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                className="w-14 h-14 rounded-2xl bg-[#1A56DB] from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center flex-shrink-0"
+                // style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
               >
                 <GraduationCap className="text-white" size={24} strokeWidth={1.8} />
               </div>
@@ -203,8 +204,8 @@ export default function AboutUs() {
               className="flex-shrink-0 flex flex-col items-center gap-3"
             >
               <div
-                className="w-24 h-24 rounded-3xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center"
-                style={{ boxShadow: "0 12px 32px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                className="w-24 h-24 rounded-3xl bg-[#1A56DB] from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center"
+                // style={{ boxShadow: "0 12px 32px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
               >
                 <Award size={44} className="text-white" strokeWidth={1.5} />
               </div>
@@ -264,8 +265,8 @@ export default function AboutUs() {
               className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-3xl p-8 hover:shadow-xl hover:shadow-[#1A56DB]/8 transition-all duration-300"
             >
               <div
-                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white mb-6`}
-                style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#1A56DB] text-white mb-6`}
+                // style={{ boxShadow: "0 8px 20px rgba(240, 11, 11, 0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
               >
                 <Icon size={24} strokeWidth={1.8} />
               </div>
@@ -302,8 +303,8 @@ export default function AboutUs() {
                 className="bg-white border border-[#0D1B3E]/8 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all"
               >
                 <div
-                  className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center mb-4"
-                  style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.3), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                  className="w-12 h-12 rounded-2xl bg-[#1A56DB] from-[#1A56DB] to-[#0D1B3E] flex items-center justify-center mb-4"
+                  // style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.3), inset 0 1px 0 rgba(255,255,255,0.15)" }}
                 >
                   <Icon size={22} className="text-white" strokeWidth={1.8} />
                 </div>
@@ -332,7 +333,7 @@ export default function AboutUs() {
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 gap-10 ">
           {contactInfo.map(({ icon: Icon, title, desc, gradient }, i) => (
             <motion.div
               key={i}
@@ -344,8 +345,8 @@ export default function AboutUs() {
               className="bg-[#F7F5F0] border border-[#0D1B3E]/8 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:shadow-[#1A56DB]/8 transition-all flex items-start gap-5"
             >
               <div
-                className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white flex-shrink-0`}
-                style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+                className={`inline-flex items-center justify-center w-12 h-14 rounded-2xl bg-[#1A56DB]  ${gradient} text-white flex-shrink-0`}
+                // style={{ boxShadow: "0 8px 20px rgba(26,86,219,0.35), inset 0 1px 0 rgba(255,255,255,0.15)" }}
               >
                 <Icon size={22} strokeWidth={1.8} />
               </div>
@@ -375,7 +376,7 @@ export default function AboutUs() {
             Discover courses, develop valuable skills, and achieve your goals.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <Link to="/register" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
+            <Link to="/auth" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">
               Start Learning <ArrowRight size={18} />
             </Link>
             <Link to="/techmind-courses" className="bg-[#1A56DB] hover:bg-[#0D1B3E] text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg shadow-[#1A56DB]/20 flex items-center gap-2">

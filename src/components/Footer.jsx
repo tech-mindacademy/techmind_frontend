@@ -16,15 +16,15 @@ export default function Footer() {
               alt="Tech Mind Academy"
               className="w-10 h-10 rounded-full object-cover"
             />
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1"> */}
               <h2 className="text-2xl font-bold text-white">
-              Tech Mind 
-            </h2>
-            <h2 className="text-2xl font-bold text-[#1A56DB]">
-              Academy
-            </h2>
-            </div>
-            
+                Tech Mind <span className="text-2xl font-bold text-[#1A56DB]">Academy</span> 
+              </h2>
+              {/* <h2 className="text-2xl font-bold text-[#1A56DB]">
+                Academy
+              </h2> */}
+            {/* </div> */}
+
           </div>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed">
             Learn real-world skills with practical courses, expert mentors,
@@ -32,10 +32,12 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-3 mt-5">
-            <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition">
-              {/* <Linkedin className="w-5 h-5" /> */}
-              in
-            </div>
+            {/* <div  className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition"> */}
+            {/* <Linkedin className="w-5 h-5" /> */}
+            {/* <img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} /> */}
+            <a href="https://www.linkedin.com/company/tech-mind-academy/?viewAsMember=true" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} />
+            </a>
+            {/* </div> */}
           </div>
         </div>
 
