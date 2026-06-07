@@ -246,7 +246,7 @@ export default function CourseApprovals() {
                   <div className="p-4 flex flex-col flex-1">
                     {/* Title links to course detail */}
                     <Link
-                      to={`/courses/${course.slug}`}
+                      to={`/admin/preview/${course.slug}`}
                       rel="noreferrer"
                       className="font-semibold text-white text-sm leading-snug mb-1 line-clamp-2 hover:text-indigo-400 transition-colors"
                     >
@@ -293,7 +293,7 @@ export default function CourseApprovals() {
                     <div className="flex flex-col gap-2 mt-auto">
                       {/* Preview button — always visible */}
                       <Link
-                        to={`/courses/${course.slug}`}
+                        to={`/admin/preview/${course.slug}`}
                         rel="noreferrer"
                         className="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
                       >

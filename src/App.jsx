@@ -214,13 +214,13 @@ function App() {
             <Route path="/admin/refunds" element={<AdminRefundPage />} />
             <Route path="/admin/issue-certificate" element={<AdminIssueCertificate />} />
             <Route path="/admin/profile" element={<AdminProfilePage />} />
-            <Route path="/courses/:slug" element={<CourseDetailPage />} />
+            <Route path="/admin/preview/:slug" element={<CourseDetailPage />} />
             <Route
-              path="/student/learn/:courseId"
+              path="/admin/learn/:courseId"
               element={<CoursePlayerPage />}
             />
             <Route
-              path="/student/learn/:courseId/lesson/:lessonId"
+              path="/admin/learn/:courseId/lesson/:lessonId"
               element={<CoursePlayerPage />}
             />
           </Route>
