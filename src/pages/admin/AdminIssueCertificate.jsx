@@ -400,7 +400,7 @@ export default function AdminIssueCertificate() {
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 self-start">
           <div className="sticky top-6 space-y-4">
             <div className="bg-gradient-to-br from-orange-600 to-amber-600 rounded-2xl p-6 text-white">
               <h3 className="font-bold text-lg mb-4">Certificate Preview</h3>
