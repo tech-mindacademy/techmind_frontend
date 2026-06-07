@@ -9,12 +9,17 @@ const card = "bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:
 
 function StatCard({ label, value, icon, color }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-      className={`${card} p-5 flex items-center gap-4`}>
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${color}`}>{icon}</div>
-      <div>
-        <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`${card} p-4 flex flex-col items-center text-center gap-2 sm:flex-row sm:text-left sm:gap-4 sm:p-5`}
+    >
+      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 ${color}`}>
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">{value}</p>
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-tight">{label}</p>
       </div>
     </motion.div>
   );
@@ -96,7 +101,7 @@ export default function StudentDashboard() {
       </motion.div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <StatCard label="Enrolled" value={enrollments.length} icon="📚" color="bg-indigo-50 dark:bg-indigo-950" />
         <StatCard label="Completed" value={completed} icon="✅" color="bg-green-50 dark:bg-green-950" />
         <StatCard label="In Progress" value={inProgress} icon="⏳" color="bg-yellow-50 dark:bg-yellow-950" />
