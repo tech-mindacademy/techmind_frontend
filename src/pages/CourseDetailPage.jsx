@@ -115,7 +115,8 @@ function AccordionSection({ section, unlockedIds, isAdmin }) {
 }
 
 export default function CourseDetailPage() {
-  const { slug } = useParams();
+  const { slug, slug: adminSlug } = useParams();
+const courseSlug = slug || adminSlug;
   const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = useSelector(selectUserRole);
