@@ -256,12 +256,15 @@ export default function StudentProfilePage() {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3"
+                  className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 overflow-hidden"
                 >
+                  {" "}
+                  {/* ← add overflow-hidden */}
                   <p className="text-xs text-gray-400 mb-0.5">{item.label}</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                     {item.value}
-                  </p>
+                  </p>{" "}
+                  {/* ← add truncate */}
                 </div>
               ))}
             </div>
