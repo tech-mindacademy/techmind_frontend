@@ -224,8 +224,9 @@ function App() {
               path="/admin/preview/learn/:courseId/lesson/:lessonId"
               element={<CoursePlayerPage />}
             />
+            <Route path="/admin/review-approvals" element={<ReviewApprovalsPage />} />
           </Route>
-          <Route path="/admin/review-approvals" element={<ReviewApprovalsPage />} />
+          
         </Route>
 
         {/* ── Catch-all ─────────────────────────────────────────────────────── */}
