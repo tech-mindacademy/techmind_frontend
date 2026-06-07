@@ -121,7 +121,7 @@ export default function StudentDashboard() {
         <StatCard label="Enrolled" value={enrollments.length} icon="📚" color="bg-indigo-50 dark:bg-indigo-950" />
         <StatCard label="Completed" value={completed} icon="✅" color="bg-green-50 dark:bg-green-950" />
         <StatCard label="In Progress" value={inProgress} icon="⏳" color="bg-yellow-50 dark:bg-yellow-950" />
-        <Link to="/student/certificates">
+        <Link to="/student/certificate/:courseId">
           <StatCard label="Certificates" value={certificates} icon="🏆" color="bg-purple-50 dark:bg-purple-950" />
         </Link>
       </div>
