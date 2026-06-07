@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { fetchPendingCourses, approveCourse, rejectCourse } from "../../api/services/admin.service";
 
@@ -7,8 +8,8 @@ const STATUS_TABS = ["pending", "approved", "rejected"];
 
 const statusStyle = {
   approved: "bg-green-900/40 text-green-400 border border-green-800",
-  rejected: "bg-red-900/40 text-red-400 border border-red-800",
-  pending:  "bg-yellow-900/40 text-yellow-400 border border-yellow-800",
+  rejected:  "bg-red-900/40 text-red-400 border border-red-800",
+  pending:   "bg-yellow-900/40 text-yellow-400 border border-yellow-800",
 };
 
 const levelColor = {
@@ -53,7 +54,7 @@ function RejectModal({ course, onClose, onRejected }) {
           value={note}
           onChange={(e) => setNote(e.target.value)}
           rows={3}
-          placeholder="e.g. Content needs improvement, video quality too low, missing key topics..."
+          placeholder="e.g. Content needs improvement, video quality too low..."
           className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 resize-none transition mb-4"
         />
 
@@ -80,13 +81,13 @@ function RejectModal({ course, onClose, onRejected }) {
 }
 
 export default function CourseApprovals() {
-  const [statusFilter, setStatusFilter]   = useState("pending");
-  const [courses, setCourses]             = useState([]);
-  const [isLoading, setIsLoading]         = useState(true);
-  const [actionId, setActionId]           = useState(null);
+  const [statusFilter, setStatusFilter]       = useState("pending");
+  const [courses, setCourses]                 = useState([]);
+  const [isLoading, setIsLoading]             = useState(true);
+  const [actionId, setActionId]               = useState(null);
   const [rejectingCourse, setRejectingCourse] = useState(null);
-  const [pagination, setPagination]       = useState(null);
-  const [page, setPage]                   = useState(1);
+  const [pagination, setPagination]           = useState(null);
+  const [page, setPage]                       = useState(1);
 
   const load = useCallback(async (status, pg = 1) => {
     setIsLoading(true);
@@ -209,26 +210,50 @@ export default function CourseApprovals() {
                   exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.15 } }}
                   className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden flex flex-col"
                 >
-                  {/* Thumbnail */}
-                  <div className="aspect-video bg-slate-700 relative overflow-hidden flex-shrink-0">
+                  {/* Thumbnail — clicking goes to course detail */}
+                  <Link
+                    to={`/courses/${course._id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="aspect-video bg-slate-700 relative overflow-hidden flex-shrink-0 block group"
+                  >
                     {course.thumbnail?.url ? (
-                      <img src={course.thumbnail.url} alt={course.title}
-                        className="w-full h-full object-cover" />
+                      <img
+                        src={course.thumbnail.url}
+                        alt={course.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl">📚</div>
                     )}
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        Preview Course
+                      </span>
+                    </div>
                     <div className="absolute top-2 right-2 flex gap-1.5">
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-lg capitalize ${levelColor[course.level] || levelColor.all}`}>
                         {course.level}
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Info */}
                   <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-semibold text-white text-sm leading-snug mb-1 line-clamp-2">
+                    {/* Title links to course detail */}
+                    <Link
+                      to={`/courses/${course._id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-semibold text-white text-sm leading-snug mb-1 line-clamp-2 hover:text-indigo-400 transition-colors"
+                    >
                       {course.title}
-                    </h3>
+                    </Link>
                     <p className="text-xs text-slate-500 mb-1">{course.category}</p>
 
                     {/* Creator */}
@@ -267,36 +292,53 @@ export default function CourseApprovals() {
                     )}
 
                     {/* Actions */}
-                    {statusFilter === "pending" && (
-                      <div className="flex gap-2 mt-auto">
-                        <button
-                          onClick={() => handleApprove(course._id, course.title)}
-                          disabled={actionId === course._id}
-                          className="flex-1 py-2.5 bg-green-900/40 hover:bg-green-900/70 disabled:opacity-50 border border-green-800 text-green-400 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
-                        >
-                          {actionId === course._id ? (
-                            <div className="w-4 h-4 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
-                          ) : (
-                            <>
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
-                              </svg>
-                              Approve
-                            </>
-                          )}
-                        </button>
-                        <button
-                          onClick={() => setRejectingCourse(course)}
-                          disabled={actionId === course._id}
-                          className="flex-1 py-2.5 bg-red-900/20 hover:bg-red-900/50 disabled:opacity-50 border border-red-900 text-red-400 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
-                          </svg>
-                          Reject
-                        </button>
-                      </div>
-                    )}
+                    <div className="flex flex-col gap-2 mt-auto">
+                      {/* Preview button — always visible */}
+                      <Link
+                        to={`/courses/${course._id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        Preview Course
+                      </Link>
+
+                      {/* Approve / Reject — only for pending */}
+                      {statusFilter === "pending" && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleApprove(course._id, course.title)}
+                            disabled={actionId === course._id}
+                            className="flex-1 py-2.5 bg-green-900/40 hover:bg-green-900/70 disabled:opacity-50 border border-green-800 text-green-400 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
+                          >
+                            {actionId === course._id ? (
+                              <div className="w-4 h-4 border-2 border-green-400 border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Approve
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => setRejectingCourse(course)}
+                            disabled={actionId === course._id}
+                            className="flex-1 py-2.5 bg-red-900/20 hover:bg-red-900/50 disabled:opacity-50 border border-red-900 text-red-400 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-1.5"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Reject
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -310,14 +352,18 @@ export default function CourseApprovals() {
                 Page {page} of {pagination.pages} · {pagination.total} courses
               </p>
               <div className="flex gap-2">
-                <button onClick={() => { setPage(p => p - 1); load(statusFilter, page - 1); }}
+                <button
+                  onClick={() => { setPage(p => p - 1); load(statusFilter, page - 1); }}
                   disabled={page === 1}
-                  className="px-3 py-1.5 text-xs bg-slate-700 hover:bg-slate-600 disabled:opacity-40 text-white rounded-lg transition">
+                  className="px-3 py-1.5 text-xs bg-slate-700 hover:bg-slate-600 disabled:opacity-40 text-white rounded-lg transition"
+                >
                   Previous
                 </button>
-                <button onClick={() => { setPage(p => p + 1); load(statusFilter, page + 1); }}
+                <button
+                  onClick={() => { setPage(p => p + 1); load(statusFilter, page + 1); }}
                   disabled={page === pagination.pages}
-                  className="px-3 py-1.5 text-xs bg-slate-700 hover:bg-slate-600 disabled:opacity-40 text-white rounded-lg transition">
+                  className="px-3 py-1.5 text-xs bg-slate-700 hover:bg-slate-600 disabled:opacity-40 text-white rounded-lg transition"
+                >
                   Next
                 </button>
               </div>
