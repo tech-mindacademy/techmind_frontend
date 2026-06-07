@@ -164,7 +164,7 @@ export default function AdminLayout() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex min-h-screen bg-slate-950">
+    <div className="flex min-h-screen bg-slate-950 overflow-hidden">
       <div className="hidden lg:flex flex-shrink-0">
         <SidebarContent user={user} logout={logout} />
       </div>
