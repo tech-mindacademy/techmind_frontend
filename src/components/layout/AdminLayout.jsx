@@ -194,7 +194,7 @@ export default function AdminLayout() {
           </>
         )}
       </AnimatePresence>
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <div className="lg:hidden h-16 bg-slate-900 border-b border-slate-800 flex items-center px-4 gap-4">
           <button
             onClick={() => setOpen(true)}
