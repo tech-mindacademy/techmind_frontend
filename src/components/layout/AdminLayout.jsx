@@ -216,8 +216,10 @@ export default function AdminLayout() {
           </button>
           <span className="font-bold text-white">Admin</span>
         </div>
-        <main className="flex-1 overflow-y-auto p-6 max-w-7xl mx-auto w-full">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto">
+          <div className="p-6 max-w-7xl mx-auto w-full">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
