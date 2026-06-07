@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
 import { fetchMyEnrollments } from "../../api/services/course.service";
-import Navbar from "../../components/Navbar";
 
 const card = "bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700";
 
@@ -26,7 +25,7 @@ function StatCard({ label, value, icon, color }) {
 }
 
 function CourseCard({ enrollment }) {
-  const { course, progressPercent, lastAccessedLesson } = enrollment;
+  const { course, progressPercent, lastAccessedLesson, isCompleted, certificateIssued } = enrollment;
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
       className={`${card} overflow-hidden hover:shadow-md transition-shadow`}>
@@ -36,9 +35,16 @@ function CourseCard({ enrollment }) {
         ) : (
           <div className="w-full h-full flex items-center justify-center text-4xl">📚</div>
         )}
-        {progressPercent === 100 && (
+        {/* Show Completed badge only when truly completed (cert issued) */}
+        {isCompleted && certificateIssued && (
           <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
             Completed ✓
+          </div>
+        )}
+        {/* Show "Pending Quiz" badge when all lessons done but final quiz not passed */}
+        {progressPercent === 100 && !isCompleted && !certificateIssued && (
+          <div className="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
+            Take Final Quiz
           </div>
         )}
       </div>
@@ -56,8 +62,12 @@ function CourseCard({ enrollment }) {
             <span>{progressPercent || 0}%</span>
           </div>
           <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
-            <div className="bg-indigo-500 h-1.5 rounded-full transition-all duration-700"
-              style={{ width: `${progressPercent || 0}%` }} />
+            <div
+              className={`h-1.5 rounded-full transition-all duration-700 ${
+                isCompleted ? "bg-green-500" : "bg-indigo-500"
+              }`}
+              style={{ width: `${progressPercent || 0}%` }}
+            />
           </div>
         </div>
         <Link
@@ -65,7 +75,7 @@ function CourseCard({ enrollment }) {
             ? `/student/learn/${course._id}/lesson/${lastAccessedLesson}`
             : `/student/learn/${course._id}`}
           className="w-full block text-center py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition">
-          {progressPercent > 0 ? "Continue" : "Start learning"}
+          {isCompleted ? "Review course" : progressPercent > 0 ? "Continue" : "Start learning"}
         </Link>
       </div>
     </motion.div>
@@ -84,13 +94,19 @@ export default function StudentDashboard() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  // completed = truly done (cert issued or isCompleted for non-quiz courses)
   const completed = enrollments.filter(e => e.isCompleted).length;
-  const inProgress = enrollments.filter(e => !e.isCompleted && (e.progressPercent || 0) > 0).length;
+  // certificates = only where cert was actually issued
+  const certificates = enrollments.filter(e => e.certificateIssued).length;
+  // inProgress = started but not completed and no cert yet
+  const inProgress = enrollments.filter(e =>
+    !e.isCompleted &&
+    !e.certificateIssued &&
+    (e.progressPercent || 0) > 0
+  ).length;
 
   return (
     <div className="p-6 lg:p-8 space-y-8">
-      {/* <Navbar/> */}
-      {/* Header */}
       <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Welcome back, {user?.name?.split(" ")[0]} 👋
@@ -105,8 +121,8 @@ export default function StudentDashboard() {
         <StatCard label="Enrolled" value={enrollments.length} icon="📚" color="bg-indigo-50 dark:bg-indigo-950" />
         <StatCard label="Completed" value={completed} icon="✅" color="bg-green-50 dark:bg-green-950" />
         <StatCard label="In Progress" value={inProgress} icon="⏳" color="bg-yellow-50 dark:bg-yellow-950" />
-        <Link to="/student/certificate/:courseId">
-          <StatCard label="Certificates" value={completed} icon="🏆" color="bg-purple-50 dark:bg-purple-950" />
+        <Link to="/student/certificates">
+          <StatCard label="Certificates" value={certificates} icon="🏆" color="bg-purple-50 dark:bg-purple-950" />
         </Link>
       </div>
 
