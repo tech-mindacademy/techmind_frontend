@@ -149,7 +149,7 @@ export default function AdminIssueCertificate() {
 
   // ── Form ───────────────────────────────────────────────────────────────────
   return (
-    <div>
+    <div className="pb-6">
       <motion.div
         variants={fadeUp}
         initial="initial"
