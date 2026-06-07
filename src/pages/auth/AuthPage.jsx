@@ -262,6 +262,7 @@ export default function AuthPage() {
                         placeholder="you@example.com"
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
                       />
+                    {/* <p style={{fontSize:12,color:"grey",paddingLeft:11}}>please enter a valid email address for verification</p> */}
                     </div>
 
                     <div>

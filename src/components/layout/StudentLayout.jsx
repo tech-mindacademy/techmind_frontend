@@ -63,7 +63,7 @@ function SidebarContent({ onClose, user, logout }) {
           to="/"
           className="flex items-center gap-2 text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent"
         >
-          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain bg-blue" />
           Tech Mind Academy
         </Link>
 
