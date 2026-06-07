@@ -213,7 +213,6 @@ export default function CourseApprovals() {
                   {/* Thumbnail — clicking goes to course detail */}
                   <Link
                     to={`/courses/${course._id}`}
-                    target="_blank"
                     rel="noreferrer"
                     className="aspect-video bg-slate-700 relative overflow-hidden flex-shrink-0 block group"
                   >
