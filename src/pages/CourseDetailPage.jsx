@@ -9,6 +9,7 @@ import api from "../api/axios";
 import {
   selectIsAuthenticated,
   selectUserRole,
+  selectUser,
 } from "../store/slices/authSlice";
 import RefundRequestModal from "../components/RefundRequestModal";
 
@@ -119,7 +120,7 @@ export default function CourseDetailPage() {
   const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = useSelector(selectUserRole);
-
+  const user = useSelector(selectUser);
   const [course, setCourse] = useState(null);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -149,6 +150,10 @@ export default function CourseDetailPage() {
     }
     if (role !== "student") {
       toast.error("Only students can enroll");
+      return;
+    }
+    if (!user?.isVerified) {
+      toast.error("Please verify your email to enroll. Check your inbox.");
       return;
     }
 
