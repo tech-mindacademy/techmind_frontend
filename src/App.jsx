@@ -73,6 +73,7 @@ import MyRefundPage from "./pages/student/MyRefundPage";
 import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
 import CreatorProfilePage from "./pages/creator/CreatorProfilePage";
 import AdminProfilePage from "./pages/admin/AdminProfilePage";
+import ReviewApprovalsPage from "./pages/admin/ReviewApprovalsPage";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -224,6 +225,7 @@ function App() {
               element={<CoursePlayerPage />}
             />
           </Route>
+          <Route path="/admin/review-approvals" element={<ReviewApprovalsPage />} />
         </Route>
 
         {/* ── Catch-all ─────────────────────────────────────────────────────── */}
