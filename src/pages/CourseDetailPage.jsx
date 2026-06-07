@@ -19,7 +19,7 @@ const fmtDuration = (s) => {
   return h > 0 ? `${h}h ${m}m` : `${m}m`;
 };
 
-function AccordionSection({ section, unlockedIds }) {
+function AccordionSection({ section, unlockedIds, isAdmin }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
@@ -41,19 +41,13 @@ function AccordionSection({ section, unlockedIds }) {
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       {open && (
         <div className="divide-y divide-gray-100 dark:divide-gray-700/50">
           {section.lessons?.map((lesson) => {
-            const isUnlocked =
-              lesson.isFreePreview || unlockedIds.has(lesson._id);
+            const isUnlocked = isAdmin || lesson.isFreePreview || unlockedIds.has(lesson._id);
             return (
               <div
                 key={lesson._id}
@@ -105,6 +99,11 @@ function AccordionSection({ section, unlockedIds }) {
                       Free preview
                     </span>
                   )}
+                  {isAdmin && !lesson.isFreePreview && (
+                    <span className="text-xs text-orange-500 font-semibold">
+                      Admin
+                    </span>
+                  )}
                 </div>
               </div>
             );
@@ -121,12 +120,15 @@ export default function CourseDetailPage() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = useSelector(selectUserRole);
   const user = useSelector(selectUser);
+
+  const isAdmin = role === "admin";
+
   const [course, setCourse] = useState(null);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
-  const [couponResult, setCouponResult] = useState(null); // { discountAmount, finalPrice, message }
+  const [couponResult, setCouponResult] = useState(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const [showDemoVideo, setShowDemoVideo] = useState(false);
   const [showRefund, setShowRefund] = useState(false);
@@ -137,7 +139,7 @@ export default function CourseDetailPage() {
       .then((d) => {
         setCourse(d.course);
         setIsEnrolled(d.isEnrolled);
-        setEnrollment(d.enrollment ?? null); // ← add this
+        setEnrollment(d.enrollment ?? null);
       })
       .catch(() => toast.error("Course not found"))
       .finally(() => setIsLoading(false));
@@ -159,7 +161,6 @@ export default function CourseDetailPage() {
 
     setActionLoading(true);
     try {
-      // ── Free course ───────────────────────────────────────────────────────
       if (course.isFree || course.price === 0) {
         await enrollFree(course._id);
         toast.success("Enrolled! Let's start learning.");
@@ -167,7 +168,6 @@ export default function CourseDetailPage() {
         return;
       }
 
-      // ── Paid course — open Razorpay ───────────────────────────────────────
       const res = await api
         .post(`/payments/checkout/${course._id}`, {
           couponCode: couponResult ? couponCode : null,
@@ -184,7 +184,7 @@ export default function CourseDetailPage() {
         prefill: { name: res.studentName, email: res.studentEmail },
         theme: { color: "#4F46E5" },
         modal: {
-          ondismiss: () => setActionLoading(false), // re-enable button if user closes popup
+          ondismiss: () => setActionLoading(false),
         },
         handler: async function (response) {
           try {
@@ -196,9 +196,7 @@ export default function CourseDetailPage() {
             toast.success("Payment successful! You're enrolled.");
             navigate(`/student/learn/${verifyRes.data.courseId}`);
           } catch (err) {
-            toast.error(
-              err.response?.data?.message || "Payment verification failed",
-            );
+            toast.error(err.response?.data?.message || "Payment verification failed");
             setActionLoading(false);
           }
         },
@@ -210,8 +208,6 @@ export default function CourseDetailPage() {
       toast.error(err.response?.data?.message || "Enrollment failed");
       setActionLoading(false);
     }
-    // Note: don't call setActionLoading(false) in finally — Razorpay popup is async.
-    // Loading state is cleared in handler, ondismiss, or catch instead.
   };
 
   const handleValidateCoupon = async () => {
@@ -241,10 +237,7 @@ export default function CourseDetailPage() {
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
         <div className="text-center">
           <p className="text-gray-500">Course not found.</p>
-          <Link
-            to="/courses"
-            className="text-indigo-600 hover:underline text-sm mt-2 block"
-          >
+          <Link to="/courses" className="text-indigo-600 hover:underline text-sm mt-2 block">
             Browse courses →
           </Link>
         </div>
@@ -260,21 +253,11 @@ export default function CourseDetailPage() {
       <nav className="sticky top-0 z-30 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-4">
           <Link
-            to="/courses"
+            to={isAdmin ? "/admin/course-approvals" : "/courses"}
             className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
           <Link
@@ -283,6 +266,16 @@ export default function CourseDetailPage() {
           >
             Tech Minds
           </Link>
+          {/* Admin preview banner */}
+          {isAdmin && (
+            <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-full border border-orange-200 dark:border-orange-800">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Admin Preview
+            </span>
+          )}
         </div>
       </nav>
 
@@ -295,6 +288,18 @@ export default function CourseDetailPage() {
                 {course.level}
               </span>
               <span className="text-xs text-gray-400">{course.category}</span>
+              {/* Approval status badge for admin */}
+              {isAdmin && (
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg capitalize ${
+                  course.approvalStatus === "approved"
+                    ? "bg-green-900/60 text-green-400"
+                    : course.approvalStatus === "rejected"
+                      ? "bg-red-900/60 text-red-400"
+                      : "bg-yellow-900/60 text-yellow-400"
+                }`}>
+                  {course.approvalStatus}
+                </span>
+              )}
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold leading-tight">
               {course.title}
@@ -304,9 +309,7 @@ export default function CourseDetailPage() {
             )}
             <div className="flex items-center gap-4 text-sm text-gray-300 flex-wrap">
               {course.stats?.totalStudents > 0 && (
-                <span>
-                  👥 {course.stats.totalStudents.toLocaleString()} students
-                </span>
+                <span>👥 {course.stats.totalStudents.toLocaleString()} students</span>
               )}
               {course.stats?.totalLessons > 0 && (
                 <span>📹 {course.stats.totalLessons} lessons</span>
@@ -318,21 +321,14 @@ export default function CourseDetailPage() {
             </div>
             <div className="flex items-center gap-3">
               {course.creator?.avatar?.url ? (
-                <img
-                  src={course.creator.avatar.url}
-                  alt={course.creator.name}
-                  className="w-8 h-8 rounded-full"
-                />
+                <img src={course.creator.avatar.url} alt={course.creator.name} className="w-8 h-8 rounded-full" />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-indigo-700 flex items-center justify-center text-sm font-bold">
                   {course.creator?.name?.charAt(0)}
                 </div>
               )}
               <span className="text-sm text-gray-300">
-                by{" "}
-                <span className="text-white font-medium">
-                  {course.creator?.name}
-                </span>
+                by <span className="text-white font-medium">{course.creator?.name}</span>
               </span>
             </div>
           </div>
@@ -352,11 +348,7 @@ export default function CourseDetailPage() {
               ) : (
                 <>
                   {course.thumbnail?.url && (
-                    <img
-                      src={course.thumbnail.url}
-                      alt={course.title}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={course.thumbnail.url} alt={course.title} className="w-full h-full object-cover" />
                   )}
                   {course.previewVideo?.url && (
                     <button
@@ -364,11 +356,7 @@ export default function CourseDetailPage() {
                       className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/50 transition gap-2 group"
                     >
                       <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                        <svg
-                          className="w-7 h-7 text-indigo-600 ml-1"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
+                        <svg className="w-7 h-7 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -381,44 +369,56 @@ export default function CourseDetailPage() {
               )}
             </div>
 
-            {/* Price */}
-            <div className="mb-3">
-              {course.isFree || price === 0 ? (
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  Free
-                </span>
-              ) : (
-                <div className="flex items-baseline gap-2">
-                  {couponResult ? (
-                    <>
-                      <span className="text-2xl font-bold text-green-600 dark:text-green-400">
-                        ₹{couponResult.finalPrice.toLocaleString()}
-                      </span>
-                      <span className="text-sm text-gray-400 line-through">
-                        ₹{price.toLocaleString()}
-                      </span>
-                      <span className="text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full font-semibold">
-                        Save ₹{couponResult.discountAmount.toLocaleString()}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-2xl font-bold">
-                        ₹{price.toLocaleString()}
-                      </span>
-                      {course.discountPrice > 0 &&
-                        course.price > course.discountPrice && (
+            {/* Price — hidden for admin */}
+            {!isAdmin && (
+              <div className="mb-3">
+                {course.isFree || price === 0 ? (
+                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">Free</span>
+                ) : (
+                  <div className="flex items-baseline gap-2">
+                    {couponResult ? (
+                      <>
+                        <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                          ₹{couponResult.finalPrice.toLocaleString()}
+                        </span>
+                        <span className="text-sm text-gray-400 line-through">
+                          ₹{price.toLocaleString()}
+                        </span>
+                        <span className="text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full font-semibold">
+                          Save ₹{couponResult.discountAmount.toLocaleString()}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-2xl font-bold">₹{price.toLocaleString()}</span>
+                        {course.discountPrice > 0 && course.price > course.discountPrice && (
                           <span className="text-sm text-gray-400 line-through">
                             ₹{course.price.toLocaleString()}
                           </span>
                         )}
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
-            {isEnrolled ? (
+            {/* CTA area */}
+            {isAdmin ? (
+              // ── Admin: no enroll, just info ──────────────────────────────
+              <div className="space-y-2">
+                <div className="w-full py-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-600 dark:text-orange-400 text-sm font-semibold rounded-xl text-center">
+                  👁 Admin Preview — Full content visible
+                </div>
+                <Link
+                  to="/admin/course-approvals"
+                  className="w-full block text-center py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl transition"
+                >
+                  ← Back to Approvals
+                </Link>
+              </div>
+            ) : isEnrolled ? (
+              // ── Enrolled student ─────────────────────────────────────────
               <>
                 <Link
                   to={`/student/learn/${course._id}`}
@@ -426,7 +426,6 @@ export default function CourseDetailPage() {
                 >
                   Continue learning →
                 </Link>
-
                 {enrollment?.amountPaid > 0 && (
                   <button
                     onClick={() => setShowRefund(true)}
@@ -435,7 +434,6 @@ export default function CourseDetailPage() {
                     Request Refund
                   </button>
                 )}
-
                 {showRefund && (
                   <RefundRequestModal
                     courseId={course._id}
@@ -448,7 +446,7 @@ export default function CourseDetailPage() {
                 )}
               </>
             ) : (
-              // ... rest of your existing non-enrolled JSX unchanged
+              // ── Not enrolled ─────────────────────────────────────────────
               <>
                 <button
                   onClick={handleEnroll}
@@ -465,45 +463,41 @@ export default function CourseDetailPage() {
                       : `Enroll for ₹${price.toLocaleString()}`}
                 </button>
 
-                {/* Coupon input — only for paid courses */}
-                {!(course.isFree || price === 0) &&
-                  !isEnrolled &&
-                  isAuthenticated &&
-                  role === "student" && (
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <input
-                          value={couponCode}
-                          onChange={(e) => {
-                            setCouponCode(e.target.value.toUpperCase());
-                            setCouponResult(null);
-                          }}
-                          placeholder="Coupon code"
-                          className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-400 uppercase"
-                        />
-                        <button
-                          onClick={handleValidateCoupon}
-                          disabled={couponLoading || !couponCode.trim()}
-                          className="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-40 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl transition"
-                        >
-                          {couponLoading ? "..." : "Apply"}
-                        </button>
-                      </div>
-                      {couponResult && (
-                        <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-                          ✓ Coupon applied — you save ₹
-                          {couponResult.discountAmount.toLocaleString()}!
-                        </p>
-                      )}
+                {!(course.isFree || price === 0) && isAuthenticated && role === "student" && (
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <input
+                        value={couponCode}
+                        onChange={(e) => {
+                          setCouponCode(e.target.value.toUpperCase());
+                          setCouponResult(null);
+                        }}
+                        placeholder="Coupon code"
+                        className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-400 uppercase"
+                      />
+                      <button
+                        onClick={handleValidateCoupon}
+                        disabled={couponLoading || !couponCode.trim()}
+                        className="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-40 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl transition"
+                      >
+                        {couponLoading ? "..." : "Apply"}
+                      </button>
                     </div>
-                  )}
+                    {couponResult && (
+                      <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                        ✓ Coupon applied — you save ₹{couponResult.discountAmount.toLocaleString()}!
+                      </p>
+                    )}
+                  </div>
+                )}
               </>
             )}
-            <p className="text-xs text-gray-400 text-center mt-3">
-              {course.isFree || price === 0
-                ? "No payment required"
-                : "Secure checkout via Stripe"}
-            </p>
+
+            {!isAdmin && (
+              <p className="text-xs text-gray-400 text-center mt-3">
+                {course.isFree || price === 0 ? "No payment required" : "Secure checkout via Razorpay"}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -520,22 +514,9 @@ export default function CourseDetailPage() {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {course.whatYouLearn.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-300"
-                    >
-                      <svg
-                        className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M5 13l4 4L19 7"
-                        />
+                    <div key={i} className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-300">
+                      <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
                       {item}
                     </div>
@@ -560,16 +541,28 @@ export default function CourseDetailPage() {
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Curriculum{" "}
                   <span className="text-sm font-normal text-gray-400">
-                    ({course.sections.length} sections ·{" "}
-                    {course.stats?.totalLessons || 0} lessons)
+                    ({course.sections.length} sections · {course.stats?.totalLessons || 0} lessons)
                   </span>
                 </h2>
+                {/* Admin note */}
+                {isAdmin && (
+                  <div className="mb-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl px-4 py-2.5 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <p className="text-xs text-orange-600 dark:text-orange-400 font-medium">
+                      All lessons are visible to you as admin. Students see locked content until enrolled.
+                    </p>
+                  </div>
+                )}
                 <div className="space-y-2">
                   {course.sections.map((section) => (
                     <AccordionSection
                       key={section._id}
                       section={section}
                       unlockedIds={unlockedIds}
+                      isAdmin={isAdmin}
                     />
                   ))}
                 </div>
@@ -584,10 +577,7 @@ export default function CourseDetailPage() {
                 </h2>
                 <ul className="space-y-1.5">
                   {course.requirements.map((r, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"
-                    >
+                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
                       <span className="text-gray-400 mt-0.5">•</span>
                       {r}
                     </li>
@@ -605,20 +595,14 @@ export default function CourseDetailPage() {
               </h3>
               <div className="flex items-center gap-3 mb-3">
                 {course.creator?.avatar?.url ? (
-                  <img
-                    src={course.creator.avatar.url}
-                    alt={course.creator.name}
-                    className="w-12 h-12 rounded-full"
-                  />
+                  <img src={course.creator.avatar.url} alt={course.creator.name} className="w-12 h-12 rounded-full" />
                 ) : (
                   <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-lg font-bold text-indigo-600 dark:text-indigo-300">
                     {course.creator?.name?.charAt(0)}
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">
-                    {course.creator?.name}
-                  </p>
+                  <p className="font-semibold text-gray-900 dark:text-white">{course.creator?.name}</p>
                   <p className="text-xs text-gray-500">Course Creator</p>
                 </div>
               </div>
@@ -628,6 +612,24 @@ export default function CourseDetailPage() {
                 </p>
               )}
             </div>
+
+            {/* Admin approval actions — shown in sidebar when admin is reviewing */}
+            {isAdmin && course.approvalStatus === "pending" && (
+              <div className="bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 space-y-3">
+                <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
+                  Approval Actions
+                </h3>
+                <Link
+                  to="/admin/course-approvals"
+                  className="w-full block text-center py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl transition"
+                >
+                  Go to Approvals →
+                </Link>
+                <p className="text-xs text-gray-500 text-center">
+                  Approve or reject from the approvals page
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
