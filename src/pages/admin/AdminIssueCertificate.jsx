@@ -163,7 +163,7 @@ export default function AdminIssueCertificate() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
         {/* Form */}
         <div className="lg:col-span-3">
           <form onSubmit={handleIssue} className="space-y-5">
