@@ -212,7 +212,7 @@ export default function CourseApprovals() {
                 >
                   {/* Thumbnail — clicking goes to course detail */}
                   <Link
-                    to={`/courses/${course._id}`}
+                    to={`/courses/${course.slug}`}
                     rel="noreferrer"
                     className="aspect-video bg-slate-700 relative overflow-hidden flex-shrink-0 block group"
                   >
@@ -246,8 +246,7 @@ export default function CourseApprovals() {
                   <div className="p-4 flex flex-col flex-1">
                     {/* Title links to course detail */}
                     <Link
-                      to={`/courses/${course._id}`}
-                      target="_blank"
+                      to={`/courses/${course.slug}`}
                       rel="noreferrer"
                       className="font-semibold text-white text-sm leading-snug mb-1 line-clamp-2 hover:text-indigo-400 transition-colors"
                     >
