@@ -216,11 +216,11 @@ function App() {
             <Route path="/admin/profile" element={<AdminProfilePage />} />
             <Route path="/admin/preview/:slug" element={<CourseDetailPage />} />
             <Route
-              path="/admin/learn/:courseId"
+              path="/admin/preview/learn/:courseId"
               element={<CoursePlayerPage />}
             />
             <Route
-              path="/admin/learn/:courseId/lesson/:lessonId"
+              path="/admin/preview/learn/:courseId/lesson/:lessonId"
               element={<CoursePlayerPage />}
             />
           </Route>
