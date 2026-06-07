@@ -262,7 +262,7 @@ export default function CourseDetailPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Navbar */}
-      <nav className="sticky top-0 z-30 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+      <nav className="bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-4">
           <Link
             to={isAdmin ? "/admin/course-approvals" : "/courses"}
