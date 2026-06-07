@@ -41,13 +41,19 @@ function AccordionSection({ section, unlockedIds, isAdmin }) {
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
       {open && (
         <div className="divide-y divide-gray-100 dark:divide-gray-700/50">
           {section.lessons?.map((lesson) => {
-            const isUnlocked = isAdmin || lesson.isFreePreview || unlockedIds.has(lesson._id);
+            const isUnlocked =
+              isAdmin || lesson.isFreePreview || unlockedIds.has(lesson._id);
             return (
               <div
                 key={lesson._id}
@@ -116,7 +122,7 @@ function AccordionSection({ section, unlockedIds, isAdmin }) {
 
 export default function CourseDetailPage() {
   const { slug, slug: adminSlug } = useParams();
-const courseSlug = slug || adminSlug;
+  const courseSlug = slug || adminSlug;
   const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = useSelector(selectUserRole);
@@ -197,7 +203,9 @@ const courseSlug = slug || adminSlug;
             toast.success("Payment successful! You're enrolled.");
             navigate(`/student/learn/${verifyRes.data.courseId}`);
           } catch (err) {
-            toast.error(err.response?.data?.message || "Payment verification failed");
+            toast.error(
+              err.response?.data?.message || "Payment verification failed",
+            );
             setActionLoading(false);
           }
         },
@@ -238,7 +246,10 @@ const courseSlug = slug || adminSlug;
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
         <div className="text-center">
           <p className="text-gray-500">Course not found.</p>
-          <Link to="/courses" className="text-indigo-600 hover:underline text-sm mt-2 block">
+          <Link
+            to="/courses"
+            className="text-indigo-600 hover:underline text-sm mt-2 block"
+          >
             Browse courses →
           </Link>
         </div>
@@ -257,8 +268,18 @@ const courseSlug = slug || adminSlug;
             to={isAdmin ? "/admin/course-approvals" : "/courses"}
             className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </Link>
           <Link
@@ -270,9 +291,24 @@ const courseSlug = slug || adminSlug;
           {/* Admin preview banner */}
           {isAdmin && (
             <span className="ml-auto flex items-center gap-1.5 text-xs font-semibold bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-full border border-orange-200 dark:border-orange-800">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
               </svg>
               Admin Preview
             </span>
@@ -291,13 +327,15 @@ const courseSlug = slug || adminSlug;
               <span className="text-xs text-gray-400">{course.category}</span>
               {/* Approval status badge for admin */}
               {isAdmin && (
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg capitalize ${
-                  course.approvalStatus === "approved"
-                    ? "bg-green-900/60 text-green-400"
-                    : course.approvalStatus === "rejected"
-                      ? "bg-red-900/60 text-red-400"
-                      : "bg-yellow-900/60 text-yellow-400"
-                }`}>
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-lg capitalize ${
+                    course.approvalStatus === "approved"
+                      ? "bg-green-900/60 text-green-400"
+                      : course.approvalStatus === "rejected"
+                        ? "bg-red-900/60 text-red-400"
+                        : "bg-yellow-900/60 text-yellow-400"
+                  }`}
+                >
                   {course.approvalStatus}
                 </span>
               )}
@@ -310,7 +348,9 @@ const courseSlug = slug || adminSlug;
             )}
             <div className="flex items-center gap-4 text-sm text-gray-300 flex-wrap">
               {course.stats?.totalStudents > 0 && (
-                <span>👥 {course.stats.totalStudents.toLocaleString()} students</span>
+                <span>
+                  👥 {course.stats.totalStudents.toLocaleString()} students
+                </span>
               )}
               {course.stats?.totalLessons > 0 && (
                 <span>📹 {course.stats.totalLessons} lessons</span>
@@ -322,14 +362,21 @@ const courseSlug = slug || adminSlug;
             </div>
             <div className="flex items-center gap-3">
               {course.creator?.avatar?.url ? (
-                <img src={course.creator.avatar.url} alt={course.creator.name} className="w-8 h-8 rounded-full" />
+                <img
+                  src={course.creator.avatar.url}
+                  alt={course.creator.name}
+                  className="w-8 h-8 rounded-full"
+                />
               ) : (
                 <div className="w-8 h-8 rounded-full bg-indigo-700 flex items-center justify-center text-sm font-bold">
                   {course.creator?.name?.charAt(0)}
                 </div>
               )}
               <span className="text-sm text-gray-300">
-                by <span className="text-white font-medium">{course.creator?.name}</span>
+                by{" "}
+                <span className="text-white font-medium">
+                  {course.creator?.name}
+                </span>
               </span>
             </div>
           </div>
@@ -349,7 +396,11 @@ const courseSlug = slug || adminSlug;
               ) : (
                 <>
                   {course.thumbnail?.url && (
-                    <img src={course.thumbnail.url} alt={course.title} className="w-full h-full object-cover" />
+                    <img
+                      src={course.thumbnail.url}
+                      alt={course.title}
+                      className="w-full h-full object-cover"
+                    />
                   )}
                   {course.previewVideo?.url && (
                     <button
@@ -357,7 +408,11 @@ const courseSlug = slug || adminSlug;
                       className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/50 transition gap-2 group"
                     >
                       <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                        <svg className="w-7 h-7 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          className="w-7 h-7 text-indigo-600 ml-1"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -374,7 +429,9 @@ const courseSlug = slug || adminSlug;
             {!isAdmin && (
               <div className="mb-3">
                 {course.isFree || price === 0 ? (
-                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">Free</span>
+                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                    Free
+                  </span>
                 ) : (
                   <div className="flex items-baseline gap-2">
                     {couponResult ? (
@@ -391,12 +448,15 @@ const courseSlug = slug || adminSlug;
                       </>
                     ) : (
                       <>
-                        <span className="text-2xl font-bold">₹{price.toLocaleString()}</span>
-                        {course.discountPrice > 0 && course.price > course.discountPrice && (
-                          <span className="text-sm text-gray-400 line-through">
-                            ₹{course.price.toLocaleString()}
-                          </span>
-                        )}
+                        <span className="text-2xl font-bold">
+                          ₹{price.toLocaleString()}
+                        </span>
+                        {course.discountPrice > 0 &&
+                          course.price > course.discountPrice && (
+                            <span className="text-sm text-gray-400 line-through">
+                              ₹{course.price.toLocaleString()}
+                            </span>
+                          )}
                       </>
                     )}
                   </div>
@@ -405,12 +465,19 @@ const courseSlug = slug || adminSlug;
             )}
 
             {/* CTA area */}
+            {/* CTA area */}
             {isAdmin ? (
-              // ── Admin: no enroll, just info ──────────────────────────────
+              // ── Admin ────────────────────────────────────────────────────
               <div className="space-y-2">
                 <div className="w-full py-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-600 dark:text-orange-400 text-sm font-semibold rounded-xl text-center">
                   👁 Admin Preview — Full content visible
                 </div>
+                <Link
+                  to={`/admin/preview/learn/${course._id}`}
+                  className="w-full block text-center py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition"
+                >
+                  View Course Content →
+                </Link>
                 <Link
                   to="/admin/course-approvals"
                   className="w-full block text-center py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl transition"
@@ -463,40 +530,44 @@ const courseSlug = slug || adminSlug;
                       ? `Enroll for ₹${couponResult.finalPrice.toLocaleString()}`
                       : `Enroll for ₹${price.toLocaleString()}`}
                 </button>
-
-                {!(course.isFree || price === 0) && isAuthenticated && role === "student" && (
-                  <div className="space-y-2">
-                    <div className="flex gap-2">
-                      <input
-                        value={couponCode}
-                        onChange={(e) => {
-                          setCouponCode(e.target.value.toUpperCase());
-                          setCouponResult(null);
-                        }}
-                        placeholder="Coupon code"
-                        className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-400 uppercase"
-                      />
-                      <button
-                        onClick={handleValidateCoupon}
-                        disabled={couponLoading || !couponCode.trim()}
-                        className="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-40 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl transition"
-                      >
-                        {couponLoading ? "..." : "Apply"}
-                      </button>
+                {!(course.isFree || price === 0) &&
+                  isAuthenticated &&
+                  role === "student" && (
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          value={couponCode}
+                          onChange={(e) => {
+                            setCouponCode(e.target.value.toUpperCase());
+                            setCouponResult(null);
+                          }}
+                          placeholder="Coupon code"
+                          className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-400 uppercase"
+                        />
+                        <button
+                          onClick={handleValidateCoupon}
+                          disabled={couponLoading || !couponCode.trim()}
+                          className="px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-40 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl transition"
+                        >
+                          {couponLoading ? "..." : "Apply"}
+                        </button>
+                      </div>
+                      {couponResult && (
+                        <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                          ✓ Coupon applied — you save ₹
+                          {couponResult.discountAmount.toLocaleString()}!
+                        </p>
+                      )}
                     </div>
-                    {couponResult && (
-                      <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-                        ✓ Coupon applied — you save ₹{couponResult.discountAmount.toLocaleString()}!
-                      </p>
-                    )}
-                  </div>
-                )}
+                  )}
               </>
             )}
 
             {!isAdmin && (
               <p className="text-xs text-gray-400 text-center mt-3">
-                {course.isFree || price === 0 ? "No payment required" : "Secure checkout via Razorpay"}
+                {course.isFree || price === 0
+                  ? "No payment required"
+                  : "Secure checkout via Razorpay"}
               </p>
             )}
           </div>
@@ -515,9 +586,22 @@ const courseSlug = slug || adminSlug;
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {course.whatYouLearn.map((item, i) => (
-                    <div key={i} className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-300">
-                      <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    <div
+                      key={i}
+                      className="flex items-start gap-2.5 text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      <svg
+                        className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       {item}
                     </div>
@@ -542,18 +626,35 @@ const courseSlug = slug || adminSlug;
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Curriculum{" "}
                   <span className="text-sm font-normal text-gray-400">
-                    ({course.sections.length} sections · {course.stats?.totalLessons || 0} lessons)
+                    ({course.sections.length} sections ·{" "}
+                    {course.stats?.totalLessons || 0} lessons)
                   </span>
                 </h2>
                 {/* Admin note */}
                 {isAdmin && (
                   <div className="mb-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl px-4 py-2.5 flex items-center gap-2">
-                    <svg className="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <svg
+                      className="w-4 h-4 text-orange-500 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
                     </svg>
                     <p className="text-xs text-orange-600 dark:text-orange-400 font-medium">
-                      All lessons are visible to you as admin. Students see locked content until enrolled.
+                      All lessons are visible to you as admin. Students see
+                      locked content until enrolled.
                     </p>
                   </div>
                 )}
@@ -578,7 +679,10 @@ const courseSlug = slug || adminSlug;
                 </h2>
                 <ul className="space-y-1.5">
                   {course.requirements.map((r, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                    <li
+                      key={i}
+                      className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"
+                    >
                       <span className="text-gray-400 mt-0.5">•</span>
                       {r}
                     </li>
@@ -596,14 +700,20 @@ const courseSlug = slug || adminSlug;
               </h3>
               <div className="flex items-center gap-3 mb-3">
                 {course.creator?.avatar?.url ? (
-                  <img src={course.creator.avatar.url} alt={course.creator.name} className="w-12 h-12 rounded-full" />
+                  <img
+                    src={course.creator.avatar.url}
+                    alt={course.creator.name}
+                    className="w-12 h-12 rounded-full"
+                  />
                 ) : (
                   <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-lg font-bold text-indigo-600 dark:text-indigo-300">
                     {course.creator?.name?.charAt(0)}
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">{course.creator?.name}</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    {course.creator?.name}
+                  </p>
                   <p className="text-xs text-gray-500">Course Creator</p>
                 </div>
               </div>

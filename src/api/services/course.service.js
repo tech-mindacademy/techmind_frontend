@@ -109,3 +109,6 @@ export const markLessonComplete = (courseId, lessonId) =>
 
 export const updateLastAccessed = (courseId, lessonId) =>
   api.patch(`/enrollments/${courseId}/last-accessed`, { lessonId }).then((r) => r.data);
+
+export const fetchAdminCoursePreview = (courseId) =>
+  api.get(`/enrollments/${courseId}/admin-preview`).then((r) => r.data);

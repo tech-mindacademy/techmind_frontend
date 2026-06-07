@@ -9,6 +9,7 @@ import {
   markLessonComplete,
   updateLastAccessed,
   fetchEnrollment,
+  fetchAdminCoursePreview,   // ← add this
 } from "../../api/services/course.service";
 import QuizPanel from "../../components/quiz/QuizPanel";
 import VideoPlayer from "../../components/ui/VideoPlayer";
@@ -89,8 +90,8 @@ export default function CoursePlayerPage() {
 
         // Skip enrollment fetch for admin
         const enrollRes = isAdmin
-          ? null
-          : await fetchEnrollment(courseId).catch(() => null);
+  ? await fetchAdminCoursePreview(courseId).catch(() => null)
+  : await fetchEnrollment(courseId).catch(() => null);
 
         if (enrollRes?.enrollment) {
           const done = new Set(
