@@ -61,7 +61,9 @@ export default function CoursePlayerPage() {
   const [activeLessonId, setActiveLessonId] = useState(lessonIdParam || null);
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(
+    () => window.innerWidth >= 768,
+  );
   const [expandedSections, setExpandedSections] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [completedLessons, setCompletedLessons] = useState(new Set());
@@ -583,164 +585,174 @@ export default function CoursePlayerPage() {
         {/* ── Sidebar (course content list only) ── */}
         <AnimatePresence initial={false}>
           {sidebarOpen && (
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: 340 }}
-              exit={{ width: 0 }}
-              transition={{ type: "spring", damping: 30, stiffness: 280 }}
-              className="flex-shrink-0 border-l border-gray-800 bg-gray-900 flex flex-col overflow-hidden"
-              style={{ minWidth: 0 }}
-            >
-              {/* Sidebar header */}
-              <div className="p-2.5 border-b border-gray-800 flex gap-1">
-                <SidebarTab active onClick={() => {}}>
-                  Course Content
-                </SidebarTab>
-              </div>
+            <>
+              <div
+                className="fixed inset-0 bg-black/60 z-20 md:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
 
-              {/* Lesson list */}
-              <div className="flex-1 overflow-y-auto">
-                {course?.sections?.map((section) => (
-                  <div
-                    key={section._id}
-                    className="border-b border-gray-800/60"
-                  >
-                    <button
-                      onClick={() =>
-                        setExpandedSections((p) => ({
-                          ...p,
-                          [section._id]: !p[section._id],
-                        }))
-                      }
-                      className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-800/40 transition"
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: 340 }}
+                exit={{ width: 0 }}
+                transition={{ type: "spring", damping: 30, stiffness: 280 }}
+                className="fixed right-0 top-0 h-full z-30 md:relative md:z-auto flex-shrink-0 border-l border-gray-800 bg-gray-900 flex flex-col overflow-hidden"
+                style={{ minWidth: 0 }}
+              >
+                {/* Sidebar header */}
+                <div className="p-2.5 border-b border-gray-800 flex gap-1">
+                  <SidebarTab active onClick={() => {}}>
+                    Course Content
+                  </SidebarTab>
+                </div>
+
+                {/* Lesson list */}
+                <div className="flex-1 overflow-y-auto">
+                  {course?.sections?.map((section) => (
+                    <div
+                      key={section._id}
+                      className="border-b border-gray-800/60"
                     >
-                      <div>
-                        <p className="text-sm font-semibold text-gray-200">
-                          {section.title}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          {section.lessons.length} lessons ·{" "}
-                          {section.lessons.filter((l) => isDone(l._id)).length}{" "}
-                          done
-                        </p>
-                      </div>
-                      <svg
-                        className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${
-                          expandedSections[section._id] ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                      <button
+                        onClick={() =>
+                          setExpandedSections((p) => ({
+                            ...p,
+                            [section._id]: !p[section._id],
+                          }))
+                        }
+                        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-800/40 transition"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-
-                    <AnimatePresence>
-                      {expandedSections[section._id] && (
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ height: "auto" }}
-                          exit={{ height: 0 }}
-                          className="overflow-hidden"
+                        <div>
+                          <p className="text-sm font-semibold text-gray-200">
+                            {section.title}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {section.lessons.length} lessons ·{" "}
+                            {
+                              section.lessons.filter((l) => isDone(l._id))
+                                .length
+                            }{" "}
+                            done
+                          </p>
+                        </div>
+                        <svg
+                          className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${
+                            expandedSections[section._id] ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
-                          {section.lessons.map((lesson) => {
-                            const isActive =
-                              lesson._id === activeLessonId ||
-                              lesson._id?.toString() ===
-                                activeLessonId?.toString();
-                            const done = isDone(lesson._id);
-                            return (
-                              <button
-                                key={lesson._id}
-                                onClick={() => selectLesson(lesson._id)}
-                                className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-all ${
-                                  isActive
-                                    ? "bg-indigo-900/30 border-r-2 border-indigo-500"
-                                    : "hover:bg-gray-800/50"
-                                }`}
-                              >
-                                <div className="mt-0.5 flex-shrink-0">
-                                  {done ? (
-                                    <div className="w-5 h-5 rounded-full bg-green-900/50 flex items-center justify-center">
-                                      <svg
-                                        className="w-3 h-3 text-green-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+
+                      <AnimatePresence>
+                        {expandedSections[section._id] && (
+                          <motion.div
+                            initial={{ height: 0 }}
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            {section.lessons.map((lesson) => {
+                              const isActive =
+                                lesson._id === activeLessonId ||
+                                lesson._id?.toString() ===
+                                  activeLessonId?.toString();
+                              const done = isDone(lesson._id);
+                              return (
+                                <button
+                                  key={lesson._id}
+                                  onClick={() => selectLesson(lesson._id)}
+                                  className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-all ${
+                                    isActive
+                                      ? "bg-indigo-900/30 border-r-2 border-indigo-500"
+                                      : "hover:bg-gray-800/50"
+                                  }`}
+                                >
+                                  <div className="mt-0.5 flex-shrink-0">
+                                    {done ? (
+                                      <div className="w-5 h-5 rounded-full bg-green-900/50 flex items-center justify-center">
+                                        <svg
+                                          className="w-3 h-3 text-green-400"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          viewBox="0 0 24 24"
+                                        >
+                                          <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={3}
+                                            d="M5 13l4 4L19 7"
+                                          />
+                                        </svg>
+                                      </div>
+                                    ) : (
+                                      <div
+                                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                          isActive
+                                            ? "border-indigo-400"
+                                            : "border-gray-600"
+                                        }`}
                                       >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth={3}
-                                          d="M5 13l4 4L19 7"
-                                        />
-                                      </svg>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                        isActive
-                                          ? "border-indigo-400"
-                                          : "border-gray-600"
-                                      }`}
-                                    >
-                                      {isActive && (
-                                        <div className="w-2 h-2 rounded-full bg-indigo-400" />
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p
-                                    className={`text-sm leading-snug ${
-                                      isActive
-                                        ? "text-indigo-300 font-medium"
-                                        : done
-                                          ? "text-gray-500"
-                                          : "text-gray-300"
-                                    }`}
-                                  >
-                                    {lesson.title}
-                                  </p>
-                                  <div className="flex flex-wrap items-center gap-1.5 mt-1">
-                                    {lesson.video?.duration > 0 && (
-                                      <span className="text-xs text-gray-600">
-                                        {fmtDuration(lesson.video.duration)}
-                                      </span>
-                                    )}
-                                    {lesson.quiz && (
-                                      <span className="text-xs bg-purple-900/40 text-purple-400 px-1.5 py-0.5 rounded">
-                                        Quiz
-                                      </span>
-                                    )}
-                                    {lesson.assignment && (
-                                      <span className="text-xs bg-amber-900/40 text-amber-400 px-1.5 py-0.5 rounded">
-                                        Assignment
-                                      </span>
-                                    )}
-                                    {lesson.isFreePreview && (
-                                      <span className="text-xs bg-green-900/40 text-green-400 px-1.5 py-0.5 rounded">
-                                        Free
-                                      </span>
+                                        {isActive && (
+                                          <div className="w-2 h-2 rounded-full bg-indigo-400" />
+                                        )}
+                                      </div>
                                     )}
                                   </div>
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+                                  <div className="flex-1 min-w-0">
+                                    <p
+                                      className={`text-sm leading-snug ${
+                                        isActive
+                                          ? "text-indigo-300 font-medium"
+                                          : done
+                                            ? "text-gray-500"
+                                            : "text-gray-300"
+                                      }`}
+                                    >
+                                      {lesson.title}
+                                    </p>
+                                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                                      {lesson.video?.duration > 0 && (
+                                        <span className="text-xs text-gray-600">
+                                          {fmtDuration(lesson.video.duration)}
+                                        </span>
+                                      )}
+                                      {lesson.quiz && (
+                                        <span className="text-xs bg-purple-900/40 text-purple-400 px-1.5 py-0.5 rounded">
+                                          Quiz
+                                        </span>
+                                      )}
+                                      {lesson.assignment && (
+                                        <span className="text-xs bg-amber-900/40 text-amber-400 px-1.5 py-0.5 rounded">
+                                          Assignment
+                                        </span>
+                                      )}
+                                      {lesson.isFreePreview && (
+                                        <span className="text-xs bg-green-900/40 text-green-400 px-1.5 py-0.5 rounded">
+                                          Free
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
