@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { startQuizAttempt, submitQuizAttempt, getMyAttempts } from "../../api/services/quiz.service";
+import {
+  startQuizAttempt,
+  submitQuizAttempt,
+  getMyAttempts,
+} from "../../api/services/quiz.service";
 
 // ─── Timer ────────────────────────────────────────────────────────────────────
 const Timer = ({ seconds, onExpire }) => {
@@ -11,7 +15,11 @@ const Timer = ({ seconds, onExpire }) => {
     if (seconds === 0) return;
     const id = setInterval(() => {
       setRemaining((prev) => {
-        if (prev <= 1) { clearInterval(id); onExpire(); return 0; }
+        if (prev <= 1) {
+          clearInterval(id);
+          onExpire();
+          return 0;
+        }
         return prev - 1;
       });
     }, 1000);
@@ -25,14 +33,25 @@ const Timer = ({ seconds, onExpire }) => {
   const isWarning = remaining < 60;
 
   return (
-    <div className={`flex items-center gap-1.5 text-sm font-mono font-semibold px-3 py-1 rounded-lg ${
-      isWarning
-        ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400"
-        : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-    }`}>
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <div
+      className={`flex items-center gap-1.5 text-sm font-mono font-semibold px-3 py-1 rounded-lg ${
+        isWarning
+          ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400"
+          : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+      }`}
+    >
+      <svg
+        className="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
       {m}:{String(s).padStart(2, "0")}
     </div>
@@ -67,7 +86,9 @@ const Question = ({ question, index, total, answer, onChange }) => {
         </span>
         <p className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed">
           {question.questionText}
-          <span className="ml-2 text-xs text-gray-400 font-normal">({question.points} pt{question.points !== 1 ? "s" : ""})</span>
+          <span className="ml-2 text-xs text-gray-400 font-normal">
+            ({question.points} pt{question.points !== 1 ? "s" : ""})
+          </span>
         </p>
       </div>
 
@@ -75,7 +96,9 @@ const Question = ({ question, index, total, answer, onChange }) => {
         <input
           type="text"
           value={text}
-          onChange={(e) => onChange({ selectedOptions: [], textAnswer: e.target.value })}
+          onChange={(e) =>
+            onChange({ selectedOptions: [], textAnswer: e.target.value })
+          }
           placeholder="Type your answer..."
           className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
@@ -95,12 +118,16 @@ const Question = ({ question, index, total, answer, onChange }) => {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
-                    isSelected
-                      ? "border-indigo-500 bg-indigo-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}>
-                    {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
+                      isSelected
+                        ? "border-indigo-500 bg-indigo-500"
+                        : "border-gray-300 dark:border-gray-600"
+                    }`}
+                  >
+                    {isSelected && (
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    )}
                   </div>
                   {opt.text}
                 </div>
@@ -118,18 +145,28 @@ const ResultView = ({ result, questions, onRetry, attemptsRemaining }) => {
   const [expandedQ, setExpandedQ] = useState(null);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-5"
+    >
       {/* Score card */}
-      <div className={`rounded-2xl p-5 text-center ${
-        result.passed
-          ? "bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800"
-          : "bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800"
-      }`}>
+      <div
+        className={`rounded-2xl p-5 text-center ${
+          result.passed
+            ? "bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800"
+            : "bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800"
+        }`}
+      >
         <div className="text-4xl mb-2">{result.passed ? "🎉" : "📚"}</div>
-        <p className={`text-3xl font-bold mb-1 ${result.passed ? "text-green-700 dark:text-green-300" : "text-red-600 dark:text-red-400"}`}>
+        <p
+          className={`text-3xl font-bold mb-1 ${result.passed ? "text-green-700 dark:text-green-300" : "text-red-600 dark:text-red-400"}`}
+        >
           {result.scorePercent}%
         </p>
-        <p className={`text-sm font-medium ${result.passed ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}>
+        <p
+          className={`text-sm font-medium ${result.passed ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}
+        >
           {result.passed ? "Passed!" : `Need ${result.passMark}% to pass`}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -140,44 +177,71 @@ const ResultView = ({ result, questions, onRetry, attemptsRemaining }) => {
       {/* Answer review */}
       {questions && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Answer Review</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            Answer Review
+          </p>
           {questions.map((q, i) => (
-            <div key={q._id} className="border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden">
+            <div
+              key={q._id}
+              className="border border-gray-100 dark:border-gray-700 rounded-xl overflow-hidden"
+            >
               <button
                 className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                 onClick={() => setExpandedQ(expandedQ === i ? null : i)}
               >
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${
-                  q.studentAnswer?.isCorrect
-                    ? "bg-green-100 dark:bg-green-900 text-green-600"
-                    : "bg-red-100 dark:bg-red-900 text-red-500"
-                }`}>
+                <span
+                  className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 text-xs ${
+                    q.studentAnswer?.isCorrect
+                      ? "bg-green-100 dark:bg-green-900 text-green-600"
+                      : "bg-red-100 dark:bg-red-900 text-red-500"
+                  }`}
+                >
                   {q.studentAnswer?.isCorrect ? "✓" : "✗"}
                 </span>
-                <span className="text-sm text-gray-800 dark:text-gray-200 flex-1 truncate">{q.questionText}</span>
-                <span className="text-xs text-gray-400">{q.studentAnswer?.pointsEarned}/{q.points}pt</span>
+                <span className="text-sm text-gray-800 dark:text-gray-200 flex-1 truncate">
+                  {q.questionText}
+                </span>
+                <span className="text-xs text-gray-400">
+                  {q.studentAnswer?.pointsEarned}/{q.points}pt
+                </span>
               </button>
 
               <AnimatePresence>
                 {expandedQ === i && (
                   <motion.div
-                    initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }}
+                    initial={{ height: 0 }}
+                    animate={{ height: "auto" }}
+                    exit={{ height: 0 }}
                     className="overflow-hidden"
                   >
                     <div className="px-4 pb-4 space-y-2 bg-gray-50 dark:bg-gray-900">
                       {q.options?.map((opt) => (
-                        <div key={opt._id} className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg ${
-                          opt.isCorrect
-                            ? "bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300"
-                            : q.studentAnswer?.selectedOptions?.includes(opt._id)
-                              ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400"
-                              : "text-gray-500"
-                        }`}>
-                          {opt.isCorrect ? "✓" : q.studentAnswer?.selectedOptions?.includes(opt._id) ? "✗" : "○"} {opt.text}
+                        <div
+                          key={opt._id}
+                          className={`flex items-center gap-2 text-xs px-3 py-2 rounded-lg ${
+                            opt.isCorrect
+                              ? "bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300"
+                              : q.studentAnswer?.selectedOptions?.includes(
+                                    opt._id,
+                                  )
+                                ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400"
+                                : "text-gray-500"
+                          }`}
+                        >
+                          {opt.isCorrect
+                            ? "✓"
+                            : q.studentAnswer?.selectedOptions?.includes(
+                                  opt._id,
+                                )
+                              ? "✗"
+                              : "○"}{" "}
+                          {opt.text}
                         </div>
                       ))}
                       {q.explanation && (
-                        <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1 italic">💡 {q.explanation}</p>
+                        <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1 italic">
+                          💡 {q.explanation}
+                        </p>
                       )}
                     </div>
                   </motion.div>
@@ -194,7 +258,8 @@ const ResultView = ({ result, questions, onRetry, attemptsRemaining }) => {
           onClick={onRetry}
           className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition"
         >
-          Try again {attemptsRemaining !== "unlimited" && `(${attemptsRemaining} left)`}
+          Try again{" "}
+          {attemptsRemaining !== "unlimited" && `(${attemptsRemaining} left)`}
         </button>
       )}
     </motion.div>
@@ -202,7 +267,7 @@ const ResultView = ({ result, questions, onRetry, attemptsRemaining }) => {
 };
 
 // ─── Main QuizPanel ───────────────────────────────────────────────────────────
-export default function QuizPanel({ quizId }) {
+export default function QuizPanel({ quizId, onComplete }) {
   const [phase, setPhase] = useState("idle"); // idle | loading | taking | submitting | result | error
   const [quiz, setQuiz] = useState(null);
   const [attempt, setAttempt] = useState(null);
@@ -219,7 +284,10 @@ export default function QuizPanel({ quizId }) {
   useEffect(() => {
     if (!quizId) return;
     getMyAttempts(quizId)
-      .then((data) => { setMyAttempts(data); setQuiz(data.quiz); })
+      .then((data) => {
+        setMyAttempts(data);
+        setQuiz(data.quiz);
+      })
       .catch(() => {});
   }, [quizId]);
 
@@ -251,7 +319,9 @@ export default function QuizPanel({ quizId }) {
       selectedOptions: answers[q._id]?.selectedOptions || [],
       textAnswer: answers[q._id]?.textAnswer || "",
     }));
-    const timeTakenSeconds = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+    const timeTakenSeconds = startTime
+      ? Math.round((Date.now() - startTime) / 1000)
+      : 0;
 
     try {
       const data = await submitQuizAttempt(quizId, {
@@ -262,8 +332,10 @@ export default function QuizPanel({ quizId }) {
       setResult(data.result);
       setResultQuestions(data.questions);
       setPhase("result");
-      // Refresh attempt history
-      getMyAttempts(quizId).then((d) => setMyAttempts(d)).catch(() => {});
+      if (data.result?.passed && onComplete) onComplete(); // ← add
+      getMyAttempts(quizId)
+        .then((d) => setMyAttempts(d))
+        .catch(() => {});
     } catch (err) {
       toast.error(err.response?.data?.message || "Submit failed");
       setPhase("taking");
@@ -276,9 +348,12 @@ export default function QuizPanel({ quizId }) {
   };
 
   const answeredCount = Object.keys(answers).filter(
-    (k) => (answers[k]?.selectedOptions?.length > 0) || answers[k]?.textAnswer
+    (k) => answers[k]?.selectedOptions?.length > 0 || answers[k]?.textAnswer,
   ).length;
-  const progress = questions.length > 0 ? Math.round((answeredCount / questions.length) * 100) : 0;
+  const progress =
+    questions.length > 0
+      ? Math.round((answeredCount / questions.length) * 100)
+      : 0;
 
   // ── Idle state ──────────────────────────────────────────────────────────────
   if (phase === "idle" || phase === "loading") {
@@ -297,9 +372,17 @@ export default function QuizPanel({ quizId }) {
             </p>
           </div>
           <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400">
-            {myAttempts?.quiz?.passMark && <span>Pass mark: {myAttempts.quiz.passMark}%</span>}
-            {maxAttempts > 0 && <span>Attempts: {attemptsUsed}/{maxAttempts}</span>}
-            {myAttempts?.bestScore == null || <span>Best score: {myAttempts.bestScore}%</span>}
+            {myAttempts?.quiz?.passMark && (
+              <span>Pass mark: {myAttempts.quiz.passMark}%</span>
+            )}
+            {maxAttempts > 0 && (
+              <span>
+                Attempts: {attemptsUsed}/{maxAttempts}
+              </span>
+            )}
+            {myAttempts?.bestScore == null || (
+              <span>Best score: {myAttempts.bestScore}%</span>
+            )}
           </div>
         </div>
 
@@ -315,8 +398,17 @@ export default function QuizPanel({ quizId }) {
           className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2"
         >
           {phase === "loading" ? (
-            <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Starting...</>
-          ) : noAttemptsLeft ? "No attempts remaining" : hasPassed ? "Retake quiz" : "Start quiz"}
+            <>
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Starting...
+            </>
+          ) : noAttemptsLeft ? (
+            "No attempts remaining"
+          ) : hasPassed ? (
+            "Retake quiz"
+          ) : (
+            "Start quiz"
+          )}
         </button>
       </div>
     );
@@ -382,8 +474,13 @@ export default function QuizPanel({ quizId }) {
               className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2"
             >
               {phase === "submitting" ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Grading...</>
-              ) : `Submit (${answeredCount}/${questions.length})`}
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Grading...
+                </>
+              ) : (
+                `Submit (${answeredCount}/${questions.length})`
+              )}
             </button>
           )}
         </div>
@@ -391,7 +488,9 @@ export default function QuizPanel({ quizId }) {
         {/* Question dots */}
         <div className="flex flex-wrap gap-1.5 pt-1">
           {questions.map((qu, i) => {
-            const hasAns = (answers[qu._id]?.selectedOptions?.length > 0) || answers[qu._id]?.textAnswer;
+            const hasAns =
+              answers[qu._id]?.selectedOptions?.length > 0 ||
+              answers[qu._id]?.textAnswer;
             return (
               <button
                 key={qu._id}
@@ -420,7 +519,11 @@ export default function QuizPanel({ quizId }) {
         result={result}
         questions={resultQuestions}
         attemptsRemaining={myAttempts?.attemptsRemaining}
-        onRetry={() => { setPhase("idle"); setResult(null); setResultQuestions(null); }}
+        onRetry={() => {
+          setPhase("idle");
+          setResult(null);
+          setResultQuestions(null);
+        }}
       />
     );
   }
