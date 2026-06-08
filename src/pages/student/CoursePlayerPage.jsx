@@ -178,6 +178,10 @@ export default function CoursePlayerPage() {
   const hasAssignment = !!activeLesson?.assignment;
   const hasExtras = hasQuiz || hasAssignment;
 
+  const forceDownload = (url, title) => {
+  return url.replace("/upload/", `/upload/fl_attachment:${title.replace(/\s+/g, "_")}/`);
+  };
+
   if (isLoading)
     return (
       <div className="h-screen flex items-center justify-center bg-gray-950">
@@ -432,9 +436,10 @@ export default function CoursePlayerPage() {
                       {activeLesson.notes.map((note) => (
                         <a
                           key={note._id}
-                          href={note.url}
+                          href={forceDownload(note.url, note.title)} 
                           target="_blank"
                           rel="noreferrer"
+                          download
                           className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded-lg transition"
                         >
                           <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
