@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearAuth, selectUser } from "../store/slices/authSlice";
 import api from "../api/axios";
 
-const ADMIN_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
+const ADMIN_TIMEOUT_MS = 1 * 60 * 1000; // 5 minutes
 
 export const useAdminSessionGuard = () => {
   const location = useLocation();
