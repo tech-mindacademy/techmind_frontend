@@ -1,5 +1,9 @@
 import { useSelector } from "react-redux";
-import { selectIsInitialized } from "./store/slices/authSlice";
+import {
+  selectIsInitialized,
+  selectIsAuthenticated,  // ← add
+  selectUser,             // ← add
+} from "./store/slices/authSlice";
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
