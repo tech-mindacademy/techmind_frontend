@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearAuth, selectUser } from "../store/slices/authSlice";
 import api from "../api/axios";
 
-const ADMIN_TIMEOUT_MS = 1 * 60 * 1000; // 5 minutes
+const ADMIN_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
 // All fully public routes (not protected by any role)
 const PUBLIC_ROUTES = [
@@ -54,7 +54,7 @@ export const useAdminSessionGuard = () => {
     } catch (_) {}
     finally {
       dispatch(clearAuth());
-      window.location.href = "/auth";
+      window.location.href = "/";
     }
   };
 
