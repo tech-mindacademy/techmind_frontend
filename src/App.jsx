@@ -74,6 +74,7 @@ import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
 import CreatorProfilePage from "./pages/creator/CreatorProfilePage";
 import AdminProfilePage from "./pages/admin/AdminProfilePage";
 import ReviewApprovalsPage from "./pages/admin/ReviewApprovalsPage";
+import { useAdminSessionGuard } from "./hooks/useAdminSessionGaurd";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -84,6 +85,7 @@ const SessionLoader = () => (
 function App() {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectIsInitialized);
+  useAdminSessionGuard();
 
   // On mount: try to restore session from httpOnly refresh token cookie
   useEffect(() => {

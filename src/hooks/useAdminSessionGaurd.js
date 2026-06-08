@@ -7,6 +7,34 @@ import api from "../api/axios";
 
 const ADMIN_TIMEOUT_MS = 1 * 60 * 1000; // 5 minutes
 
+// All fully public routes (not protected by any role)
+const PUBLIC_ROUTES = [
+  "/",
+  "/techmind-courses",
+  "/about",
+  "/contact",
+  "/internships",
+  "/services",
+  "/certificate-purchase",
+  "/refund",
+  "/privacy",
+  "/unauthorized",
+];
+
+// Prefix-based public routes (dynamic segments)
+const PUBLIC_PREFIXES = [
+  "/verify-email/",
+  "/forgot-password",
+  "/reset-password/",
+  "/auth",
+];
+
+const isPublicRoute = (pathname) => {
+  if (PUBLIC_ROUTES.includes(pathname)) return true;
+  if (PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
+  return false;
+};
+
 export const useAdminSessionGuard = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -22,15 +50,11 @@ export const useAdminSessionGuard = () => {
 
   const forceLogout = async () => {
     try {
-      // Fire and forget — we don't care if this fails
-      // Just needs to clear the httpOnly cookie on the backend
       await api.post("/auth/logout");
-    } catch (_) {
-      // Ignore errors — cookie may already be expired/invalid
-    } finally {
-      // Always clear Redux state and redirect regardless of API result
+    } catch (_) {}
+    finally {
       dispatch(clearAuth());
-      window.location.href = "/login";
+      window.location.href = "/auth";
     }
   };
 
@@ -43,14 +67,15 @@ export const useAdminSessionGuard = () => {
     const isAdminPage = location.pathname.startsWith("/admin");
 
     if (isAdminPage) {
+      // Back on admin pages — cancel countdown
       clearTimer();
-    } else {
+    } else if (isPublicRoute(location.pathname)) {
+      // On a public route — start countdown if not already running
       if (!timerRef.current) {
-        timerRef.current = setTimeout(() => {
-          forceLogout();
-        }, ADMIN_TIMEOUT_MS);
+        timerRef.current = setTimeout(forceLogout, ADMIN_TIMEOUT_MS);
       }
     }
+    // Protected role routes (/student/*, /creator/*) — do nothing, let existing timer run or not
   }, [location.pathname, user?.role]);
 
   useEffect(() => {
