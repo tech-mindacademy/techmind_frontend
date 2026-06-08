@@ -4,9 +4,9 @@ import {
   selectIsAuthenticated,
   selectUserRole,
   selectIsInitialized,
+  selectUser,  // ← add this
 } from "../store/slices/authSlice";
 
-// Role to default dashboard mapping
 export const ROLE_DASHBOARDS = {
   student: "/student/dashboard",
   creator: "/creator/dashboard",
@@ -22,30 +22,22 @@ const SessionLoader = () => (
   </div>
 );
 
-/**
- * ProtectedRoute
- * - allowedRoles: string[] — if provided, only these roles can access
- * - If not authenticated → redirect to /login (saves intended URL)
- * - If wrong role → redirect to that user's own dashboard
- * - If session not yet initialized → show spinner
- */
 const ProtectedRoute = ({ allowedRoles = [] }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const role = useSelector(selectUserRole);
   const isInitialized = useSelector(selectIsInitialized);
+  const user = useSelector(selectUser);  // ← add this
   const location = useLocation();
 
-  // Wait for session restoration before deciding
-  if (!isInitialized) {
+  // Wait for session restoration AND user object to be populated
+  if (!isInitialized || (isAuthenticated && !user)) {  // ← add user check
     return <SessionLoader />;
   }
 
-  // Not logged in → go to login, remember where they wanted to go
   if (!isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // Role check: if allowedRoles specified and user's role not in list
   if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
     const ownDashboard = ROLE_DASHBOARDS[role] || "/";
     return <Navigate to={ownDashboard} replace />;
