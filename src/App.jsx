@@ -89,15 +89,12 @@ function App() {
   const isInitialized = useSelector(selectIsInitialized);
   useAdminSessionGuard();
 
-  // On mount: restore session from httpOnly refresh token cookie.
-  // bootstrapAuth handles both refreshAccessToken + fetchCurrentUser,
-  // and always resolves isInitialized=true (even on failure).
+
   useEffect(() => {
     dispatch(bootstrapAuth());
   }, [dispatch]);
 
-  // Block all routing until auth state is known — prevents flash-redirect
-  // to landing page before the cookie check completes.
+  
   if (!isInitialized) return <SessionLoader />;
 
   return (
