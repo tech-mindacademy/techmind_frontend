@@ -166,7 +166,7 @@ const authSlice = createSlice({
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
         state.isAuthenticated = true;
-        state.isInitialized = true; // ← was commented out before, causing stuck state
+        state.isInitialized = true;
       })
       .addCase(refreshAccessToken.rejected, (state) => {
         state.user = null;
