@@ -28,4 +28,6 @@ export const store = configureStore({
   devTools: import.meta.env.MODE !== "production",
 });
 
+store.dispatch(bootstrapAuth());
+
 export default store;
