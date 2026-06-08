@@ -87,6 +87,8 @@ const SessionLoader = () => (
 function App() {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectIsInitialized);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
    console.log("RENDER →", { isInitialized, isAuthenticated, user });
   useAdminSessionGuard();
 
