@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import { useAdminSessionGuard } from "../../hooks/useAdminSessionGaurd";
 
 const navItems = [
   {
@@ -163,6 +164,7 @@ function SidebarContent({ onClose, user, logout }) {
 export default function AdminLayout() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  useAdminSessionGuard();
   return (
     <div className="flex min-h-screen bg-slate-950 overflow-hidden">
       <div className="hidden lg:flex flex-shrink-0">
