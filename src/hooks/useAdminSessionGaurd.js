@@ -1,7 +1,9 @@
+// hooks/useAdminSessionGuard.js
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, selectUser } from "../store/slices/authSlice";
+import { clearAuth, selectUser } from "../store/slices/authSlice";
+import api from "../api/axios";
 
 const ADMIN_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -11,33 +13,47 @@ export const useAdminSessionGuard = () => {
   const user = useSelector(selectUser);
   const timerRef = useRef(null);
 
+  const clearTimer = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const forceLogout = async () => {
+    try {
+      // Fire and forget — we don't care if this fails
+      // Just needs to clear the httpOnly cookie on the backend
+      await api.post("/auth/logout");
+    } catch (_) {
+      // Ignore errors — cookie may already be expired/invalid
+    } finally {
+      // Always clear Redux state and redirect regardless of API result
+      dispatch(clearAuth());
+      window.location.href = "/login";
+    }
+  };
+
   useEffect(() => {
-    // Only applies to admins
-    if (user?.role !== "admin") return;
+    if (user?.role !== "admin") {
+      clearTimer();
+      return;
+    }
 
     const isAdminPage = location.pathname.startsWith("/admin");
 
     if (isAdminPage) {
-      // ── Admin returned to /admin/* — cancel the countdown ──────────────────
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
+      clearTimer();
     } else {
-      // ── Admin left /admin/* — start 5min countdown ─────────────────────────
       if (!timerRef.current) {
         timerRef.current = setTimeout(() => {
-          dispatch(logoutUser());
+          forceLogout();
         }, ADMIN_TIMEOUT_MS);
       }
     }
-
-    // Cleanup on unmount
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-    };
   }, [location.pathname, user?.role]);
+
+  useEffect(() => {
+    return () => clearTimer();
+  }, []);
 };
