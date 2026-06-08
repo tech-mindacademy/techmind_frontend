@@ -179,7 +179,8 @@ export default function CoursePlayerPage() {
   const hasExtras = hasQuiz || hasAssignment;
 
   const forceDownload = (url, title) => {
-  return url.replace("/upload/", `/upload/fl_attachment:${title.replace(/\s+/g, "_")}/`);
+  // For raw files, use fl_attachment without transformation chaining
+  return url.replace("/upload/", "/upload/fl_attachment/");
   };
 
   if (isLoading)
