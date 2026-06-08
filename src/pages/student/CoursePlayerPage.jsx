@@ -178,10 +178,26 @@ export default function CoursePlayerPage() {
   const hasAssignment = !!activeLesson?.assignment;
   const hasExtras = hasQuiz || hasAssignment;
 
-  const forceDownload = (url, title) => {
-  // For raw files, use fl_attachment without transformation chaining
-  return url.replace("/upload/", "/upload/fl_attachment/");
-  };
+  const forceDownload = async (url, title, fileType = "pdf") => {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    
+    // Force PDF MIME type so browser treats it as a download, not a preview
+    const pdfBlob = new Blob([blob], { type: "application/pdf" });
+    const blobUrl = window.URL.createObjectURL(pdfBlob);
+    
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = `${title}.${fileType}`;  // use actual fileType
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(blobUrl);
+  } catch (err) {
+    window.open(url, "_blank");
+  }
+};
 
   if (isLoading)
     return (
@@ -437,10 +453,9 @@ export default function CoursePlayerPage() {
                       {activeLesson.notes.map((note) => (
                         <a
                           key={note._id}
-                          href={forceDownload(note.url, note.title)} 
-                          target="_blank"
+                          onClick={() => forceDownload(note.url, note.title, note.fileType || "pdf")}
+                          
                           rel="noreferrer"
-                          download
                           className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded-lg transition"
                         >
                           <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
