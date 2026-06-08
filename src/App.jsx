@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 // import { useDispatch } from "react-redux";
 
-import { bootstrapAuth } from "./store/slices/authSlice";
+// import { bootstrapAuth } from "./store/slices/authSlice";
 
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
