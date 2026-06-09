@@ -213,9 +213,10 @@ export default function CoursePlayerPage() {
     const load = async () => {
       try {
         setIsLoading(true);
-        // Admins use a dedicated endpoint that bypasses approval/publish gates
+        // Admins hit a dedicated endpoint that bypasses approval/publish gates.
+        // Students hit the normal public endpoint.
         const courseEndpoint = isAdmin
-          ? `/courses/admin-preview/${courseId}`
+          ? `/admin/courses/${courseId}/preview`
           : `/courses/${courseId}`;
         const courseRes = await api.get(courseEndpoint).then((r) => r.data);
         if (!courseRes.success) {
