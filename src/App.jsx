@@ -1,10 +1,14 @@
 import { useSelector } from "react-redux";
-import { selectIsInitialized } from "./store/slices/authSlice";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  selectIsInitialized,
+  selectIsAuthenticated,  // ← add
+  selectUser,             // ← add
+} from "./store/slices/authSlice";
+import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { refreshAccessToken, fetchCurrentUser } from "./store/slices/authSlice";
+// import { bootstrapAuth } from "./store/slices/authSlice";
 
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -19,7 +23,6 @@ import LandingPage from "./pages/LandingPage";
 import CourseCataloguePage from "./pages/CourseCataloguePage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
-// import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 
 // Student pages
@@ -43,6 +46,7 @@ import CreatorAnalytics from "./pages/creator/CreatorAnalytics";
 import CreatorWallet from "./pages/creator/CreatorWallet";
 import CouponManager from "./pages/creator/CouponManager";
 import CertificateManager from "./pages/creator/CertificateManager";
+import CreatorProfilePage from "./pages/creator/CreatorProfilePage";
 
 // Admin pages
 import AdminLayout from "./components/layout/AdminLayout";
@@ -54,25 +58,29 @@ import CategoryManagement from "./pages/admin/CategoryManagement";
 import RevenueReports from "./pages/admin/RevenueReports";
 import PlatformSettings from "./pages/admin/PlatformSettings";
 import AdminWallets from "./pages/admin/AdminWallets";
+import InternshipManagement from "./pages/admin/InternshipManagement";
+import HeroImageManager from "./pages/admin/HeroImageManager";
+import AdminRefundPage from "./pages/admin/AdminRefundPage";
+import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
+import AdminProfilePage from "./pages/admin/AdminProfilePage";
+import ReviewApprovalsPage from "./pages/admin/ReviewApprovalsPage";
+
+// Other pages
 import CoursesLandingPage from "./pages/CoursesLandingPage";
 import AboutUs from "./pages/AboutUs";
 import ContactUsPage from "./pages/ContactUsPage";
 import InternshipsPage from "./pages/InternshipPage";
 import CertificatePurchasePage from "./pages/CertificatePurchasePage";
-import InternshipManagement from "./pages/admin/InternshipManagement";
 import ProfileModal from "./components/ProfileModal";
 import Service from "./pages/Service";
 import AuthPage from "./pages/auth/AuthPage";
-import HeroImageManager from "./pages/admin/HeroImageManager";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ReviewsPage from "./pages/student/ReviewPage";
 import ScrollToTop from "./components/ScrollToTop";
-import AdminRefundPage from "./pages/admin/AdminRefundPage";
 import MyRefundPage from "./pages/student/MyRefundPage";
-import AdminIssueCertificate from "./pages/admin/AdminIssueCertificate";
-import CreatorProfilePage from "./pages/creator/CreatorProfilePage";
-import AdminProfilePage from "./pages/admin/AdminProfilePage";
+
+import { useAdminSessionGuard } from "./hooks/useAdminSessionGaurd";
 
 const SessionLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -83,26 +91,24 @@ const SessionLoader = () => (
 function App() {
   const dispatch = useDispatch();
   const isInitialized = useSelector(selectIsInitialized);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+  useAdminSessionGuard();
 
-  // On mount: try to restore session from httpOnly refresh token cookie
-  useEffect(() => {
-    dispatch(refreshAccessToken())
-      .unwrap()
-      .then(() => dispatch(fetchCurrentUser()))
-      .catch(() => {
-        // No valid session — isInitialized will be set to true in rejected handler
-      });
-  }, [dispatch]);
 
+  // useEffect(() => {
+  //   dispatch(bootstrapAuth());
+  // }, [dispatch]);
+
+  
   if (!isInitialized) return <SessionLoader />;
 
   return (
     <>
       <ScrollToTop />
       <Routes>
-        {/* ── Fully public pages (no auth needed) ──────────────────────────── */}
+        {/* ── Fully public pages ──────────────────────────────────────────── */}
         <Route path="/" element={<LandingPage />} />
-
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         <Route path="/techmind-courses" element={<CoursesLandingPage />} />
@@ -110,114 +116,77 @@ function App() {
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/internships" element={<InternshipsPage />} />
         <Route path="/profile" element={<ProfileModal />} />
-        <Route
-          path="/certificate-purchase"
-          element={<CertificatePurchasePage />}
-        />
-
+        <Route path="/certificate-purchase" element={<CertificatePurchasePage />} />
         <Route path="/services" element={<Service />} />
         <Route path="/refund" element={<RefundPolicyPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
-        {/* <Route path="/payment/success" element={<PaymentSuccessPage />} /> */}
 
-        {/* ── Auth pages: redirect away if already logged in ────────────────── */}
+        {/* ── Auth pages: redirect away if already logged in ───────────────── */}
         <Route element={<PublicRoute />}>
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-          />
-          {/* <Route path="/techmind-courses" element={<CoursesLandingPage />} /> */}
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         </Route>
 
-        {/* ── Student routes: only role="student" ──────────────────────────── */}
+        {/* ── Student routes ───────────────────────────────────────────────── */}
         <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
           <Route element={<StudentLayout />}>
             <Route path="/student/dashboard" element={<StudentDashboard />} />
             <Route path="/student/my-courses" element={<MyCoursesPage />} />
-            <Route
-              path="/student/learn/:courseId"
-              element={<CoursePlayerPage />}
-            />
-            <Route
-              path="/student/learn/:courseId/lesson/:lessonId"
-              element={<CoursePlayerPage />}
-            />
-            <Route
-              path="/student/certificate/:courseId"
-              element={<CertificatePage />}
-            />
+            <Route path="/student/learn/:courseId" element={<CoursePlayerPage />} />
+            <Route path="/student/learn/:courseId/lesson/:lessonId" element={<CoursePlayerPage />} />
+            <Route path="/student/certificate/:courseId" element={<CertificatePage />} />
             <Route path="/student/profile" element={<StudentProfilePage />} />
             <Route path="/courses" element={<CourseCataloguePage />} />
             <Route path="/courses/:slug" element={<CourseDetailPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
             <Route path="/student/refunds" element={<MyRefundPage />} />
-
           </Route>
         </Route>
 
-        {/* ── Creator routes: only role="creator" ──────────────────────────── */}
+        {/* ── Creator routes ───────────────────────────────────────────────── */}
         <Route element={<ProtectedRoute allowedRoles={["creator"]} />}>
           <Route element={<CreatorLayout />}>
             <Route path="/creator/dashboard" element={<CreatorDashboard />} />
             <Route path="/creator/courses" element={<MyCourses />} />
             <Route path="/creator/courses/new" element={<CourseBuilder />} />
-            <Route
-              path="/creator/courses/:courseId/edit"
-              element={<CourseBuilder />}
-            />
-            <Route
-              path="/creator/courses/:courseId/lessons/:lessonId"
-              element={<LessonEditor />}
-            />
-            <Route
-              path="/creator/courses/:courseId/quiz/:lessonId"
-              element={<QuizBuilder />}
-            />
-            <Route
-              path="/creator/courses/:courseId/assignment/:lessonId"
-              element={<AssignmentBuilder />}
-            />
+            <Route path="/creator/courses/:courseId/edit" element={<CourseBuilder />} />
+            <Route path="/creator/courses/:courseId/lessons/:lessonId" element={<LessonEditor />} />
+            <Route path="/creator/courses/:courseId/quiz/:lessonId" element={<QuizBuilder />} />
+            <Route path="/creator/courses/:courseId/assignment/:lessonId" element={<AssignmentBuilder />} />
             <Route path="/creator/submissions" element={<SubmissionsPage />} />
             <Route path="/creator/analytics" element={<CreatorAnalytics />} />
             <Route path="/creator/wallet" element={<CreatorWallet />} />
             <Route path="/creator/coupons" element={<CouponManager />} />
-            <Route
-              path="/creator/certificates"
-              element={<CertificateManager />}
-            />
+            <Route path="/creator/certificates" element={<CertificateManager />} />
             <Route path="/creator/profile" element={<CreatorProfilePage />} />
           </Route>
-          
         </Route>
 
-        {/* ── Admin routes: only role="admin" ──────────────────────────────── */}
+        {/* ── Admin routes ─────────────────────────────────────────────────── */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/admin/courses" element={<CourseManagement />} />
-            <Route
-              path="/admin/course-approvals"
-              element={<CourseApprovals />}
-            />
+            <Route path="/admin/course-approvals" element={<CourseApprovals />} />
             <Route path="/admin/categories" element={<CategoryManagement />} />
             <Route path="/admin/revenue" element={<RevenueReports />} />
             <Route path="/admin/settings" element={<PlatformSettings />} />
             <Route path="/admin/wallets" element={<AdminWallets />} />
-            <Route
-              path="/admin/internships"
-              element={<InternshipManagement />}
-            />
+            <Route path="/admin/internships" element={<InternshipManagement />} />
             <Route path="/admin/hero-images" element={<HeroImageManager />} />
             <Route path="/admin/refunds" element={<AdminRefundPage />} />
             <Route path="/admin/issue-certificate" element={<AdminIssueCertificate />} />
             <Route path="/admin/profile" element={<AdminProfilePage />} />
+            <Route path="/admin/preview/:slug" element={<CourseDetailPage />} />
+            <Route path="/admin/preview/learn/:courseId" element={<CoursePlayerPage />} />
+            <Route path="/admin/preview/learn/:courseId/lesson/:lessonId" element={<CoursePlayerPage />} />
+            <Route path="/admin/review-approvals" element={<ReviewApprovalsPage />} />
           </Route>
         </Route>
 
-        {/* ── Catch-all ─────────────────────────────────────────────────────── */}
+        {/* ── Catch-all ────────────────────────────────────────────────────── */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

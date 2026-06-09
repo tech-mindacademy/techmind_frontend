@@ -5,6 +5,7 @@ import quizReducer       from "./slices/quizSlice";
 import assignmentReducer from "./slices/assignmentSlice";
 import adminReducer      from "./slices/adminSlice";
 import reviewsReducer from "./slices/ReviewSlice";
+import { bootstrapAuth } from "./slices/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -27,5 +28,7 @@ export const store = configureStore({
     }),
   devTools: import.meta.env.MODE !== "production",
 });
+
+store.dispatch(bootstrapAuth());
 
 export default store;

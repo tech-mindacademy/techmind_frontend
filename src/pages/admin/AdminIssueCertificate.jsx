@@ -149,7 +149,7 @@ export default function AdminIssueCertificate() {
 
   // ── Form ───────────────────────────────────────────────────────────────────
   return (
-    <div>
+    <div className="pb-6">
       <motion.div
         variants={fadeUp}
         initial="initial"
@@ -163,7 +163,7 @@ export default function AdminIssueCertificate() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
         {/* Form */}
         <div className="lg:col-span-3">
           <form onSubmit={handleIssue} className="space-y-5">
@@ -400,7 +400,7 @@ export default function AdminIssueCertificate() {
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 self-start">
           <div className="sticky top-6 space-y-4">
             <div className="bg-gradient-to-br from-orange-600 to-amber-600 rounded-2xl p-6 text-white">
               <h3 className="font-bold text-lg mb-4">Certificate Preview</h3>

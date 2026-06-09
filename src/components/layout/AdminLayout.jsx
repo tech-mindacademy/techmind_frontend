@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import { useAdminSessionGuard } from "../../hooks/useAdminSessionGaurd";
 
 const navItems = [
   {
@@ -57,6 +58,11 @@ const navItems = [
   {
     to: "/admin/refunds",
     label: "Refunds Approvals",
+    d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    to: "/admin/review-approvals",
+    label: "Review Approvals",
     d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
@@ -158,8 +164,9 @@ function SidebarContent({ onClose, user, logout }) {
 export default function AdminLayout() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  useAdminSessionGuard();
   return (
-    <div className="flex h-screen bg-slate-950 overflow-hidden">
+    <div className="flex min-h-screen bg-slate-950 overflow-hidden">
       <div className="hidden lg:flex flex-shrink-0">
         <SidebarContent user={user} logout={logout} />
       </div>
@@ -211,8 +218,10 @@ export default function AdminLayout() {
           </button>
           <span className="font-bold text-white">Admin</span>
         </div>
-        <main className="flex-1 overflow-y-auto p-6 max-w-7xl mx-auto w-full">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto">
+          <div className="p-6 max-w-7xl mx-auto w-full">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

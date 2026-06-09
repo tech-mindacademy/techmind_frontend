@@ -95,7 +95,7 @@ export default function AuthPage() {
         loginUser({
           email: form.email,
           password: form.password,
-        })
+        }),
       );
 
       if (loginUser.fulfilled.match(result)) {
@@ -122,42 +122,44 @@ export default function AuthPage() {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-[#050816] text-white relative overflow-hidden">
-        {/* GRID */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <div className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
+        {/* GRID - Light version */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,.06)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-        {/* GLOW */}
-        <div className="absolute top-[-200px] left-[-100px] w-[500px] h-[500px] bg-purple-700/30 blur-[120px]" />
-        <div className="absolute bottom-[-200px] right-[-100px] w-[500px] h-[500px] bg-blue-700/30 blur-[120px]" />
+        {/* GLOW - Light version */}
+        {/* <div className="absolute top-[-200px] left-[-150px] w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-200px] right-[-150px] w-[700px] h-[700px] bg-indigo-500/10 blur-[140px] rounded-full" /> */}
 
         <div className="relative z-10 min-h-screen grid lg:grid-cols-2">
-          {/* LEFT SIDE */}
-          <div className="hidden lg:flex flex-col justify-center px-20">
+          {/* LEFT SIDE - Light Theme */}
+          <div className="hidden lg:flex flex-col justify-center px-40">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
               <Link to="/">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent mb-10">
-                  Tech Minds
-                </h1>
+                <div className="flex items-center gap-3 mb-10">
+                  {/* <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center">
+                    <span className="text-white font-bold text-3xl">TM</span>
+                  </div> */}
+                  {/* <h1 className="text-3xl font-bold tracking-tight">
+                    Tech Mind
+                  </h1> */}
+                </div>
               </Link>
 
-              <span className="px-4 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-indigo-300 inline-block mb-6">
-                The future of online learning
+              <span className="px-5 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-sm inline-block mb-6">
+                The Modern Learning with Tech Mind Academy
               </span>
 
-              <h2 className="text-6xl font-bold leading-tight mb-6">
-                Learn anything, <br />
-                <span className="text-transparent bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text">
-                  master everything.
-                </span>
+              <h2 className="text-6xl font-bold leading-tight mb-6 text-gray-900">
+                Learn Fast. Land Faster.
               </h2>
 
-              <p className="text-gray-400 text-lg leading-relaxed max-w-xl mb-10">
-                Build real-world skills with premium courses, quizzes,
-                certificates and mentorship from expert creators.
+              <p className="text-gray-600 text-lg leading-relaxed max-w-xl mb-10">
+                Expert-led courses, real projects, verified certificates —
+                everything you need to go from student to professional.
               </p>
 
               {/* FEATURES */}
@@ -165,10 +167,10 @@ export default function AuthPage() {
                 {features.map((item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4"
+                    className="flex items-center gap-3 bg-white border border-gray-100 rounded-2xl p-4"
                   >
-                    <div className="w-2 h-2 rounded-full bg-indigo-400" />
-                    <span className="text-sm text-gray-300">{item}</span>
+                    <div className="w-2 h-2 rounded-full bg-blue-600" />
+                    <span className="text-gray-700">{item}</span>
                   </div>
                 ))}
               </div>
@@ -177,20 +179,17 @@ export default function AuthPage() {
               <div className="flex gap-10">
                 {stats.map((stat) => (
                   <div key={stat.label}>
-                    <h3 className="text-3xl font-bold text-indigo-300">
+                    <h3 className="text-4xl font-bold text-blue-600">
                       {stat.value}
                     </h3>
-
-                    <p className="text-sm text-gray-500 mt-1">
-                      {stat.label}
-                    </p>
+                    <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </motion.div>
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT SIDE - Light Form */}
           <div className="flex items-center justify-center p-6 lg:p-12">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -198,25 +197,26 @@ export default function AuthPage() {
               transition={{ duration: 0.5 }}
               className="w-full max-w-md"
             >
-              <div className="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl p-8 shadow-[0_0_60px_rgba(99,102,241,0.15)]">
+              <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-xl">
                 {/* TOGGLE */}
-                <div className="flex bg-white/5 rounded-xl p-1 mb-8">
+                <div className="flex bg-gray-100 rounded-2xl p-1 mb-8">
                   <button
                     onClick={() => setIsLogin(true)}
-                    className={`flex-1 py-3 rounded-lg text-sm font-medium transition ${isLogin
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600"
-                        : "text-gray-400"
-                      }`}
+                    className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
+                      isLogin
+                        ? "bg-white shadow text-gray-900"
+                        : "text-gray-500 hover:text-gray-700"
+                    }`}
                   >
                     Login
                   </button>
-
                   <button
                     onClick={() => setIsLogin(false)}
-                    className={`flex-1 py-3 rounded-lg text-sm font-medium transition ${!isLogin
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600"
-                        : "text-gray-400"
-                      }`}
+                    className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
+                      !isLogin
+                        ? "bg-white shadow text-gray-900"
+                        : "text-gray-500 hover:text-gray-700"
+                    }`}
                   >
                     Sign Up
                   </button>
@@ -234,10 +234,9 @@ export default function AuthPage() {
                   >
                     {!isLogin && (
                       <div>
-                        <label className="text-sm text-gray-300 mb-2 block">
+                        <label className="text-sm text-gray-700 mb-2 block font-medium">
                           Full Name
                         </label>
-
                         <input
                           type="text"
                           name="name"
@@ -245,16 +244,20 @@ export default function AuthPage() {
                           required
                           onChange={handleChange}
                           placeholder="John Doe"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
+                          className="w-full bg-white border border-gray-200 rounded-2xl px-5 py-3 outline-none focus:border-blue-500 transition"
                         />
+                        {errors.name && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.name}
+                          </p>
+                        )}
                       </div>
                     )}
 
                     <div>
-                      <label className="text-sm text-gray-300 mb-2 block">
+                      <label className="text-sm text-gray-700 mb-2 block font-medium">
                         Email Address
                       </label>
-
                       <input
                         type="email"
                         name="email"
@@ -262,16 +265,19 @@ export default function AuthPage() {
                         onChange={handleChange}
                         required
                         placeholder="you@example.com"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
+                        className="w-full bg-white border border-gray-200 rounded-2xl px-5 py-3 outline-none focus:border-blue-500 transition"
                       />
-                    {/* <p style={{fontSize:12,color:"grey",paddingLeft:11}}>please enter a valid email address for verification</p> */}
+                      {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
 
                     <div>
-                      <label className="text-sm text-gray-300 mb-2 block">
+                      <label className="text-sm text-gray-700 mb-2 block font-medium">
                         Password
                       </label>
-
                       <div className="relative">
                         <input
                           type={showPassword ? "text" : "password"}
@@ -280,43 +286,86 @@ export default function AuthPage() {
                           onChange={handleChange}
                           required
                           placeholder="••••••••"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
+                          className="w-full bg-white border border-gray-200 rounded-2xl px-5 py-3 outline-none focus:border-blue-500 transition"
                         />
-
-                        <button
+                        {/* <button
                           type="button"
-                          onClick={() =>
-                            setShowPassword(!showPassword)
-                          }
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400"
                         >
                           {showPassword ? "🙈" : "👁️"}
+                        </button> */}
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-500 active:text-gray-700 transition p-1 rounded-md focus:outline-none"
+                        >
+                          {showPassword ? (
+                            /* Eye Slash */
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-5 h-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908l3.42 3.42M3 3l18 18"
+                              />
+                            </svg>
+                          ) : (
+                            /* Eye */
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-5 h-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5 16.477 5 20.268 7.943 21.542 12 20.268 16.057 16.477 19 12 19 7.523 19 3.732 16.057 2.458 12z"
+                              />
+                            </svg>
+                          )}
                         </button>
                       </div>
+                      {errors.password && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.password}
+                        </p>
+                      )}
                     </div>
 
                     {!isLogin && (
                       <div>
-                        <label className="text-sm text-gray-300 mb-3 block">
+                        <label className="text-sm text-gray-700 mb-3 block font-medium">
                           Join As
                         </label>
-
                         <div className="grid grid-cols-2 gap-3">
                           <button
                             type="button"
                             onClick={() =>
-                              setForm((prev) => ({
-                                ...prev,
-                                role: "student",
-                              }))
+                              setForm((prev) => ({ ...prev, role: "student" }))
                             }
-                            className={`rounded-xl border p-4 text-left transition ${form.role === "student"
-                                ? "border-indigo-500 bg-indigo-500/10"
-                                : "border-white/10"
-                              }`}
+                            className={`rounded-2xl border p-4 text-left transition ${
+                              form.role === "student"
+                                ? "border-blue-600 bg-blue-50"
+                                : "border-gray-200"
+                            }`}
                           >
                             <p className="font-medium">Student</p>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-xs text-gray-500 mt-1">
                               Learn skills
                             </p>
                           </button>
@@ -324,18 +373,16 @@ export default function AuthPage() {
                           <button
                             type="button"
                             onClick={() =>
-                              setForm((prev) => ({
-                                ...prev,
-                                role: "creator",
-                              }))
+                              setForm((prev) => ({ ...prev, role: "creator" }))
                             }
-                            className={`rounded-xl border p-4 text-left transition ${form.role === "creator"
-                                ? "border-indigo-500 bg-indigo-500/10"
-                                : "border-white/10"
-                              }`}
+                            className={`rounded-2xl border p-4 text-left transition ${
+                              form.role === "creator"
+                                ? "border-blue-600 bg-blue-50"
+                                : "border-gray-200"
+                            }`}
                           >
                             <p className="font-medium">Creator</p>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-xs text-gray-500 mt-1">
                               Build courses
                             </p>
                           </button>
@@ -346,7 +393,7 @@ export default function AuthPage() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 font-semibold transition"
+                      className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-lg hover:brightness-105 transition disabled:opacity-70 mt-2"
                     >
                       {isLoading
                         ? "Please wait..."
@@ -355,22 +402,21 @@ export default function AuthPage() {
                           : "Create Account"}
                     </button>
 
-                    <p className="text-center text-sm text-gray-400">
+                    <p className="text-center text-sm text-gray-600">
                       {isLogin
                         ? "Don't have an account?"
                         : "Already have an account?"}
-
                       <button
                         type="button"
                         onClick={() => setIsLogin(!isLogin)}
-                        className="ml-2 text-indigo-400 hover:underline"
+                        className="ml-2 text-blue-600 hover:underline font-medium"
                       >
                         {isLogin ? "Sign Up" : "Login"}
                       </button>
                     </p>
 
-                    <p className="text-center text-sm text-gray-400">
-                     term & condition  privacy policy
+                    <p className="text-center text-sm text-gray-500">
+                      Terms & Conditions • Privacy Policy
                     </p>
                   </motion.form>
                 </AnimatePresence>
