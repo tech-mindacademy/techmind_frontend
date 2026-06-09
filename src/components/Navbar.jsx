@@ -18,6 +18,7 @@ export default function Navbar() {
     { to: "/contact", label: "Contact" },
     { to: "/Services", label: "Services" },
     { to: "/about", label: "About us" },
+    {to: "/blogs", label: "Blogs" },
   ];
 
   const navLinkClass = (path) =>
