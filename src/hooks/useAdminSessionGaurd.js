@@ -19,6 +19,7 @@ const PUBLIC_ROUTES = [
   "/refund",
   "/privacy",
   "/unauthorized",
+  "/blogs",
 ];
 
 // Prefix-based public routes (dynamic segments)
@@ -27,6 +28,7 @@ const PUBLIC_PREFIXES = [
   "/forgot-password",
   "/reset-password/",
   "/auth",
+  "/blogs/"
 ];
 
 const isPublicRoute = (pathname) => {

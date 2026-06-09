@@ -6,6 +6,7 @@ import assignmentReducer from "./slices/assignmentSlice";
 import adminReducer      from "./slices/adminSlice";
 import reviewsReducer from "./slices/ReviewSlice";
 import { bootstrapAuth } from "./slices/authSlice";
+import blogReducer from "./slices/blogSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     assignment: assignmentReducer,
     admin:      adminReducer,
     reviews: reviewsReducer,
+    blogs: blogReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

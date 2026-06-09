@@ -79,6 +79,9 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ReviewsPage from "./pages/student/ReviewPage";
 import ScrollToTop from "./components/ScrollToTop";
 import MyRefundPage from "./pages/student/MyRefundPage";
+import BlogsPage from "./pages/BlogsPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
+import AdminBlogPage from "./pages/admin/AdminBlogPage";
 
 import { useAdminSessionGuard } from "./hooks/useAdminSessionGaurd";
 
@@ -120,6 +123,8 @@ function App() {
         <Route path="/services" element={<Service />} />
         <Route path="/refund" element={<RefundPolicyPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/blogs" element={<BlogsPage />} />
+<Route path="/blogs/:slug" element={<BlogDetailPage />} />
 
         {/* ── Auth pages: redirect away if already logged in ───────────────── */}
         <Route element={<PublicRoute />}>
@@ -183,6 +188,7 @@ function App() {
             <Route path="/admin/preview/learn/:courseId" element={<CoursePlayerPage />} />
             <Route path="/admin/preview/learn/:courseId/lesson/:lessonId" element={<CoursePlayerPage />} />
             <Route path="/admin/review-approvals" element={<ReviewApprovalsPage />} />
+            <Route path="/admin/blogs" element={<AdminBlogPage />} />
           </Route>
         </Route>
 
