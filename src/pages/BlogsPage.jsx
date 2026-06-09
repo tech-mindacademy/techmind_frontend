@@ -26,18 +26,18 @@ export default function BlogsPage() {
 
   return (
     <>
-        <Navbar/>
+      <Navbar />
       <div className="min-h-screen bg-[#F4F6FF]">
         {/* Hero header */}
-        <div className="bg-[#0D1B3E] py-16 px-4">
-          <div className="max-w-6xl mx-auto">
-            <span className="inline-block text-xs font-semibold tracking-widest text-[#93C5FD] uppercase mb-3">
+        <div className="bg-white py-16 px-4 border-b border-gray-100">
+          <div className="max-w-6xl mx-auto text-center">
+            <span className="inline-block text-xs font-semibold tracking-widest text-[#1A56DB] uppercase mb-3">
               Tech Vidya Blog
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[#1A56DB] mb-3 leading-tight">
               Insights & Tutorials
             </h1>
-            <p className="text-[#93C5FD] text-lg max-w-xl">
+            <p className="text-gray-800 text-lg max-w-xl mx-auto">
               Deep dives, how-tos, and updates from our instructors and team.
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function BlogsPage() {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
