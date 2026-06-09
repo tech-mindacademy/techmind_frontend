@@ -45,7 +45,6 @@ export default function BlogDetailPage() {
     <>
       <Navbar />
       <div className="min-h-screen bg-[#F4F6FF] w-full overflow-x-hidden">
-
         {/* Back nav bar */}
         <div className="bg-[#0D1B3E] px-6 py-4 w-full">
           <div className="max-w-4xl mx-auto">
@@ -64,14 +63,13 @@ export default function BlogDetailPage() {
             <img
               src={blog.coverImage.url}
               alt={blog.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           </div>
         )}
 
         {/* Main content card */}
         <div className="max-w-4xl mx-auto px-6 sm:px-10 py-10">
-
           {/* Tags */}
           {blog.tags?.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-5">
