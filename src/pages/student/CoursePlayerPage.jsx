@@ -9,7 +9,7 @@ import {
   markLessonComplete,
   updateLastAccessed,
   fetchEnrollment,
-  fetchAdminCoursePreview,   // ← add this
+  fetchAdminCoursePreview,
 } from "../../api/services/course.service";
 import QuizPanel from "../../components/quiz/QuizPanel";
 import VideoPlayer from "../../components/ui/VideoPlayer";
@@ -22,6 +22,142 @@ const fmtDuration = (s) => {
   return `${m}:${sec.toString().padStart(2, "0")}`;
 };
 
+/* ─────────────────────────────────────────
+   3-D SVG Icon Components
+   Each icon uses layered paths + a subtle
+   bottom-face / shadow to give depth.
+───────────────────────────────────────── */
+const Icon3D = ({ children, size = 18, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    className={className}
+    aria-hidden="true"
+  >
+    {children}
+  </svg>
+);
+
+// Back arrow  ←
+export const IconChevronLeft = ({ size = 18, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M16 20l-8-8 8-8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(1,1)" />
+    <path d="M16 20l-8-8 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </Icon3D>
+);
+
+// Right arrow →
+export const IconChevronRight = ({ size = 18, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M8 4l8 8-8 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(1,1)" />
+    <path d="M8 4l8 8-8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </Icon3D>
+);
+
+// Down chevron ↓
+export const IconChevronDown = ({ size = 16, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M5 9l7 7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(0.5,1)" />
+    <path d="M5 9l7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </Icon3D>
+);
+
+// Hamburger menu ≡
+export const IconMenu = ({ size = 20, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.25" transform="translate(0.5,0.5)" />
+    <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </Icon3D>
+);
+
+// Play ▶
+export const IconPlay = ({ size = 16, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M6 4.5l13 7.5-13 7.5V4.5z" fill="currentColor" opacity="0.2" transform="translate(0.5,0.5)" />
+    <path d="M6 4.5l13 7.5-13 7.5V4.5z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round" />
+  </Icon3D>
+);
+
+// Play circle ▶ (large empty state)
+export const IconPlayCircle = ({ size = 64, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <circle cx="12" cy="13" r="9" fill="currentColor" opacity="0.1" />
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.6" />
+    <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="currentColor" opacity="0.4" transform="translate(0.3,0.3)" />
+    <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="currentColor" />
+  </Icon3D>
+);
+
+// Question mark circle ?
+export const IconQuiz = ({ size = 14, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <circle cx="12" cy="13" r="9" fill="currentColor" opacity="0.1" />
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M9.5 9.5a2.5 2.5 0 015 0c0 1.5-1.5 2-2.5 2.75V13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <circle cx="12" cy="16.5" r="0.75" fill="currentColor" />
+  </Icon3D>
+);
+
+// Document / assignment
+export const IconAssignment = ({ size = 14, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z" fill="currentColor" opacity="0.1" transform="translate(0.3,0.3)" />
+    <path d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+    <path d="M14 2v5h5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </Icon3D>
+);
+
+// Check ✓
+export const IconCheck = ({ size = 14, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M4 13l4.5 4.5L20 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.2" transform="translate(0.5,0.5)" />
+    <path d="M4 13l4.5 4.5L20 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </Icon3D>
+);
+
+// Download ↓ box
+export const IconDownload = ({ size = 16, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(0.4,0.4)" />
+    <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    <rect x="4" y="17" width="16" height="3" rx="1" fill="currentColor" opacity="0.15" transform="translate(0.3,0.3)" />
+    <rect x="4" y="17" width="16" height="3" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none" />
+  </Icon3D>
+);
+
+// Eye 👁 (admin preview)
+export const IconEye = ({ size = 14, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    <ellipse cx="12" cy="13" rx="9" ry="5" fill="currentColor" opacity="0.1" />
+    <path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" opacity="0.3" transform="translate(0.2,0.2)" />
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+  </Icon3D>
+);
+
+// Lock 🔒 — used for locked lessons
+export const IconLock = ({ size = 16, className = "" }) => (
+  <Icon3D size={size} className={className}>
+    {/* shadow body */}
+    <rect x="5.5" y="11.5" width="13" height="10" rx="2" fill="currentColor" opacity="0.15" transform="translate(0.4,0.4)" />
+    {/* shackle shadow */}
+    <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.15" transform="translate(0.4,0.4)" />
+    {/* body */}
+    <rect x="5" y="11" width="14" height="10" rx="2" fill="currentColor" opacity="0.18" stroke="currentColor" strokeWidth="1.5" />
+    {/* shackle */}
+    <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    {/* keyhole */}
+    <circle cx="12" cy="16" r="1.5" fill="currentColor" opacity="0.7" />
+    <path d="M12 17.5v1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+  </Icon3D>
+);
+
+/* ─────────────────────────────────────────
+   Tab components
+───────────────────────────────────────── */
 const SidebarTab = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
@@ -55,6 +191,9 @@ const ContentTab = ({ active, onClick, color = "indigo", children }) => {
   );
 };
 
+/* ─────────────────────────────────────────
+   Main Page
+───────────────────────────────────────── */
 export default function CoursePlayerPage() {
   const { courseId, lessonId: lessonIdParam } = useParams();
   const navigate = useNavigate();
@@ -88,10 +227,9 @@ export default function CoursePlayerPage() {
         });
         setExpandedSections(expanded);
 
-        // Skip enrollment fetch for admin
         const enrollRes = isAdmin
-  ? await fetchAdminCoursePreview(courseId).catch(() => null)
-  : await fetchEnrollment(courseId).catch(() => null);
+          ? await fetchAdminCoursePreview(courseId).catch(() => null)
+          : await fetchEnrollment(courseId).catch(() => null);
 
         if (enrollRes?.enrollment) {
           const done = new Set(
@@ -138,7 +276,27 @@ export default function CoursePlayerPage() {
     }
   };
 
+  /* flat list of all lessons across all sections */
+  const allLessons = course?.sections?.flatMap((s) => s.lessons) || [];
+
+  const isDone = (id) =>
+    completedLessons.has(id) || completedLessons.has(id?.toString());
+
+  /* ── Sequential lock logic ── */
+  const isUnlocked = (lessonId) => {
+    if (isAdmin) return true;
+    const idx = allLessons.findIndex(
+      (l) => l._id === lessonId || l._id?.toString() === lessonId?.toString(),
+    );
+    if (idx <= 0) return true; // first lesson always open
+    return isDone(allLessons[idx - 1]._id);
+  };
+
   const selectLesson = (lessonId) => {
+    if (!isUnlocked(lessonId)) {
+      toast.error("Complete the previous lesson to unlock this one 🔒");
+      return;
+    }
     selectLessonFromCourse(lessonId, course);
     const basePath = isAdmin
       ? `/admin/preview/learn/${courseId}/lesson/${lessonId}`
@@ -160,7 +318,6 @@ export default function CoursePlayerPage() {
     }
   };
 
-  const allLessons = course?.sections?.flatMap((s) => s.lessons) || [];
   const currentIdx = allLessons.findIndex(
     (l) =>
       l._id === activeLessonId ||
@@ -171,33 +328,27 @@ export default function CoursePlayerPage() {
       ? Math.round((completedLessons.size / allLessons.length) * 100)
       : 0;
 
-  const isDone = (id) =>
-    completedLessons.has(id) || completedLessons.has(id?.toString());
-
   const hasQuiz = !!activeLesson?.quiz;
   const hasAssignment = !!activeLesson?.assignment;
   const hasExtras = hasQuiz || hasAssignment;
 
   const forceDownload = async (url, title, fileType = "pdf") => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    
-    // Force PDF MIME type so browser treats it as a download, not a preview
-    const pdfBlob = new Blob([blob], { type: "application/pdf" });
-    const blobUrl = window.URL.createObjectURL(pdfBlob);
-    
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = `${title}.${fileType}`;  // use actual fileType
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(blobUrl);
-  } catch (err) {
-    window.open(url, "_blank");
-  }
-};
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const pdfBlob = new Blob([blob], { type: "application/pdf" });
+      const blobUrl = window.URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${title}.${fileType}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open(url, "_blank");
+    }
+  };
 
   if (isLoading)
     return (
@@ -223,9 +374,7 @@ export default function CoursePlayerPage() {
           }
           className="text-gray-400 hover:text-white p-1.5 hover:bg-gray-800 rounded-lg transition"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <IconChevronLeft size={18} />
         </button>
 
         <div className="flex-1 min-w-0">
@@ -237,14 +386,12 @@ export default function CoursePlayerPage() {
           )}
         </div>
 
-        {/* Admin badge */}
         {isAdmin && (
           <span className="hidden sm:flex items-center gap-1.5 text-xs font-semibold bg-orange-900/40 text-orange-400 px-3 py-1 rounded-full border border-orange-800">
-            👁 Admin Preview
+            <IconEye size={14} /> Admin Preview
           </span>
         )}
 
-        {/* Progress bar — only for students */}
         {!isAdmin && (
           <div className="hidden sm:flex items-center gap-2">
             <div className="w-28 bg-gray-800 rounded-full h-1.5 overflow-hidden">
@@ -261,9 +408,7 @@ export default function CoursePlayerPage() {
           onClick={() => setSidebarOpen((v) => !v)}
           className="text-gray-400 hover:text-white p-1.5 hover:bg-gray-800 rounded-lg transition"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
-          </svg>
+          <IconMenu size={20} />
         </button>
       </div>
 
@@ -286,14 +431,11 @@ export default function CoursePlayerPage() {
                     onClick={() => setContentTab("video")}
                   >
                     <span className="flex items-center gap-1.5">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                      <IconPlay size={13} />
                       Video
                     </span>
                   </ContentTab>
                 )}
-
                 {hasQuiz && (
                   <ContentTab
                     active={contentTab === "quiz"}
@@ -301,15 +443,11 @@ export default function CoursePlayerPage() {
                     onClick={() => setContentTab("quiz")}
                   >
                     <span className="flex items-center gap-1.5">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                      <IconQuiz size={13} />
                       Quiz
                     </span>
                   </ContentTab>
                 )}
-
                 {hasAssignment && (
                   <ContentTab
                     active={contentTab === "assignment"}
@@ -317,10 +455,7 @@ export default function CoursePlayerPage() {
                     onClick={() => setContentTab("assignment")}
                   >
                     <span className="flex items-center gap-1.5">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                      <IconAssignment size={13} />
                       Assignment
                     </span>
                   </ContentTab>
@@ -342,10 +477,7 @@ export default function CoursePlayerPage() {
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-700">
-                  <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}
-                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <IconPlayCircle size={64} />
                   <p className="text-sm">
                     {activeLesson ? "No video for this lesson" : "Select a lesson to begin"}
                   </p>
@@ -400,10 +532,7 @@ export default function CoursePlayerPage() {
                             onClick={() => setContentTab("quiz")}
                             className="text-xs bg-purple-900/40 hover:bg-purple-900/70 text-purple-400 px-2.5 py-1 rounded-lg transition flex items-center gap-1"
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <IconQuiz size={12} />
                             Take Quiz
                           </button>
                         )}
@@ -412,10 +541,7 @@ export default function CoursePlayerPage() {
                             onClick={() => setContentTab("assignment")}
                             className="text-xs bg-amber-900/40 hover:bg-amber-900/70 text-amber-400 px-2.5 py-1 rounded-lg transition flex items-center gap-1"
                           >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
+                            <IconAssignment size={12} />
                             View Assignment
                           </button>
                         )}
@@ -423,7 +549,6 @@ export default function CoursePlayerPage() {
                     )}
                   </div>
 
-                  {/* Mark complete — hidden for admin */}
                   {!isAdmin ? (
                     <button
                       onClick={handleMarkComplete}
@@ -434,11 +559,15 @@ export default function CoursePlayerPage() {
                           : "bg-indigo-600 hover:bg-indigo-700 text-white"
                       }`}
                     >
-                      {isDone(activeLessonId) ? "✓ Done" : "Mark complete"}
+                      {isDone(activeLessonId) ? (
+                        <><IconCheck size={14} /> Done</>
+                      ) : (
+                        "Mark complete"
+                      )}
                     </button>
                   ) : (
                     <span className="flex items-center gap-1.5 text-xs font-semibold bg-orange-900/30 text-orange-400 px-3 py-1.5 rounded-xl border border-orange-800/50 flex-shrink-0">
-                      👁 Admin View
+                      <IconEye size={13} /> Admin View
                     </span>
                   )}
                 </div>
@@ -451,20 +580,15 @@ export default function CoursePlayerPage() {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {activeLesson.notes.map((note) => (
-                        <a
+                        <button
                           key={note._id}
                           onClick={() => forceDownload(note.url, note.title, note.fileType || "pdf")}
-                          
-                          rel="noreferrer"
                           className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded-lg transition"
                         >
-                          <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
+                          <IconDownload size={15} className="text-indigo-400" />
                           {note.title}
                           <span className="text-xs text-gray-500 uppercase">.{note.fileType}</span>
-                        </a>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -480,9 +604,7 @@ export default function CoursePlayerPage() {
                     disabled={currentIdx <= 0}
                     className="flex items-center gap-2 text-sm text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
+                    <IconChevronLeft size={16} />
                     Previous
                   </button>
                   <span className="text-xs text-gray-600">
@@ -497,9 +619,7 @@ export default function CoursePlayerPage() {
                     className="flex items-center gap-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:opacity-30 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl transition"
                   >
                     Next
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <IconChevronRight size={16} />
                   </button>
                 </div>
               </div>
@@ -519,7 +639,6 @@ export default function CoursePlayerPage() {
                 className="fixed inset-0 bg-black/60 z-20 md:hidden"
                 onClick={() => setSidebarOpen(false)}
               />
-
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: 340 }}
@@ -553,16 +672,12 @@ export default function CoursePlayerPage() {
                             {section.lessons.filter((l) => isDone(l._id)).length} done
                           </p>
                         </div>
-                        <svg
-                          className={`w-4 h-4 text-gray-500 transition-transform flex-shrink-0 ${
+                        <IconChevronDown
+                          size={16}
+                          className={`text-gray-500 transition-transform flex-shrink-0 ${
                             expandedSections[section._id] ? "rotate-180" : ""
                           }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                        />
                       </button>
 
                       <AnimatePresence>
@@ -578,24 +693,35 @@ export default function CoursePlayerPage() {
                                 lesson._id === activeLessonId ||
                                 lesson._id?.toString() === activeLessonId?.toString();
                               const done = isDone(lesson._id);
+                              const unlocked = isUnlocked(lesson._id);
+                              const locked = !unlocked;
+
                               return (
                                 <button
                                   key={lesson._id}
                                   onClick={() => selectLesson(lesson._id)}
                                   className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-all ${
-                                    isActive
-                                      ? "bg-indigo-900/30 border-r-2 border-indigo-500"
-                                      : "hover:bg-gray-800/50"
+                                    locked
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : isActive
+                                        ? "bg-indigo-900/30 border-r-2 border-indigo-500"
+                                        : "hover:bg-gray-800/50"
                                   }`}
                                 >
+                                  {/* Status icon */}
                                   <div className="mt-0.5 flex-shrink-0">
-                                    {done ? (
+                                    {locked ? (
+                                      /* 🔒 locked lesson */
+                                      <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center">
+                                        <IconLock size={12} className="text-gray-500" />
+                                      </div>
+                                    ) : done ? (
+                                      /* ✓ completed */
                                       <div className="w-5 h-5 rounded-full bg-green-900/50 flex items-center justify-center">
-                                        <svg className="w-3 h-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                        </svg>
+                                        <IconCheck size={12} className="text-green-400" />
                                       </div>
                                     ) : (
+                                      /* ○ unlocked, not done */
                                       <div
                                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                                           isActive ? "border-indigo-400" : "border-gray-600"
@@ -607,14 +733,18 @@ export default function CoursePlayerPage() {
                                       </div>
                                     )}
                                   </div>
+
+                                  {/* Lesson info */}
                                   <div className="flex-1 min-w-0">
                                     <p
                                       className={`text-sm leading-snug ${
-                                        isActive
-                                          ? "text-indigo-300 font-medium"
-                                          : done
-                                            ? "text-gray-500"
-                                            : "text-gray-300"
+                                        locked
+                                          ? "text-gray-600"
+                                          : isActive
+                                            ? "text-indigo-300 font-medium"
+                                            : done
+                                              ? "text-gray-500"
+                                              : "text-gray-300"
                                       }`}
                                     >
                                       {lesson.title}
@@ -625,12 +755,17 @@ export default function CoursePlayerPage() {
                                           {fmtDuration(lesson.video.duration)}
                                         </span>
                                       )}
-                                      {lesson.quiz && (
+                                      {locked && (
+                                        <span className="text-xs bg-gray-800 text-gray-500 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                          <IconLock size={10} /> Locked
+                                        </span>
+                                      )}
+                                      {lesson.quiz && !locked && (
                                         <span className="text-xs bg-purple-900/40 text-purple-400 px-1.5 py-0.5 rounded">
                                           Quiz
                                         </span>
                                       )}
-                                      {lesson.assignment && (
+                                      {lesson.assignment && !locked && (
                                         <span className="text-xs bg-amber-900/40 text-amber-400 px-1.5 py-0.5 rounded">
                                           Assignment
                                         </span>
