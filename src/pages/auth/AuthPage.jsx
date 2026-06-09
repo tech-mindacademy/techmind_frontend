@@ -242,6 +242,7 @@ export default function AuthPage() {
                           type="text"
                           name="name"
                           value={form.name}
+                          required
                           onChange={handleChange}
                           placeholder="John Doe"
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
@@ -259,6 +260,7 @@ export default function AuthPage() {
                         name="email"
                         value={form.email}
                         onChange={handleChange}
+                        required
                         placeholder="you@example.com"
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
                       />
@@ -276,6 +278,7 @@ export default function AuthPage() {
                           name="password"
                           value={form.password}
                           onChange={handleChange}
+                          required
                           placeholder="••••••••"
                           className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500"
                         />

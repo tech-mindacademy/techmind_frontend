@@ -35,7 +35,7 @@ export default function Footer() {
             {/* <div  className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm cursor-pointer hover:scale-110 transition"> */}
             {/* <Linkedin className="w-5 h-5" /> */}
             {/* <img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} /> */}
-            <a href="https://www.linkedin.com/company/tech-mind-academy/?viewAsMember=true" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} />
+            <a target="_blank" href="https://www.linkedin.com/company/tech-mind-academy/?viewAsMember=true" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} />
             </a>
             {/* </div> */}
           </div>
