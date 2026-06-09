@@ -9,7 +9,6 @@ import {
   markLessonComplete,
   updateLastAccessed,
   fetchEnrollment,
-  fetchAdminCoursePreview,
 } from "../../api/services/course.service";
 import QuizPanel from "../../components/quiz/QuizPanel";
 import VideoPlayer from "../../components/ui/VideoPlayer";
@@ -214,7 +213,11 @@ export default function CoursePlayerPage() {
     const load = async () => {
       try {
         setIsLoading(true);
-        const courseRes = await api.get(`/courses/${courseId}`).then((r) => r.data);
+        // Admins use a dedicated endpoint that bypasses approval/publish gates
+        const courseEndpoint = isAdmin
+          ? `/courses/admin-preview/${courseId}`
+          : `/courses/${courseId}`;
+        const courseRes = await api.get(courseEndpoint).then((r) => r.data);
         if (!courseRes.success) {
           toast.error("Course not found");
           return;
@@ -227,24 +230,27 @@ export default function CoursePlayerPage() {
         });
         setExpandedSections(expanded);
 
-        const enrollRes = isAdmin
-          ? await fetchAdminCoursePreview(courseId).catch(() => null)
-          : await fetchEnrollment(courseId).catch(() => null);
-
-        if (enrollRes?.enrollment) {
-          const done = new Set(
-            enrollRes.enrollment.completedLessons?.map((cl) =>
-              cl.lesson?.toString(),
-            ) || [],
-          );
-          setCompletedLessons(done);
-          const lastId = enrollRes.enrollment.lastAccessedLesson?.toString();
-          const firstId = courseRes.course.sections?.[0]?.lessons?.[0]?._id;
-          const target = lastId || firstId;
-          if (target) selectLessonFromCourse(target, courseRes.course);
-        } else {
+        if (isAdmin) {
+          // Admins bypass enrollment — just open the first lesson directly
           const first = courseRes.course?.sections?.[0]?.lessons?.[0]?._id;
           if (first) selectLessonFromCourse(first, courseRes.course);
+        } else {
+          const enrollRes = await fetchEnrollment(courseId).catch(() => null);
+          if (enrollRes?.enrollment) {
+            const done = new Set(
+              enrollRes.enrollment.completedLessons?.map((cl) =>
+                cl.lesson?.toString(),
+              ) || [],
+            );
+            setCompletedLessons(done);
+            const lastId = enrollRes.enrollment.lastAccessedLesson?.toString();
+            const firstId = courseRes.course.sections?.[0]?.lessons?.[0]?._id;
+            const target = lastId || firstId;
+            if (target) selectLessonFromCourse(target, courseRes.course);
+          } else {
+            const first = courseRes.course?.sections?.[0]?.lessons?.[0]?._id;
+            if (first) selectLessonFromCourse(first, courseRes.course);
+          }
         }
       } catch (err) {
         toast.error(err.response?.data?.message || "Failed to load course");
