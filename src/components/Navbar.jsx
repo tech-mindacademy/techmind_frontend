@@ -21,10 +21,9 @@ export default function Navbar() {
   ];
 
   const navLinkClass = (path) =>
-    `text-sm font-medium transition ${
-      location.pathname === path
-        ? "text-[#1A56DB] font-semibold"
-        : "text-[#0D1B3E] hover:text-[#1A56DB]"
+    `text-sm font-medium transition ${location.pathname === path
+      ? "text-[#1A56DB] font-semibold"
+      : "text-[#0D1B3E] hover:text-[#1A56DB]"
     }`;
 
   useEffect(() => {
@@ -161,9 +160,9 @@ export default function Navbar() {
                     <div className="border-t border-blue-100" />
                     <button
                       onClick={() => {
-    logout();
-    setOpen(false);
-  }}
+                        logout();
+                        setOpen(false);
+                      }}
                       className="w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition"
                     >
                       Logout
@@ -220,11 +219,10 @@ export default function Navbar() {
                 <Link
                   key={to}
                   to={to}
-                  className={`px-3 py-2.5 rounded-lg text-sm font-medium transition inline-flex items-center gap-2 ${
-                    location.pathname === to
+                  className={`px-3 py-2.5 rounded-lg text-sm font-medium transition inline-flex items-center gap-2 ${location.pathname === to
                       ? "text-[#1A56DB] bg-blue-50 font-semibold"
                       : "text-[#0D1B3E] hover:bg-blue-50 hover:text-[#1A56DB]"
-                  }`}
+                    }`}
                 >
                   {dot && (
                     <span className="relative flex h-2 w-2">
@@ -324,9 +322,9 @@ export default function Navbar() {
                           ))}
                           <button
                             onClick={() => {
-    logout();
-    setOpen(false);
-  }}
+                              logout();
+                              setOpen(false);
+                            }}
                             className="text-left px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 transition"
                           >
                             Logout
