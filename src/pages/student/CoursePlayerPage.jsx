@@ -283,8 +283,12 @@ export default function CoursePlayerPage() {
     completedLessons.has(id) || completedLessons.has(id?.toString());
 
   /* ── Sequential lock logic ── */
+  const isCourseCompleted =
+    allLessons.length > 0 && completedLessons.size >= allLessons.length;
+
   const isUnlocked = (lessonId) => {
     if (isAdmin) return true;
+    if (isCourseCompleted) return true; // course finished — all lessons open
     const idx = allLessons.findIndex(
       (l) => l._id === lessonId || l._id?.toString() === lessonId?.toString(),
     );
