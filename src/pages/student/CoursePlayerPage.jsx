@@ -215,8 +215,10 @@ export default function CoursePlayerPage() {
         setIsLoading(true);
         // Admins hit a dedicated endpoint that bypasses approval/publish gates.
         // Students hit the normal public endpoint.
+        // Admin hits /courses/preview/:courseId (protect middleware, no approval gate)
+        // Student hits /courses/:slug (optionalAuth, approval gate applies)
         const courseEndpoint = isAdmin
-          ? `/admin/courses/${courseId}/preview`
+          ? `/courses/preview/${courseId}`
           : `/courses/${courseId}`;
         const courseRes = await api.get(courseEndpoint).then((r) => r.data);
         if (!courseRes.success) {
