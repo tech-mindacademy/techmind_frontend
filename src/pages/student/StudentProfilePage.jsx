@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import useAuth from "../../hooks/useAuth";
 import api from "../../api/axios";
-import { setCredentials } from "../../store/slices/authSlice"; // adjust import to your actual action
+import { setCredentials, updateUser } from "../../store/slices/authSlice"; // adjust import to your actual action
 
 export default function StudentProfilePage() {
   const { user } = useAuth();
@@ -62,8 +62,9 @@ export default function StudentProfilePage() {
 
       // Update Redux so header/navbar reflects the new avatar immediately
       if (data.user) {
-        dispatch(setCredentials({ user: data.user }));
-      }
+  dispatch(updateUser(data.user));
+  setAvatarPreview(data.user.avatar?.url || avatarPreview);
+}
 
       setAvatar(null); // clear pending file — preview already shows the new one
       toast.success("Profile updated ✓");
