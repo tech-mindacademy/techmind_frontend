@@ -63,7 +63,7 @@ export default function BlogsPage() {
                         <img
                           src={blogs[0].coverImage.url}
                           alt={blogs[0].title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
                     ) : (
