@@ -68,7 +68,7 @@ import ReviewApprovalsPage from "./pages/admin/ReviewApprovalsPage";
 // Other pages
 import CoursesLandingPage from "./pages/CoursesLandingPage";
 import AboutUs from "./pages/AboutUs";
-import ContactUsPage from "./pages/ContactUsPage";
+// import ContactUsPage from "./pages/ContactUsPage";
 import InternshipsPage from "./pages/InternshipPage";
 import CertificatePurchasePage from "./pages/CertificatePurchasePage";
 import ProfileModal from "./components/ProfileModal";
@@ -116,7 +116,7 @@ function App() {
         <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         <Route path="/techmind-courses" element={<CoursesLandingPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<ContactUsPage />} />
+        {/* <Route path="/contact" element={<ContactUsPage />} /> */}
         <Route path="/internships" element={<InternshipsPage />} />
         <Route path="/profile" element={<ProfileModal />} />
         <Route path="/certificate-purchase" element={<CertificatePurchasePage />} />
