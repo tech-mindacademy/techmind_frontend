@@ -190,7 +190,7 @@ function SectionItem({
     const reordered = arrayMove(lessons, oldIndex, newIndex);
     setLessons(reordered);
     try {
-      await reorderLessons(courseId, section._id, { order: reordered.map(l => l._id) });
+      await reorderLessons(courseId, section._id, reordered.map(l => l._id));
     } catch {
       toast.error("Failed to reorder lessons");
       setLessons(section.lessons || []);
@@ -210,7 +210,7 @@ function SectionItem({
         {dragHandleProps && (
   <DragHandle handleProps={dragHandleProps} />
 )}
-        {isFinal && <div className="w-5 flex-shrink-0" />}
+        
 
         <button onClick={onToggle} className="text-gray-400 hover:text-white transition flex-shrink-0">
           <svg
