@@ -103,14 +103,13 @@ useEffect(() => {
     video.load();
   } else if (Hls.isSupported()) {
     hls = new Hls({
-      enableWorker: true,
-      lowLatencyMode: true,
-      // ── Force bypass browser cache for every segment request ──
-      xhrSetup: (xhr) => {
-        xhr.setRequestHeader("Cache-Control", "no-cache");
-        xhr.setRequestHeader("Pragma", "no-cache");
-      },
-    });
+  enableWorker: true,
+  lowLatencyMode: true,
+  xhrSetup: (xhr) => {
+    xhr.withCredentials = true; // sends cookies automatically
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+  },
+});
 
     // Append a timestamp to bust the manifest cache
     const bustUrl = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
