@@ -190,7 +190,7 @@ export default function CoursePlayerPage() {
 
         // Build proxy URL — no _cb suffix; cache busting is handled inside VideoPlayer
         if (lesson.video?.public_id) {
-          const proxyUrl = `/api/courses/${courseData._id}/sections/${sec._id}/lessons/${lesson._id}/proxy`;
+          const proxyUrl = `${import.meta.env.VITE_API_URL}/courses/${courseData._id}/sections/${sec._id}/lessons/${lesson._id}/proxy`;
           setStreamUrl(proxyUrl);
         }
 
