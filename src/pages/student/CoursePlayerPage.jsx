@@ -485,9 +485,9 @@ export default function CoursePlayerPage() {
         setActiveLessonId(lesson._id);
         setActiveLesson(lesson);
         setActiveSection(sec);
-        setStreamUrl(null); // clear stale URL immediately
+        setStreamUrl(null);
 
-        // Fetch fresh signed URL if lesson has video
+        // Use public_id to detect video existence, not url
         if (lesson.video?.public_id) {
           setStreamLoading(true);
           fetchLessonStreamUrl(courseId, sec._id, lesson._id)
@@ -1034,11 +1034,12 @@ export default function CoursePlayerPage() {
                                       {lesson.title}
                                     </p>
                                     <div className="flex flex-wrap items-center gap-1.5 mt-1">
-                                      {lesson.video?.duration > 0 && (
-                                        <span className="text-xs text-gray-600">
-                                          {fmtDuration(lesson.video.duration)}
-                                        </span>
-                                      )}
+                                      {lesson.video?.public_id &&
+                                        lesson.video?.duration > 0 && (
+                                          <span className="text-xs text-gray-600">
+                                            {fmtDuration(lesson.video.duration)}
+                                          </span>
+                                        )}
                                       {locked && (
                                         <span className="text-xs bg-gray-800 text-gray-500 px-1.5 py-0.5 rounded flex items-center gap-1">
                                           <IconLock size={10} /> Locked
