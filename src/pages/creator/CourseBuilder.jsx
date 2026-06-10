@@ -207,9 +207,9 @@ function SectionItem({
     >
       {/* Section header */}
       <div className="flex items-center gap-2 px-4 py-3">
-        {!isFinal && dragHandleProps && (
-          <DragHandle handleProps={dragHandleProps} />
-        )}
+        {dragHandleProps && (
+  <DragHandle handleProps={dragHandleProps} />
+)}
         {isFinal && <div className="w-5 flex-shrink-0" />}
 
         <button onClick={onToggle} className="text-gray-400 hover:text-white transition flex-shrink-0">
@@ -340,7 +340,7 @@ function SectionItem({
 // ─── Sortable section wrapper ─────────────────────────────────────────────────
 function SortableSectionItem({ section, courseId, onUpdated, isExpanded, onToggle, isFinal }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: section._id, disabled: isFinal });
+    useSortable({ id: section._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -503,23 +503,20 @@ export default function CourseBuilder() {
   };
 
   const handleSectionDragEnd = async ({ active, over }) => {
-    if (!over || active.id === over.id) return;
+  if (!over || active.id === over.id) return;
 
-    const oldIndex = sections.findIndex(s => s._id === active.id);
-    const newIndex = sections.findIndex(s => s._id === over.id);
+  const oldIndex = sections.findIndex(s => s._id === active.id);
+  const newIndex = sections.findIndex(s => s._id === over.id);
 
-    // Never drop onto or past the Final Quiz section
-    if (FINAL_SECTION_PATTERN.test(sections[newIndex]?.title)) return;
-
-    const reordered = arrayMove(sections, oldIndex, newIndex);
-    setSections(reordered);
-    try {
-      await reorderSections(courseId, { order: reordered.map(s => s._id) });
-    } catch {
-      toast.error("Failed to reorder sections");
-      setSections(course.sections);
-    }
-  };
+  const reordered = arrayMove(sections, oldIndex, newIndex);
+  setSections(reordered);
+  try {
+    await reorderSections(courseId, reordered.map(s => s._id));
+  } catch {
+    toast.error("Failed to reorder sections");
+    setSections(course.sections);
+  }
+};
 
   const f = (k) => (e) => {
     setForm(p => ({ ...p, [k]: e.target.value }));
