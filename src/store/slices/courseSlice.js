@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as courseService from "../../api/services/course.service";
-import { resetUserState } from "../actions";
+import { resetUserState } from "../store";
 
 export const fetchCourses = createAsyncThunk(
   "course/fetchAll",

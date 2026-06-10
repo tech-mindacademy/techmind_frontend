@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as assignmentService from "../../api/services/assignment.service";
-import { resetUserState } from "../actions";
+import { resetUserState } from "../store";
 
 export const loadAssignment = createAsyncThunk(
   "assignment/load",

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as adminService from "../../api/services/admin.service";
-import { resetUserState } from "../actions";
+import { resetUserState } from "../store";
 
 export const fetchPlatformStats = createAsyncThunk(
   "admin/fetchStats",

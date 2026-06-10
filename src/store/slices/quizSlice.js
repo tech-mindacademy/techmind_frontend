@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as quizService from "../../api/services/quiz.service";
-import { resetUserState } from "../actions";
+import { resetUserState } from "../store";
 
 export const startAttempt = createAsyncThunk(
   "quiz/startAttempt",

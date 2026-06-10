@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-import { resetUserState } from "../actions";
+import { resetUserState } from "../store";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
