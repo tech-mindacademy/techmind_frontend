@@ -11,6 +11,7 @@ import {
 
 const LEVELS = ["beginner", "intermediate", "advanced", "all"];
 const CATEGORIES = ["Web Development", "Mobile Development", "Data Science", "Design", "Business", "Marketing", "Personal Development", "Photography", "Music", "Other"];
+const FINAL_SECTION_PATTERN = /final\s*(quiz|assessment|exam|test)/i;
 
 function Input({ label, error, ...props }) {
   return (
@@ -22,13 +23,14 @@ function Input({ label, error, ...props }) {
   );
 }
 
-function SectionItem({ section, courseId, onUpdated, isExpanded, onToggle }) {
+function SectionItem({ section, courseId, onUpdated, isExpanded, onToggle, isFinal }) {
   const [editingTitle, setEditingTitle] = useState(false);
   const [title, setTitle] = useState(section.title);
   const [addingLesson, setAddingLesson] = useState(false);
   const [newLessonTitle, setNewLessonTitle] = useState("");
 
   const saveTitle = async () => {
+    if (isFinal) return;
     if (!title.trim() || title === section.title) { setEditingTitle(false); return; }
     try {
       await updateSection(courseId, section._id, { title });
@@ -61,25 +63,39 @@ function SectionItem({ section, courseId, onUpdated, isExpanded, onToggle }) {
   };
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+    <div className={`border rounded-xl overflow-hidden ${
+      isFinal ? "bg-gray-800 border-purple-700/50" : "bg-gray-800 border-gray-700"
+    }`}>
       {/* Section header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-gray-750">
         <button onClick={onToggle} className="text-gray-400 hover:text-white transition">
           <svg className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-90" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
         </button>
-        {editingTitle ? (
+        {editingTitle && !isFinal ? (
           <input autoFocus value={title} onChange={e => setTitle(e.target.value)}
             onBlur={saveTitle} onKeyDown={e => e.key === "Enter" && saveTitle()}
             className="flex-1 bg-gray-700 border border-teal-500 rounded-lg px-2 py-1 text-sm text-white focus:outline-none" />
         ) : (
-          <button onClick={() => setEditingTitle(true)} className="flex-1 text-left text-sm font-semibold text-gray-200 hover:text-white transition">
+          <button
+            onClick={() => !isFinal && setEditingTitle(true)}
+            className={`flex-1 text-left text-sm font-semibold transition flex items-center gap-2 ${
+              isFinal ? "text-purple-300 cursor-default" : "text-gray-200 hover:text-white"
+            }`}
+          >
             {section.title}
+            {isFinal && (
+              <span className="text-xs font-normal bg-purple-900/40 text-purple-400 px-2 py-0.5 rounded-full border border-purple-700/40">
+                Required
+              </span>
+            )}
           </button>
         )}
         <span className="text-xs text-gray-500">{section.lessons?.length || 0} lessons</span>
+        {!isFinal && (
         <button onClick={handleDeleteSection} className="text-gray-600 hover:text-red-400 transition p-1">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
         </button>
+        )}
       </div>
 
       {/* Lessons */}
@@ -208,15 +224,28 @@ export default function CourseBuilder() {
   };
 
   const handlePublish = async () => {
-    setIsPublishing(true);
-    try {
-      const res = await togglePublish(courseId);
-      setCourse(prev => ({ ...prev, isPublished: res.isPublished, approvalStatus: res.approvalStatus || prev.approvalStatus }));
-      toast.success(res.message || (res.isPublished ? "Submitted for review!" : "Course unpublished."));
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed");
-    } finally { setIsPublishing(false); }
-  };
+  if (!course.isPublished) {
+    const finalSection = course.sections?.find(s => FINAL_SECTION_PATTERN.test(s.title));
+
+    if (!finalSection) {
+      toast.error("A 'Final Quiz' section is required before publishing.");
+      return;
+    }
+    if (!finalSection.lessons?.some(l => l.quiz)) {
+      toast.error("Add a lesson with a quiz inside the Final Quiz section before publishing.");
+      return;
+    }
+  }
+
+  setIsPublishing(true);
+  try {
+    const res = await togglePublish(courseId);
+    setCourse(prev => ({ ...prev, isPublished: res.isPublished, approvalStatus: res.approvalStatus || prev.approvalStatus }));
+    toast.success(res.message || (res.isPublished ? "Submitted for review!" : "Course unpublished."));
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Failed");
+  } finally { setIsPublishing(false); }
+};
 
   const handleAddSection = async () => {
     if (!addingSectionTitle.trim()) return;
@@ -368,11 +397,16 @@ export default function CourseBuilder() {
 
           {/* Sections */}
           {course?.sections?.map(section => (
-            <SectionItem key={section._id} section={section} courseId={courseId}
-              onUpdated={refreshCourse}
-              isExpanded={!!expandedSections[section._id]}
-              onToggle={() => setExpandedSections(p => ({ ...p, [section._id]: !p[section._id] }))} />
-          ))}
+  <SectionItem
+    key={section._id}
+    section={section}
+    courseId={courseId}
+    onUpdated={refreshCourse}
+    isExpanded={!!expandedSections[section._id]}
+    onToggle={() => setExpandedSections(p => ({ ...p, [section._id]: !p[section._id] }))}
+    isFinal={FINAL_SECTION_PATTERN.test(section.title)}
+  />
+))}
 
           {/* Add section */}
           {showAddSection ? (
