@@ -112,3 +112,9 @@ export const updateLastAccessed = (courseId, lessonId) =>
 
 export const fetchAdminCoursePreview = (courseId) =>
   api.get(`/enrollments/${courseId}/admin-preview`).then((r) => r.data);
+// course.service.js
+export const reorderSections = (courseId, data) =>
+  api.patch(`/courses/${courseId}/sections/reorder`, data).then(r => r.data);
+
+export const reorderLessons = (courseId, sectionId, data) =>
+  api.patch(`/courses/${courseId}/sections/${sectionId}/lessons/reorder`, data).then(r => r.data);
