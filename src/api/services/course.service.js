@@ -45,8 +45,8 @@ export const updateSection = (courseId, sectionId, data) =>
 export const deleteSection = (courseId, sectionId) =>
   api.delete(`/courses/${courseId}/sections/${sectionId}`).then((r) => r.data);
 
-// export const reorderSections = (courseId, order) =>
-//   api.patch(`/courses/${courseId}/sections/reorder`, { order }).then((r) => r.data);
+export const reorderSections = (courseId, order) =>
+  api.patch(`/courses/${courseId}/sections/reorder`, { order }).then((r) => r.data);
 
 // ─── Lessons ──────────────────────────────────────────────────────────────────
 export const addLesson = (courseId, sectionId, data) =>
@@ -60,9 +60,9 @@ export const deleteLesson = (courseId, sectionId, lessonId) =>
   api.delete(`/courses/${courseId}/sections/${sectionId}/lessons/${lessonId}`)
     .then((r) => r.data);
 
-// export const reorderLessons = (courseId, sectionId, order) =>
-//   api.patch(`/courses/${courseId}/sections/${sectionId}/lessons/reorder`, { order })
-//     .then((r) => r.data);
+export const reorderLessons = (courseId, sectionId, order) =>
+  api.patch(`/courses/${courseId}/sections/${sectionId}/lessons/reorder`, { order })
+    .then((r) => r.data);
 
 // ─── Video ────────────────────────────────────────────────────────────────────
 export const uploadLessonVideo = (courseId, sectionId, lessonId, formData, onProgress) =>
@@ -113,8 +113,3 @@ export const updateLastAccessed = (courseId, lessonId) =>
 export const fetchAdminCoursePreview = (courseId) =>
   api.get(`/enrollments/${courseId}/admin-preview`).then((r) => r.data);
 // course.service.js
-export const reorderSections = (courseId, data) =>
-  api.patch(`/courses/${courseId}/sections/reorder`, data).then(r => r.data);
-
-export const reorderLessons = (courseId, sectionId, data) =>
-  api.patch(`/courses/${courseId}/sections/${sectionId}/lessons/reorder`, data).then(r => r.data);
