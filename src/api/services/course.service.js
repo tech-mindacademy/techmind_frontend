@@ -113,3 +113,6 @@ export const updateLastAccessed = (courseId, lessonId) =>
 export const fetchAdminCoursePreview = (courseId) =>
   api.get(`/enrollments/${courseId}/admin-preview`).then((r) => r.data);
 // course.service.js
+export const fetchLessonStreamUrl = (courseId, sectionId, lessonId) =>
+  api.get(`/courses/${courseId}/sections/${sectionId}/lessons/${lessonId}/stream`)
+    .then((r) => r.data);

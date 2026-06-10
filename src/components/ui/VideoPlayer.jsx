@@ -26,126 +26,82 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
   const [wasPlayingBeforeOffline, setWasPlayingBeforeOffline] = useState(false);
 
   // ── Online / offline detection ─────────────────────────────────────────────
-  useEffect(() => {
-
+ // ── HLS setup ─────────────────────────────────────────────────────────────
+useEffect(() => {
   const video = videoRef.current;
-
   if (!video || !src) return;
 
   let hls;
-
   setError(null);
+  setIsPlaying(false);
+  setCurrentTime(0);
+  setDuration(0);
 
-  // Safari native HLS
-  if (
-    video.canPlayType(
-      "application/vnd.apple.mpegurl"
-    )
-  ) {
-
+  if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    // Safari native HLS
     video.src = src;
-
-  }
-
-  // Other browsers
-  else if (Hls.isSupported()) {
-
-    hls = new Hls({
-      enableWorker: true,
-      lowLatencyMode: true,
-    });
-
+  } else if (Hls.isSupported()) {
+    hls = new Hls({ enableWorker: true, lowLatencyMode: true });
     hls.loadSource(src);
-
     hls.attachMedia(video);
-
-    hls.on(
-      Hls.Events.MANIFEST_PARSED,
-      () => {
-
-        console.log(
-          "HLS manifest loaded"
-        );
-
-        video.play().catch(() => {});
-      }
-    );
-
-    hls.on(
-      Hls.Events.ERROR,
-      (_, data) => {
-
-        console.error(
-          "HLS error",
-          data
-        );
-
-        if (data.fatal) {
-
-          switch (data.type) {
-
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls.recoverMediaError();
-              break;
-
-            default:
-              setError(
-                "Streaming failed."
-              );
-
-              hls.destroy();
-              break;
-          }
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.play().catch(() => {});
+    });
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            hls.recoverMediaError();
+            break;
+          default:
+            setError("Streaming failed.");
+            hls.destroy();
+            break;
         }
       }
-    );
+    });
+  } else {
+    setError("Your browser does not support video streaming.");
   }
 
   return () => {
-
-    if (hls) {
-      hls.destroy();
-    }
-
+    if (hls) hls.destroy();
     video.removeAttribute("src");
-
     video.load();
   };
+}, [src]); // ← re-runs every time src changes (new signed URL = new lesson)
 
-}, [src]);
-  useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true);
-      setError(null);
-      // Resume if was playing before connection drop
-      if (wasPlayingBeforeOffline && videoRef.current) {
-        videoRef.current.load();
-        videoRef.current.currentTime = currentTime;
-        // videoRef.current.play().catch(() => {});
-      }
-    };
+// ── Online / offline detection ─────────────────────────────────────────────
+useEffect(() => {
+  const handleOnline = () => {
+    setIsOnline(true);
+    setError(null);
+    if (wasPlayingBeforeOffline && videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.currentTime = currentTime;
+    }
+  };
 
-    const handleOffline = () => {
-      setIsOnline(false);
-      if (videoRef.current && !videoRef.current.paused) {
-        setWasPlayingBeforeOffline(true);
-        videoRef.current.pause();
-      } else {
-        setWasPlayingBeforeOffline(false);
-      }
-    };
+  const handleOffline = () => {
+    setIsOnline(false);
+    if (videoRef.current && !videoRef.current.paused) {
+      setWasPlayingBeforeOffline(true);
+      videoRef.current.pause();
+    } else {
+      setWasPlayingBeforeOffline(false);
+    }
+  };
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, [wasPlayingBeforeOffline, currentTime]);
+  window.addEventListener("online", handleOnline);
+  window.addEventListener("offline", handleOffline);
+  return () => {
+    window.removeEventListener("online", handleOnline);
+    window.removeEventListener("offline", handleOffline);
+  };
+}, [wasPlayingBeforeOffline, currentTime]);
 
   // ── Auto-hide controls ─────────────────────────────────────────────────────
   const resetHideTimer = useCallback(() => {

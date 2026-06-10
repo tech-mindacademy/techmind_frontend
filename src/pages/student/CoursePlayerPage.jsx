@@ -9,6 +9,7 @@ import {
   markLessonComplete,
   updateLastAccessed,
   fetchEnrollment,
+  fetchLessonStreamUrl,
 } from "../../api/services/course.service";
 import QuizPanel from "../../components/quiz/QuizPanel";
 import VideoPlayer from "../../components/ui/VideoPlayer";
@@ -42,40 +43,105 @@ const Icon3D = ({ children, size = 18, className = "" }) => (
 // Back arrow  ←
 export const IconChevronLeft = ({ size = 18, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M16 20l-8-8 8-8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(1,1)" />
-    <path d="M16 20l-8-8 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M16 20l-8-8 8-8"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.25"
+      transform="translate(1,1)"
+    />
+    <path
+      d="M16 20l-8-8 8-8"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Icon3D>
 );
 
 // Right arrow →
 export const IconChevronRight = ({ size = 18, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M8 4l8 8-8 8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(1,1)" />
-    <path d="M8 4l8 8-8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M8 4l8 8-8 8"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.25"
+      transform="translate(1,1)"
+    />
+    <path
+      d="M8 4l8 8-8 8"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Icon3D>
 );
 
 // Down chevron ↓
 export const IconChevronDown = ({ size = 16, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M5 9l7 7 7-7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(0.5,1)" />
-    <path d="M5 9l7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M5 9l7 7 7-7"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.25"
+      transform="translate(0.5,1)"
+    />
+    <path
+      d="M5 9l7 7 7-7"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Icon3D>
 );
 
 // Hamburger menu ≡
 export const IconMenu = ({ size = 20, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.25" transform="translate(0.5,0.5)" />
-    <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path
+      d="M4 7h16M4 12h16M4 17h10"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      opacity="0.25"
+      transform="translate(0.5,0.5)"
+    />
+    <path
+      d="M4 7h16M4 12h16M4 17h10"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
   </Icon3D>
 );
 
 // Play ▶
 export const IconPlay = ({ size = 16, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M6 4.5l13 7.5-13 7.5V4.5z" fill="currentColor" opacity="0.2" transform="translate(0.5,0.5)" />
-    <path d="M6 4.5l13 7.5-13 7.5V4.5z" fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinejoin="round" />
+    <path
+      d="M6 4.5l13 7.5-13 7.5V4.5z"
+      fill="currentColor"
+      opacity="0.2"
+      transform="translate(0.5,0.5)"
+    />
+    <path
+      d="M6 4.5l13 7.5-13 7.5V4.5z"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="0.5"
+      strokeLinejoin="round"
+    />
   </Icon3D>
 );
 
@@ -83,8 +149,21 @@ export const IconPlay = ({ size = 16, className = "" }) => (
 export const IconPlayCircle = ({ size = 64, className = "" }) => (
   <Icon3D size={size} className={className}>
     <circle cx="12" cy="13" r="9" fill="currentColor" opacity="0.1" />
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.6" />
-    <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="currentColor" opacity="0.4" transform="translate(0.3,0.3)" />
+    <circle
+      cx="12"
+      cy="12"
+      r="9"
+      stroke="currentColor"
+      strokeWidth="1"
+      fill="none"
+      opacity="0.6"
+    />
+    <path
+      d="M10 8.5l6 3.5-6 3.5V8.5z"
+      fill="currentColor"
+      opacity="0.4"
+      transform="translate(0.3,0.3)"
+    />
     <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="currentColor" />
   </Icon3D>
 );
@@ -93,8 +172,20 @@ export const IconPlayCircle = ({ size = 64, className = "" }) => (
 export const IconQuiz = ({ size = 14, className = "" }) => (
   <Icon3D size={size} className={className}>
     <circle cx="12" cy="13" r="9" fill="currentColor" opacity="0.1" />
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <path d="M9.5 9.5a2.5 2.5 0 015 0c0 1.5-1.5 2-2.5 2.75V13.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <circle
+      cx="12"
+      cy="12"
+      r="9"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <path
+      d="M9.5 9.5a2.5 2.5 0 015 0c0 1.5-1.5 2-2.5 2.75V13.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
     <circle cx="12" cy="16.5" r="0.75" fill="currentColor" />
   </Icon3D>
 );
@@ -102,28 +193,95 @@ export const IconQuiz = ({ size = 14, className = "" }) => (
 // Document / assignment
 export const IconAssignment = ({ size = 14, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z" fill="currentColor" opacity="0.1" transform="translate(0.3,0.3)" />
-    <path d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
-    <path d="M14 2v5h5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    <path
+      d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z"
+      fill="currentColor"
+      opacity="0.1"
+      transform="translate(0.3,0.3)"
+    />
+    <path
+      d="M6 22h12a2 2 0 002-2V7l-5-5H6a2 2 0 00-2 2v16a2 2 0 002 2z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14 2v5h5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 12h6M9 16h4"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
   </Icon3D>
 );
 
 // Check ✓
 export const IconCheck = ({ size = 14, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M4 13l4.5 4.5L20 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.2" transform="translate(0.5,0.5)" />
-    <path d="M4 13l4.5 4.5L20 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M4 13l4.5 4.5L20 6"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.2"
+      transform="translate(0.5,0.5)"
+    />
+    <path
+      d="M4 13l4.5 4.5L20 6"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Icon3D>
 );
 
 // Download ↓ box
 export const IconDownload = ({ size = 16, className = "" }) => (
   <Icon3D size={size} className={className}>
-    <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" transform="translate(0.4,0.4)" />
-    <path d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-    <rect x="4" y="17" width="16" height="3" rx="1" fill="currentColor" opacity="0.15" transform="translate(0.3,0.3)" />
-    <rect x="4" y="17" width="16" height="3" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path
+      d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      opacity="0.25"
+      transform="translate(0.4,0.4)"
+    />
+    <path
+      d="M12 3v10m0 0l-3.5-3.5M12 13l3.5-3.5"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <rect
+      x="4"
+      y="17"
+      width="16"
+      height="3"
+      rx="1"
+      fill="currentColor"
+      opacity="0.15"
+      transform="translate(0.3,0.3)"
+    />
+    <rect
+      x="4"
+      y="17"
+      width="16"
+      height="3"
+      rx="1"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
   </Icon3D>
 );
 
@@ -131,8 +289,20 @@ export const IconDownload = ({ size = 16, className = "" }) => (
 export const IconEye = ({ size = 14, className = "" }) => (
   <Icon3D size={size} className={className}>
     <ellipse cx="12" cy="13" rx="9" ry="5" fill="currentColor" opacity="0.1" />
-    <path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <circle cx="12" cy="12" r="2.5" fill="currentColor" opacity="0.3" transform="translate(0.2,0.2)" />
+    <path
+      d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="2.5"
+      fill="currentColor"
+      opacity="0.3"
+      transform="translate(0.2,0.2)"
+    />
     <circle cx="12" cy="12" r="2.5" fill="currentColor" />
   </Icon3D>
 );
@@ -141,16 +311,54 @@ export const IconEye = ({ size = 14, className = "" }) => (
 export const IconLock = ({ size = 16, className = "" }) => (
   <Icon3D size={size} className={className}>
     {/* shadow body */}
-    <rect x="5.5" y="11.5" width="13" height="10" rx="2" fill="currentColor" opacity="0.15" transform="translate(0.4,0.4)" />
+    <rect
+      x="5.5"
+      y="11.5"
+      width="13"
+      height="10"
+      rx="2"
+      fill="currentColor"
+      opacity="0.15"
+      transform="translate(0.4,0.4)"
+    />
     {/* shackle shadow */}
-    <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" opacity="0.15" transform="translate(0.4,0.4)" />
+    <path
+      d="M8 11V7a4 4 0 018 0v4"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      opacity="0.15"
+      transform="translate(0.4,0.4)"
+    />
     {/* body */}
-    <rect x="5" y="11" width="14" height="10" rx="2" fill="currentColor" opacity="0.18" stroke="currentColor" strokeWidth="1.5" />
+    <rect
+      x="5"
+      y="11"
+      width="14"
+      height="10"
+      rx="2"
+      fill="currentColor"
+      opacity="0.18"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    />
     {/* shackle */}
-    <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
+    <path
+      d="M8 11V7a4 4 0 018 0v4"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
     {/* keyhole */}
     <circle cx="12" cy="16" r="1.5" fill="currentColor" opacity="0.7" />
-    <path d="M12 17.5v1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.7" />
+    <path
+      d="M12 17.5v1.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      opacity="0.7"
+    />
   </Icon3D>
 );
 
@@ -203,11 +411,15 @@ export default function CoursePlayerPage() {
   const [activeLessonId, setActiveLessonId] = useState(lessonIdParam || null);
   const [activeLesson, setActiveLesson] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
+  const [sidebarOpen, setSidebarOpen] = useState(
+    () => window.innerWidth >= 768,
+  );
   const [expandedSections, setExpandedSections] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [completedLessons, setCompletedLessons] = useState(new Set());
   const [contentTab, setContentTab] = useState("video");
+  const [streamUrl, setStreamUrl] = useState(null);
+  const [streamLoading, setStreamLoading] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -273,9 +485,20 @@ export default function CoursePlayerPage() {
         setActiveLessonId(lesson._id);
         setActiveLesson(lesson);
         setActiveSection(sec);
-        if (!lesson.video?.url && lesson.quiz) {
+        setStreamUrl(null); // clear stale URL immediately
+
+        // Fetch fresh signed URL if lesson has video
+        if (lesson.video?.public_id) {
+          setStreamLoading(true);
+          fetchLessonStreamUrl(courseId, sec._id, lesson._id)
+            .then((data) => setStreamUrl(data.url))
+            .catch(() => toast.error("Failed to load video"))
+            .finally(() => setStreamLoading(false));
+        }
+
+        if (!lesson.video?.public_id && lesson.quiz) {
           setContentTab("quiz");
-        } else if (!lesson.video?.url && lesson.assignment) {
+        } else if (!lesson.video?.public_id && lesson.assignment) {
           setContentTab("assignment");
         } else {
           setContentTab("video");
@@ -320,11 +543,15 @@ export default function CoursePlayerPage() {
 
   const handleMarkComplete = async () => {
     if (isAdmin) return;
-    if (!activeLessonId || completedLessons.has(activeLessonId?.toString())) return;
+    if (!activeLessonId || completedLessons.has(activeLessonId?.toString()))
+      return;
     try {
       const res = await markLessonComplete(courseId, activeLessonId);
-      setCompletedLessons((prev) => new Set([...prev, activeLessonId?.toString()]));
-      if (res.isCompleted) toast.success("🎉 Course complete! Certificate issued.");
+      setCompletedLessons(
+        (prev) => new Set([...prev, activeLessonId?.toString()]),
+      );
+      if (res.isCompleted)
+        toast.success("🎉 Course complete! Certificate issued.");
       else toast.success("Lesson marked complete ✓");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to mark complete");
@@ -383,7 +610,9 @@ export default function CoursePlayerPage() {
       <div className="h-14 bg-gray-900 border-b border-gray-800 flex items-center px-4 gap-3 flex-shrink-0 z-10">
         <button
           onClick={() =>
-            navigate(isAdmin ? "/admin/course-approvals" : "/student/my-courses")
+            navigate(
+              isAdmin ? "/admin/course-approvals" : "/student/my-courses",
+            )
           }
           className="text-gray-400 hover:text-white p-1.5 hover:bg-gray-800 rounded-lg transition"
         >
@@ -391,7 +620,9 @@ export default function CoursePlayerPage() {
         </button>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-white truncate">{course.title}</p>
+          <p className="text-sm font-semibold text-white truncate">
+            {course.title}
+          </p>
           {activeLesson && (
             <p className="text-xs text-gray-500 truncate">
               {activeSection?.title} · {activeLesson.title}
@@ -413,7 +644,9 @@ export default function CoursePlayerPage() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-xs text-gray-400 w-9 text-right">{progress}%</span>
+            <span className="text-xs text-gray-400 w-9 text-right">
+              {progress}%
+            </span>
           </div>
         )}
 
@@ -481,10 +714,14 @@ export default function CoursePlayerPage() {
               className={`w-full bg-black ${contentTab === "video" ? "block" : "hidden"}`}
               style={{ aspectRatio: "16/9", maxHeight: "62vh" }}
             >
-              {activeLesson?.video?.url ? (
+              {streamLoading ? (
+                <div className="w-full h-full flex items-center justify-center bg-black">
+                  <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : streamUrl ? (
                 <VideoPlayer
-                  key={activeLesson._id}
-                  src={activeLesson.video.url}
+                  key={activeLessonId}
+                  src={streamUrl}
                   onEnded={handleMarkComplete}
                   className="w-full h-full"
                 />
@@ -492,7 +729,9 @@ export default function CoursePlayerPage() {
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-700">
                   <IconPlayCircle size={64} />
                   <p className="text-sm">
-                    {activeLesson ? "No video for this lesson" : "Select a lesson to begin"}
+                    {activeLesson
+                      ? "No video for this lesson"
+                      : "Select a lesson to begin"}
                   </p>
                 </div>
               )}
@@ -534,9 +773,13 @@ export default function CoursePlayerPage() {
               <div className="max-w-2xl">
                 <div className="flex items-start justify-between gap-4 mb-4 flex-wrap">
                   <div>
-                    <h1 className="text-base font-bold text-white">{activeLesson.title}</h1>
+                    <h1 className="text-base font-bold text-white">
+                      {activeLesson.title}
+                    </h1>
                     {activeLesson.description && (
-                      <p className="text-sm text-gray-400 mt-1">{activeLesson.description}</p>
+                      <p className="text-sm text-gray-400 mt-1">
+                        {activeLesson.description}
+                      </p>
                     )}
                     {hasExtras && (
                       <div className="flex gap-2 mt-2">
@@ -573,7 +816,9 @@ export default function CoursePlayerPage() {
                       }`}
                     >
                       {isDone(activeLessonId) ? (
-                        <><IconCheck size={14} /> Done</>
+                        <>
+                          <IconCheck size={14} /> Done
+                        </>
                       ) : (
                         "Mark complete"
                       )}
@@ -595,12 +840,20 @@ export default function CoursePlayerPage() {
                       {activeLesson.notes.map((note) => (
                         <button
                           key={note._id}
-                          onClick={() => forceDownload(note.url, note.title, note.fileType || "pdf")}
+                          onClick={() =>
+                            forceDownload(
+                              note.url,
+                              note.title,
+                              note.fileType || "pdf",
+                            )
+                          }
                           className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded-lg transition"
                         >
                           <IconDownload size={15} className="text-indigo-400" />
                           {note.title}
-                          <span className="text-xs text-gray-500 uppercase">.{note.fileType}</span>
+                          <span className="text-xs text-gray-500 uppercase">
+                            .{note.fileType}
+                          </span>
                         </button>
                       ))}
                     </div>
@@ -668,7 +921,10 @@ export default function CoursePlayerPage() {
 
                 <div className="flex-1 overflow-y-auto">
                   {course?.sections?.map((section) => (
-                    <div key={section._id} className="border-b border-gray-800/60">
+                    <div
+                      key={section._id}
+                      className="border-b border-gray-800/60"
+                    >
                       <button
                         onClick={() =>
                           setExpandedSections((p) => ({
@@ -679,10 +935,16 @@ export default function CoursePlayerPage() {
                         className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-800/40 transition"
                       >
                         <div>
-                          <p className="text-sm font-semibold text-gray-200">{section.title}</p>
+                          <p className="text-sm font-semibold text-gray-200">
+                            {section.title}
+                          </p>
                           <p className="text-xs text-gray-500 mt-0.5">
                             {section.lessons.length} lessons ·{" "}
-                            {section.lessons.filter((l) => isDone(l._id)).length} done
+                            {
+                              section.lessons.filter((l) => isDone(l._id))
+                                .length
+                            }{" "}
+                            done
                           </p>
                         </div>
                         <IconChevronDown
@@ -704,7 +966,8 @@ export default function CoursePlayerPage() {
                             {section.lessons.map((lesson) => {
                               const isActive =
                                 lesson._id === activeLessonId ||
-                                lesson._id?.toString() === activeLessonId?.toString();
+                                lesson._id?.toString() ===
+                                  activeLessonId?.toString();
                               const done = isDone(lesson._id);
                               const unlocked = isUnlocked(lesson._id);
                               const locked = !unlocked;
@@ -726,18 +989,26 @@ export default function CoursePlayerPage() {
                                     {locked ? (
                                       /* 🔒 locked lesson */
                                       <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center">
-                                        <IconLock size={12} className="text-gray-500" />
+                                        <IconLock
+                                          size={12}
+                                          className="text-gray-500"
+                                        />
                                       </div>
                                     ) : done ? (
                                       /* ✓ completed */
                                       <div className="w-5 h-5 rounded-full bg-green-900/50 flex items-center justify-center">
-                                        <IconCheck size={12} className="text-green-400" />
+                                        <IconCheck
+                                          size={12}
+                                          className="text-green-400"
+                                        />
                                       </div>
                                     ) : (
                                       /* ○ unlocked, not done */
                                       <div
                                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                          isActive ? "border-indigo-400" : "border-gray-600"
+                                          isActive
+                                            ? "border-indigo-400"
+                                            : "border-gray-600"
                                         }`}
                                       >
                                         {isActive && (
