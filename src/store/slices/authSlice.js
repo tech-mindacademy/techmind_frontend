@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/axios";
-
-// ─── Async thunks ─────────────────────────────────────────────────────────────
+import { resetUserState } from "../actions";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -17,8 +16,9 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (credentials, { rejectWithValue }) => {
+  async (credentials, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(resetUserState()); // clear previous user's data
       const { data } = await api.post("/auth/login", credentials);
       return data;
     } catch (err) {
@@ -29,10 +29,12 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       await api.post("/auth/logout");
+      dispatch(resetUserState()); // wipe all slices
     } catch (err) {
+      dispatch(resetUserState()); // wipe even if API call fails
       return rejectWithValue("Logout failed");
     }
   }
@@ -54,10 +56,6 @@ export const fetchCurrentUser = createAsyncThunk(
   "auth/me",
   async (_, { rejectWithValue }) => {
     try {
-      // ─── _isBootstrap flag tells the axios interceptor to leave this
-      //     request alone — no auto-retry, no redirect on 401.
-      //     Without this, a 401 here triggers another refresh attempt
-      //     which fails and wipes the cookie via the logout redirect.
       const { data } = await api.get("/auth/me", { _isBootstrap: true });
       return data;
     } catch (err) {
@@ -66,33 +64,24 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-// ─── Bootstrap: runs once on app mount to restore session from cookie ─────────
 export const bootstrapAuth = createAsyncThunk(
   "auth/bootstrap",
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      // Step 1: exchange the httpOnly refresh cookie for a new access token
       const refreshResult = await dispatch(refreshAccessToken());
       if (refreshAccessToken.rejected.match(refreshResult)) {
         return rejectWithValue("No active session");
       }
-
-      // Step 2: load the user profile using the new access token.
-      // fetchCurrentUser uses _isBootstrap:true so a 401 here doesn't
-      // trigger the interceptor's auto-refresh loop.
       const meResult = await dispatch(fetchCurrentUser());
       if (fetchCurrentUser.rejected.match(meResult)) {
         return rejectWithValue("Could not load user profile");
       }
-
       return true;
     } catch (err) {
       return rejectWithValue("Bootstrap failed");
     }
   }
 );
-
-// ─── Slice ────────────────────────────────────────────────────────────────────
 
 const initialState = {
   user: null,
@@ -119,11 +108,10 @@ const authSlice = createSlice({
       state.error = null;
     },
     updateUser: (state, action) => {
-    state.user = { ...state.user, ...action.payload };
-  },
+      state.user = { ...state.user, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
-    // ── Register ──────────────────────────────────────────────────────────────
     builder
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
@@ -137,7 +125,6 @@ const authSlice = createSlice({
         state.error = action.payload;
       });
 
-    // ── Login ─────────────────────────────────────────────────────────────────
     builder
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -156,15 +143,12 @@ const authSlice = createSlice({
         state.error = action.payload;
       });
 
-    // ── Logout ────────────────────────────────────────────────────────────────
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.user = null;
       state.accessToken = null;
       state.isAuthenticated = false;
-      // isInitialized stays true — we know the state (logged out)
     });
 
-    // ── Refresh token ─────────────────────────────────────────────────────────
     builder
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
@@ -178,7 +162,6 @@ const authSlice = createSlice({
         state.isInitialized = true;
       });
 
-    // ── Fetch current user ────────────────────────────────────────────────────
     builder
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
@@ -189,9 +172,6 @@ const authSlice = createSlice({
         state.isInitialized = true;
       });
 
-    // ── Bootstrap ─────────────────────────────────────────────────────────────
-    // Real state updates happen inside refreshAccessToken + fetchCurrentUser.
-    // This just guarantees isInitialized=true if the whole thing blows up.
     builder.addCase(bootstrapAuth.rejected, (state) => {
       state.isInitialized = true;
     });
@@ -200,7 +180,6 @@ const authSlice = createSlice({
 
 export const { setAccessToken, clearAuth, clearError, updateUser } = authSlice.actions;
 
-// ─── Selectors ────────────────────────────────────────────────────────────────
 export const selectUser            = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectUserRole        = (state) => state.auth.user?.role;

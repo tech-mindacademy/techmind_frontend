@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as adminService from "../../api/services/admin.service";
-
-// ─── Thunks ───────────────────────────────────────────────────────────────────
+import { resetUserState } from "../actions";
 
 export const fetchPlatformStats = createAsyncThunk(
   "admin/fetchStats",
@@ -75,21 +74,21 @@ export const applyForCreator = createAsyncThunk(
   }
 );
 
-// ─── Slice ────────────────────────────────────────────────────────────────────
+const initialState = {
+  stats: null,
+  revenueChart: [],
+  users: [],
+  usersPagination: null,
+  creatorRequests: [],
+  isLoading: false,
+  actionLoading: false,
+  error: null,
+  successMessage: null,
+};
 
 const adminSlice = createSlice({
   name: "admin",
-  initialState: {
-    stats: null,
-    revenueChart: [],
-    users: [],
-    usersPagination: null,
-    creatorRequests: [],
-    isLoading: false,
-    actionLoading: false,
-    error: null,
-    successMessage: null,
-  },
+  initialState,
   reducers: {
     clearAdminError: (state) => { state.error = null; },
     clearAdminSuccess: (state) => { state.successMessage = null; },
@@ -151,19 +150,22 @@ const adminSlice = createSlice({
       })
       .addCase(applyForCreator.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+
+      // Reset admin state on logout / user switch
+      .addCase(resetUserState, () => initialState);
   },
 });
 
 export const { clearAdminError, clearAdminSuccess } = adminSlice.actions;
 
-export const selectPlatformStats = (s) => s.admin.stats;
-export const selectRevenueChart = (s) => s.admin.revenueChart;
-export const selectAdminUsers = (s) => s.admin.users;
-export const selectUsersPagination = (s) => s.admin.usersPagination;
-export const selectCreatorRequests = (s) => s.admin.creatorRequests;
-export const selectAdminLoading = (s) => s.admin.isLoading;
-export const selectAdminError = (s) => s.admin.error;
-export const selectAdminSuccess = (s) => s.admin.successMessage;
+export const selectPlatformStats    = (s) => s.admin.stats;
+export const selectRevenueChart     = (s) => s.admin.revenueChart;
+export const selectAdminUsers       = (s) => s.admin.users;
+export const selectUsersPagination  = (s) => s.admin.usersPagination;
+export const selectCreatorRequests  = (s) => s.admin.creatorRequests;
+export const selectAdminLoading     = (s) => s.admin.isLoading;
+export const selectAdminError       = (s) => s.admin.error;
+export const selectAdminSuccess     = (s) => s.admin.successMessage;
 
 export default adminSlice.reducer;

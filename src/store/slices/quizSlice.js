@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as quizService from "../../api/services/quiz.service";
-
-// ─── Thunks ───────────────────────────────────────────────────────────────────
+import { resetUserState } from "../actions";
 
 export const startAttempt = createAsyncThunk(
   "quiz/startAttempt",
@@ -47,31 +46,25 @@ export const loadQuiz = createAsyncThunk(
   }
 );
 
-// ─── Slice ────────────────────────────────────────────────────────────────────
+const initialState = {
+  activeAttempt: null,
+  result: null,
+  resultQuestions: null,
+  myAttempts: [],
+  attemptsInfo: null,
+  currentQuiz: null,
+  isLoading: false,
+  isSubmitting: false,
+  error: null,
+};
 
 const quizSlice = createSlice({
   name: "quiz",
-  initialState: {
-    // Active attempt (student taking quiz now)
-    activeAttempt: null,      // { attempt, questions, timeLimit }
-    // Result of last submitted attempt
-    result: null,
-    resultQuestions: null,
-    // History of attempts for current quiz
-    myAttempts: [],
-    attemptsInfo: null,       // { attemptsUsed, attemptsRemaining, hasPassed, bestScore }
-    // Quiz detail (creator view)
-    currentQuiz: null,
-    isLoading: false,
-    isSubmitting: false,
-    error: null,
-  },
+  initialState,
   reducers: {
-    // Track selected answers locally during attempt
     selectAnswer: (state, action) => {
       const { questionId, selectedOptions, textAnswer, questionType } = action.payload;
       if (!state.activeAttempt) return;
-
       const existing = state.activeAttempt.answers?.find(
         (a) => a.questionId === questionId
       );
@@ -90,20 +83,15 @@ const quizSlice = createSlice({
         });
       }
     },
-    clearActiveAttempt: (state) => {
-      state.activeAttempt = null;
-    },
+    clearActiveAttempt: (state) => { state.activeAttempt = null; },
     clearResult: (state) => {
       state.result = null;
       state.resultQuestions = null;
     },
-    clearError: (state) => {
-      state.error = null;
-    },
+    clearError: (state) => { state.error = null; },
   },
   extraReducers: (builder) => {
     builder
-      // Start attempt
       .addCase(startAttempt.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -123,7 +111,6 @@ const quizSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Submit attempt
       .addCase(submitAttempt.pending, (state) => {
         state.isSubmitting = true;
         state.error = null;
@@ -139,7 +126,6 @@ const quizSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Load my attempts
       .addCase(loadMyAttempts.fulfilled, (state, action) => {
         state.myAttempts = action.payload.attempts;
         state.attemptsInfo = {
@@ -151,25 +137,26 @@ const quizSlice = createSlice({
         };
       })
 
-      // Load quiz
       .addCase(loadQuiz.fulfilled, (state, action) => {
         state.currentQuiz = action.payload.quiz;
-      });
+      })
+
+      // Reset all quiz state on logout / user switch
+      .addCase(resetUserState, () => initialState);
   },
 });
 
 export const { selectAnswer, clearActiveAttempt, clearResult, clearError } =
   quizSlice.actions;
 
-// Selectors
-export const selectActiveAttempt = (s) => s.quiz.activeAttempt;
-export const selectQuizResult = (s) => s.quiz.result;
+export const selectActiveAttempt  = (s) => s.quiz.activeAttempt;
+export const selectQuizResult     = (s) => s.quiz.result;
 export const selectResultQuestions = (s) => s.quiz.resultQuestions;
-export const selectMyAttempts = (s) => s.quiz.myAttempts;
-export const selectAttemptsInfo = (s) => s.quiz.attemptsInfo;
-export const selectCurrentQuiz = (s) => s.quiz.currentQuiz;
-export const selectQuizLoading = (s) => s.quiz.isLoading;
+export const selectMyAttempts     = (s) => s.quiz.myAttempts;
+export const selectAttemptsInfo   = (s) => s.quiz.attemptsInfo;
+export const selectCurrentQuiz    = (s) => s.quiz.currentQuiz;
+export const selectQuizLoading    = (s) => s.quiz.isLoading;
 export const selectQuizSubmitting = (s) => s.quiz.isSubmitting;
-export const selectQuizError = (s) => s.quiz.error;
+export const selectQuizError      = (s) => s.quiz.error;
 
 export default quizSlice.reducer;

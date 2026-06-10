@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as assignmentService from "../../api/services/assignment.service";
-
-// ─── Thunks ───────────────────────────────────────────────────────────────────
+import { resetUserState } from "../actions";
 
 export const loadAssignment = createAsyncThunk(
   "assignment/load",
@@ -72,37 +71,29 @@ export const requestResubmitThunk = createAsyncThunk(
   }
 );
 
-// ─── Slice ────────────────────────────────────────────────────────────────────
+const initialState = {
+  current: null,
+  mySubmission: null,
+  allSubmissions: [],
+  submissionStats: null,
+  uploadProgress: 0,
+  isLoading: false,
+  isSubmitting: false,
+  isGrading: false,
+  error: null,
+  successMessage: null,
+};
 
 const assignmentSlice = createSlice({
   name: "assignment",
-  initialState: {
-    current: null,           // assignment detail (student safe version)
-    mySubmission: null,      // current student's own submission
-    // Creator view
-    allSubmissions: [],
-    submissionStats: null,
-    uploadProgress: 0,
-    isLoading: false,
-    isSubmitting: false,
-    isGrading: false,
-    error: null,
-    successMessage: null,
-  },
+  initialState,
   reducers: {
-    setUploadProgress: (state, action) => {
-      state.uploadProgress = action.payload;
-    },
-    clearAssignmentError: (state) => {
-      state.error = null;
-    },
-    clearSuccess: (state) => {
-      state.successMessage = null;
-    },
+    setUploadProgress: (state, action) => { state.uploadProgress = action.payload; },
+    clearAssignmentError: (state) => { state.error = null; },
+    clearSuccess: (state) => { state.successMessage = null; },
   },
   extraReducers: (builder) => {
     builder
-      // Load assignment
       .addCase(loadAssignment.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -117,13 +108,11 @@ const assignmentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Load by lesson
       .addCase(loadAssignmentByLesson.fulfilled, (state, action) => {
         state.current = action.payload.assignment;
         state.mySubmission = action.payload.assignment.mySubmission || null;
       })
 
-      // Submit assignment
       .addCase(submitAssignmentThunk.pending, (state) => {
         state.isSubmitting = true;
         state.uploadProgress = 0;
@@ -140,10 +129,7 @@ const assignmentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Load submissions (creator)
-      .addCase(loadSubmissions.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(loadSubmissions.pending, (state) => { state.isLoading = true; })
       .addCase(loadSubmissions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allSubmissions = action.payload.submissions;
@@ -151,16 +137,11 @@ const assignmentSlice = createSlice({
         state.current = action.payload.assignment;
       })
 
-      // Grade submission
-      .addCase(gradeSubmissionThunk.pending, (state) => {
-        state.isGrading = true;
-      })
+      .addCase(gradeSubmissionThunk.pending, (state) => { state.isGrading = true; })
       .addCase(gradeSubmissionThunk.fulfilled, (state, action) => {
         state.isGrading = false;
         const updated = action.payload.submission;
-        const idx = state.allSubmissions.findIndex(
-          (s) => s._id === updated._id
-        );
+        const idx = state.allSubmissions.findIndex((s) => s._id === updated._id);
         if (idx !== -1) state.allSubmissions[idx] = updated;
         state.successMessage = "Submission graded.";
       })
@@ -169,28 +150,29 @@ const assignmentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Request resubmit
       .addCase(requestResubmitThunk.fulfilled, (state, action) => {
         const updated = action.payload.submission;
         const idx = state.allSubmissions.findIndex((s) => s._id === updated._id);
         if (idx !== -1) state.allSubmissions[idx] = updated;
         state.successMessage = "Resubmission requested.";
-      });
+      })
+
+      // Reset all assignment state on logout / user switch
+      .addCase(resetUserState, () => initialState);
   },
 });
 
 export const { setUploadProgress, clearAssignmentError, clearSuccess } =
   assignmentSlice.actions;
 
-// Selectors
-export const selectCurrentAssignment = (s) => s.assignment.current;
-export const selectMySubmission = (s) => s.assignment.mySubmission;
-export const selectAllSubmissions = (s) => s.assignment.allSubmissions;
-export const selectSubmissionStats = (s) => s.assignment.submissionStats;
-export const selectUploadProgress = (s) => s.assignment.uploadProgress;
-export const selectAssignmentLoading = (s) => s.assignment.isLoading;
+export const selectCurrentAssignment  = (s) => s.assignment.current;
+export const selectMySubmission       = (s) => s.assignment.mySubmission;
+export const selectAllSubmissions     = (s) => s.assignment.allSubmissions;
+export const selectSubmissionStats    = (s) => s.assignment.submissionStats;
+export const selectUploadProgress     = (s) => s.assignment.uploadProgress;
+export const selectAssignmentLoading  = (s) => s.assignment.isLoading;
 export const selectAssignmentSubmitting = (s) => s.assignment.isSubmitting;
-export const selectAssignmentGrading = (s) => s.assignment.isGrading;
-export const selectAssignmentError = (s) => s.assignment.error;
+export const selectAssignmentGrading  = (s) => s.assignment.isGrading;
+export const selectAssignmentError    = (s) => s.assignment.error;
 
 export default assignmentSlice.reducer;

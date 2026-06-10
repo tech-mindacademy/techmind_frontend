@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as courseService from "../../api/services/course.service";
-
-// ─── Thunks ───────────────────────────────────────────────────────────────────
+import { resetUserState } from "../actions";
 
 export const fetchCourses = createAsyncThunk(
   "course/fetchAll",
@@ -58,7 +57,6 @@ export const completeLessonThunk = createAsyncThunk(
   }
 );
 
-// Creator thunks
 export const fetchMyCoursesCreator = createAsyncThunk(
   "course/fetchMyCreator",
   async (_, { rejectWithValue }) => {
@@ -70,25 +68,21 @@ export const fetchMyCoursesCreator = createAsyncThunk(
   }
 );
 
-// ─── Slice ────────────────────────────────────────────────────────────────────
+const initialState = {
+  courses: [],
+  pagination: null,
+  currentCourse: null,
+  isEnrolled: false,
+  progress: null,
+  myEnrollments: [],
+  myCreatorCourses: [],
+  isLoading: false,
+  error: null,
+};
 
 const courseSlice = createSlice({
   name: "course",
-  initialState: {
-    // Catalogue
-    courses: [],
-    pagination: null,
-    // Single course detail
-    currentCourse: null,
-    isEnrolled: false,
-    progress: null,
-    // Student enrollments
-    myEnrollments: [],
-    // Creator courses
-    myCreatorCourses: [],
-    isLoading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     clearCurrentCourse: (state) => {
       state.currentCourse = null;
@@ -145,19 +139,22 @@ const courseSlice = createSlice({
 
       .addCase(fetchMyCoursesCreator.fulfilled, (state, action) => {
         state.myCreatorCourses = action.payload.courses;
-      });
+      })
+
+      // Reset all user-specific course state on logout / user switch
+      .addCase(resetUserState, () => initialState);
   },
 });
 
 export const { clearCurrentCourse, updateProgress, clearError } = courseSlice.actions;
 
-export const selectCourses = (s) => s.course.courses;
-export const selectPagination = (s) => s.course.pagination;
-export const selectCurrentCourse = (s) => s.course.currentCourse;
-export const selectIsEnrolled = (s) => s.course.isEnrolled;
-export const selectProgress = (s) => s.course.progress;
-export const selectMyEnrollments = (s) => s.course.myEnrollments;
+export const selectCourses          = (s) => s.course.courses;
+export const selectPagination       = (s) => s.course.pagination;
+export const selectCurrentCourse    = (s) => s.course.currentCourse;
+export const selectIsEnrolled       = (s) => s.course.isEnrolled;
+export const selectProgress         = (s) => s.course.progress;
+export const selectMyEnrollments    = (s) => s.course.myEnrollments;
 export const selectMyCreatorCourses = (s) => s.course.myCreatorCourses;
-export const selectCourseLoading = (s) => s.course.isLoading;
+export const selectCourseLoading    = (s) => s.course.isLoading;
 
 export default courseSlice.reducer;

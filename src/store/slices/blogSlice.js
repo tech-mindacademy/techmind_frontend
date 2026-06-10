@@ -1,82 +1,103 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/axios";
+import { resetUserState } from "../actions";
 
-export const fetchBlogs = createAsyncThunk("blogs/fetchAll", async ({ page = 1, tag } = {}, { rejectWithValue }) => {
-  try {
-    const params = new URLSearchParams({ page });
-    if (tag) params.append("tag", tag);
-    const { data } = await api.get(`/blogs?${params}`);
-    return data;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message || "Failed to fetch blogs");
+export const fetchBlogs = createAsyncThunk(
+  "blogs/fetchAll",
+  async ({ page = 1, tag } = {}, { rejectWithValue }) => {
+    try {
+      const params = new URLSearchParams({ page });
+      if (tag) params.append("tag", tag);
+      const { data } = await api.get(`/blogs?${params}`);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Failed to fetch blogs");
+    }
   }
-});
+);
 
-export const fetchBlog = createAsyncThunk("blogs/fetchOne", async (slug, { rejectWithValue }) => {
-  try {
-    const { data } = await api.get(`/blogs/${slug}`);
-    return data.blog;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message || "Blog not found");
+export const fetchBlog = createAsyncThunk(
+  "blogs/fetchOne",
+  async (slug, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/blogs/${slug}`);
+      return data.blog;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Blog not found");
+    }
   }
-});
+);
 
-export const fetchAllBlogsAdmin = createAsyncThunk("blogs/adminAll", async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await api.get("/blogs/admin/all");
-    return data.blogs;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message);
+export const fetchAllBlogsAdmin = createAsyncThunk(
+  "blogs/adminAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/blogs/admin/all");
+      return data.blogs;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
   }
-});
+);
 
-export const createBlog = createAsyncThunk("blogs/create", async (formData, { rejectWithValue }) => {
-  try {
-    const { data } = await api.post("/blogs", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return data.blog;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message);
+export const createBlog = createAsyncThunk(
+  "blogs/create",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const { data } = await api.post("/blogs", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return data.blog;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
   }
-});
+);
 
-export const updateBlog = createAsyncThunk("blogs/update", async ({ id, formData }, { rejectWithValue }) => {
-  try {
-    const { data } = await api.put(`/blogs/${id}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return data.blog;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message);
+export const updateBlog = createAsyncThunk(
+  "blogs/update",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.put(`/blogs/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return data.blog;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
   }
-});
+);
 
-export const deleteBlog = createAsyncThunk("blogs/delete", async (id, { rejectWithValue }) => {
-  try {
-    await api.delete(`/blogs/${id}`);
-    return id;
-  } catch (err) {
-    return rejectWithValue(err.response?.data?.message);
+export const deleteBlog = createAsyncThunk(
+  "blogs/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.delete(`/blogs/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
   }
-});
+);
+
+const initialState = {
+  blogs: [],
+  currentBlog: null,
+  totalPages: 1,
+  currentPage: 1,
+  isLoading: false,
+  error: null,
+};
 
 const blogSlice = createSlice({
   name: "blogs",
-  initialState: {
-    blogs: [],
-    currentBlog: null,
-    totalPages: 1,
-    currentPage: 1,
-    isLoading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     clearCurrentBlog: (state) => { state.currentBlog = null; },
   },
   extraReducers: (builder) => {
-    const loading = (state) => { state.isLoading = true; state.error = null; };
-    const failed = (state, action) => { state.isLoading = false; state.error = action.payload; };
+    const loading = (state) => { state.isLoading = true;  state.error = null; };
+    const failed  = (state, action) => { state.isLoading = false; state.error = action.payload; };
 
     builder
       .addCase(fetchBlogs.pending, loading)
@@ -111,6 +132,13 @@ const blogSlice = createSlice({
       })
       .addCase(deleteBlog.fulfilled, (state, action) => {
         state.blogs = state.blogs.filter((b) => b._id !== action.payload);
+      })
+
+      // Blogs are public content — only clear currentBlog on user switch,
+      // keep the public blog list intact
+      .addCase(resetUserState, (state) => {
+        state.currentBlog = null;
+        state.error = null;
       });
   },
 });
