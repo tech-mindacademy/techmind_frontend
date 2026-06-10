@@ -11,10 +11,11 @@ import {
   ArrowRight,
   MapPin,
   Mail,
-  Phone,
   BadgeCheck,
   Award,
-  Link2,
+  Zap,
+  Loader2,
+  Send,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
