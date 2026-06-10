@@ -40,14 +40,89 @@ useEffect(() => {
   if (video.canPlayType("application/vnd.apple.mpegurl")) {
     // Safari native HLS
     video.src = src;
+    video.load();
   } else if (Hls.isSupported()) {
-    hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-    hls.loadSource(src);
+    hls = new Hls({
+      enableWorker: true,
+      lowLatencyMode: true,
+      // ── Force bypass browser cache for every segment request ──
+      xhrSetup: (xhr) => {
+        xhr.setRequestHeader("Cache-Control", "no-cache");
+        xhr.setRequestHeader("Pragma", "no-cache");
+      },
+    });
+
+    // Append a timestamp to bust the manifest cache
+    const bustUrl = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
+    hls.loadSource(bustUrl);
     hls.attachMedia(video);
+
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       video.play().catch(() => {});
     });
+
     hls.on(Hls.Events.ERROR, (_, data) => {
+      console.error("HLS error:", data.type, data.details, data.fatal);
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            hls.recoverMediaError();
+            break;
+          default:
+            setError("Streaming failed.");
+            hls.destroy();
+            break;
+        }
+      }
+    });
+  } else {
+    setError("Your browser does not support video streaming.");
+  }
+
+  return () => {
+    if (hls) hls.destroy();
+    video.removeAttribute("src");
+    video.load();
+  };
+}, [src]);useEffect(() => {
+  const video = videoRef.current;
+  if (!video || !src) return;
+
+  let hls;
+  setError(null);
+  setIsPlaying(false);
+  setCurrentTime(0);
+  setDuration(0);
+
+  if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    // Safari native HLS
+    video.src = src;
+    video.load();
+  } else if (Hls.isSupported()) {
+    hls = new Hls({
+      enableWorker: true,
+      lowLatencyMode: true,
+      // ── Force bypass browser cache for every segment request ──
+      xhrSetup: (xhr) => {
+        xhr.setRequestHeader("Cache-Control", "no-cache");
+        xhr.setRequestHeader("Pragma", "no-cache");
+      },
+    });
+
+    // Append a timestamp to bust the manifest cache
+    const bustUrl = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
+    hls.loadSource(bustUrl);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.play().catch(() => {});
+    });
+
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      console.error("HLS error:", data.type, data.details, data.fatal);
       if (data.fatal) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
