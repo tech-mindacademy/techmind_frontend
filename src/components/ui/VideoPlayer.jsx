@@ -105,9 +105,13 @@ useEffect(() => {
     hls = new Hls({
   enableWorker: true,
   lowLatencyMode: true,
-  xhrSetup: (xhr) => {
-    xhr.withCredentials = true; // sends cookies automatically
+  xhrSetup: (xhr, url) => {
+    xhr.withCredentials = true;
+    // Add timestamp to every request to prevent caching
+    const bustUrl = `${url}${url.includes("?") ? "&" : "?"}_t=${Date.now()}`;
+    xhr.open("GET", bustUrl, true);
     xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.setRequestHeader("Pragma", "no-cache");
   },
 });
 

@@ -490,8 +490,7 @@ export default function CoursePlayerPage() {
         // Use public_id to detect video existence, not url
         if (lesson.video?.public_id) {
   setStreamLoading(true);
-  // No need to fetch URL — proxy handles everything
-  const proxyUrl = `/api/courses/${courseId}/sections/${sec._id}/lessons/${lesson._id}/proxy`;
+  const proxyUrl = `/api/courses/${courseId}/sections/${sec._id}/lessons/${lesson._id}/proxy?_cb=${Date.now()}`;
   setStreamUrl(proxyUrl);
   setStreamLoading(false);
 }
