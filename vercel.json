@@ -1,9 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://api.techmindacademy.in/api/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
   ]
- 
 }
