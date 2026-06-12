@@ -73,11 +73,7 @@ class CredentialedLoader extends defaultLoader {
       : context.url;
 
     const fetchInit = { credentials: "include" };
-    if (context.rangeStart !== undefined && context.rangeEnd !== undefined) {
-      fetchInit.headers = {
-        Range: `bytes=${context.rangeStart}-${context.rangeEnd}`,
-      };
-    }
+    
 
     const stats = {
       aborted: false,
