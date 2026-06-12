@@ -412,8 +412,12 @@ export default function CoursePlayerPage() {
         setStreamUrl(null);
 
         if (lesson.video?.public_id) {
-          // Append _u timestamp so HLS.js never serves a cached manifest
-          // from a previous user's session.
+          // FIX: Only append _u (auth/cache-bust) here — NOT _t.
+          // VideoPlayer previously added its own _t timestamp on top,
+          // causing the key (`${activeLessonId}-${streamUrl}`) to change
+          // twice: once to `id-null`, once to `id-url`. That double-change
+          // unmounted and remounted VideoPlayer twice, producing two
+          // simultaneous HLS manifest fetches for the same lesson.
           const proxyUrl =
             `${import.meta.env.VITE_API_URL}/courses/${courseData._id}` +
             `/sections/${sec._id}/lessons/${lesson._id}/proxy` +
@@ -441,7 +445,7 @@ export default function CoursePlayerPage() {
     const load = async () => {
       try {
         setIsLoading(true);
-        setAuthReady(false); // reset on every course load
+        setAuthReady(false);
 
         const endpoint = isAdmin
           ? `/courses/preview/${courseId}`
@@ -457,7 +461,6 @@ export default function CoursePlayerPage() {
 
         setCourse(courseRes.course);
 
-        // Expand all sections by default
         const expanded = {};
         courseRes.course?.sections?.forEach((s) => { expanded[s._id] = true; });
         setExpandedSections(expanded);
@@ -465,7 +468,6 @@ export default function CoursePlayerPage() {
         if (isAdmin) {
           const first = courseRes.course?.sections?.[0]?.lessons?.[0]?._id;
           if (first) selectLessonFromCourse(first, courseRes.course);
-          // Admins don't need enrollment — mark ready immediately
           setAuthReady(true);
         } else {
           const enrollRes = await fetchEnrollment(courseId).catch(() => null);
@@ -486,8 +488,6 @@ export default function CoursePlayerPage() {
             const first = courseRes.course?.sections?.[0]?.lessons?.[0]?._id;
             if (first) selectLessonFromCourse(first, courseRes.course);
           }
-          // Mark ready AFTER enrollment is confirmed so the proxy
-          // request fires with a fully-established session.
           setAuthReady(true);
         }
       } catch (err) {
@@ -695,25 +695,41 @@ export default function CoursePlayerPage() {
               className={`w-full bg-black ${contentTab === "video" ? "block" : "hidden"}`}
               style={{ aspectRatio: "16/9", maxHeight: "62vh" }}
             >
-              {/* Only mount VideoPlayer after auth is confirmed AND we have a URL.
-                  This prevents HLS.js from firing requests before the session
-                  cookie is established on other devices. */}
-              {streamUrl && authReady ? (
-                <VideoPlayer
-                  key={`${activeLessonId}-${streamUrl}`}
-                  src={streamUrl}
-                  onEnded={handleMarkComplete}
-                  className="w-full h-full"
-                />
+              {/*
+                FIX: key is now ONLY activeLessonId — not `${activeLessonId}-${streamUrl}`.
+                Previously, streamUrl changed twice per lesson switch:
+                  1. setStreamUrl(null)  → key becomes "id-null"   → VideoPlayer unmounts
+                  2. setStreamUrl(url)   → key becomes "id-url"    → VideoPlayer mounts again
+                This caused HLS.js to initialise twice and fire two manifest
+                requests for the same lesson. Using activeLessonId as the sole
+                key means VideoPlayer only remounts when the lesson actually
+                changes, not when the URL state transitions through null.
+                The streamUrl && authReady guard below still prevents VideoPlayer
+                from calling hls.loadSource before the URL is ready.
+              */}
+              {authReady && activeLessonId ? (
+                streamUrl ? (
+                  <VideoPlayer
+                    key={activeLessonId}
+                    src={streamUrl}
+                    onEnded={handleMarkComplete}
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-700">
+                    <IconPlayCircle size={64} />
+                    <p className="text-sm">
+                      {activeLesson
+                        ? "No video for this lesson"
+                        : "Select a lesson to begin"}
+                    </p>
+                  </div>
+                )
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-gray-700">
                   <IconPlayCircle size={64} />
                   <p className="text-sm">
-                    {isLoading
-                      ? "Loading..."
-                      : activeLesson
-                        ? "No video for this lesson"
-                        : "Select a lesson to begin"}
+                    {isLoading ? "Loading..." : "Select a lesson to begin"}
                   </p>
                 </div>
               )}

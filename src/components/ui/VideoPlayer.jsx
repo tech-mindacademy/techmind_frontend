@@ -42,7 +42,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     setDuration(0);
 
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
+      video.src = src;
       video.load();
       return;
     }
@@ -60,10 +60,9 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
         const isOwnUrl =
           context.url.includes("techmindacademy.in") ||
           context.url.startsWith("/api/") ||
-          context.url.startsWith("/"); // catch any relative URL
+          context.url.startsWith("/");
 
         if (isOwnUrl) {
-          // Resolve relative URLs against current origin
           const fullUrl = context.url.startsWith("/")
             ? `${window.location.origin}${context.url}`
             : context.url;
@@ -115,17 +114,21 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     }
 
     const hls = new Hls({
-      enableWorker: false, // must be false when using custom loader
+      enableWorker: false,
       lowLatencyMode: false,
       startLevel: -1,
       abrEwmaDefaultEstimate: 5000000,
-      loader: CredentialedLoader, // ← actually pass it
+      loader: CredentialedLoader,
     });
 
     hlsRef.current = hls;
 
-    const bustUrl = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
-    hls.loadSource(bustUrl);
+    // FIX: Do NOT append a second cache-bust timestamp here.
+    // The parent already appends _u=... to the src prop.
+    // Adding _t=... again causes a different URL to be loaded
+    // than what the parent passed, and can trigger a second
+    // manifest fetch via React key change.
+    hls.loadSource(src);
     hls.attachMedia(video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
@@ -264,7 +267,6 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     if (videoRef.current.paused) {
       videoRef.current.play().catch((err) => {
         console.warn("[VideoPlayer] play() rejected:", err.message);
-        // Only show error if it's not a benign "interrupted by pause" error
         if (err.name !== "AbortError") {
           setError("Playback failed. Please try again.");
         }
@@ -345,7 +347,6 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
         onLoadedMetadata={handleLoadedMetadata}
         onWaiting={handleWaiting}
         onCanPlay={handleCanPlay}
-        // onError intentionally omitted — HLS.js owns all error handling
         onEnded={handleEnded}
       />
 
