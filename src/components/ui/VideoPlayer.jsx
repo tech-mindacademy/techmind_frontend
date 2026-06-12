@@ -56,21 +56,29 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     class CredentialedLoader extends defaultLoader {
       load(context, config, callbacks) {
         console.log("[HLS loader] loading:", context.url.slice(0, 120));
-        if (
+
+        const isOwnUrl =
           context.url.includes("techmindacademy.in") ||
-          context.url.startsWith("/api/")
-        ) {
-          fetch(context.url, { credentials: "include" })
+          context.url.startsWith("/api/") ||
+          context.url.startsWith("/"); // catch any relative URL
+
+        if (isOwnUrl) {
+          // Resolve relative URLs against current origin
+          const fullUrl = context.url.startsWith("/")
+            ? `${window.location.origin}${context.url}`
+            : context.url;
+
+          fetch(fullUrl, { credentials: "include" })
             .then((res) => {
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
               const contentType = res.headers.get("content-type") || "";
               if (
                 contentType.includes("mpegurl") ||
-                context.url.includes(".m3u8")
+                fullUrl.includes(".m3u8")
               ) {
                 return res.text().then((text) => {
                   callbacks.onSuccess(
-                    { data: text, url: context.url },
+                    { data: text, url: fullUrl },
                     {
                       trequest: performance.now(),
                       tfirst: performance.now(),
@@ -84,7 +92,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
               }
               return res.arrayBuffer().then((buf) => {
                 callbacks.onSuccess(
-                  { data: buf, url: context.url },
+                  { data: buf, url: fullUrl },
                   {
                     trequest: performance.now(),
                     tfirst: performance.now(),
@@ -101,6 +109,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
             });
           return;
         }
+
         super.load(context, config, callbacks);
       }
     }
