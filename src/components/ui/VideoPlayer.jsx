@@ -71,6 +71,9 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
       },
     });
 
+    console.log("[HLS] version:", Hls.version);
+console.log("[HLS] config loader:", hls.config.loader?.name);
+
     hlsRef.current = hls;
 
     const bustUrl = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
