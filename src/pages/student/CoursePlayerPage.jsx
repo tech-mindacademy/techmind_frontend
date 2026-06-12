@@ -381,22 +381,20 @@ export default function CoursePlayerPage() {
   const role = useSelector(selectUserRole);
   const isAdmin = role === "admin";
 
-  const [course, setCourse] = useState(null);
-  const [activeLessonId, setActiveLessonId] = useState(lessonIdParam || null);
-  const [activeLesson, setActiveLesson] = useState(null);
-  const [activeSection, setActiveSection] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(
-    () => window.innerWidth >= 768,
-  );
+  const [course, setCourse]                   = useState(null);
+  const [activeLessonId, setActiveLessonId]   = useState(lessonIdParam || null);
+  const [activeLesson, setActiveLesson]       = useState(null);
+  const [activeSection, setActiveSection]     = useState(null);
+  const [sidebarOpen, setSidebarOpen]         = useState(() => window.innerWidth >= 768);
   const [expandedSections, setExpandedSections] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading]             = useState(true);
   const [completedLessons, setCompletedLessons] = useState(new Set());
-  const [contentTab, setContentTab] = useState("video");
-  const [streamUrl, setStreamUrl] = useState(null);
+  const [contentTab, setContentTab]           = useState("video");
+  const [streamUrl, setStreamUrl]             = useState(null);
   // Gate that prevents VideoPlayer from mounting before auth + enrollment
   // is confirmed — without this, HLS fires before cookies are ready on
   // other devices and gets a 401/403, producing a blank player.
-  const [authReady, setAuthReady] = useState(false);
+  const [authReady, setAuthReady]             = useState(false);
 
   // ── Select a lesson from course data ──────────────────────────────────────
   const selectLessonFromCourse = useCallback((lessonId, courseData) => {
@@ -417,7 +415,7 @@ export default function CoursePlayerPage() {
           // Append _u timestamp so HLS.js never serves a cached manifest
           // from a previous user's session.
           const proxyUrl =
-            `/api/courses/${courseData._id}` +
+            `${import.meta.env.VITE_API_URL}/courses/${courseData._id}` +
             `/sections/${sec._id}/lessons/${lesson._id}/proxy` +
             `?_u=${Date.now()}`;
           setStreamUrl(proxyUrl);
@@ -461,9 +459,7 @@ export default function CoursePlayerPage() {
 
         // Expand all sections by default
         const expanded = {};
-        courseRes.course?.sections?.forEach((s) => {
-          expanded[s._id] = true;
-        });
+        courseRes.course?.sections?.forEach((s) => { expanded[s._id] = true; });
         setExpandedSections(expanded);
 
         if (isAdmin) {
@@ -482,9 +478,9 @@ export default function CoursePlayerPage() {
               ) || [],
             );
             setCompletedLessons(done);
-            const lastId = enrollRes.enrollment.lastAccessedLesson?.toString();
+            const lastId  = enrollRes.enrollment.lastAccessedLesson?.toString();
             const firstId = courseRes.course.sections?.[0]?.lessons?.[0]?._id;
-            const target = lastId || firstId;
+            const target  = lastId || firstId;
             if (target) selectLessonFromCourse(target, courseRes.course);
           } else {
             const first = courseRes.course?.sections?.[0]?.lessons?.[0]?._id;
@@ -504,14 +500,12 @@ export default function CoursePlayerPage() {
     };
 
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [courseId, isAdmin, selectLessonFromCourse]);
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   const allLessons = course?.sections?.flatMap((s) => s.lessons) || [];
-  const isDone = (id) =>
+  const isDone     = (id) =>
     completedLessons.has(id) || completedLessons.has(id?.toString());
   const isCourseCompleted =
     allLessons.length > 0 && completedLessons.size >= allLessons.length;
@@ -542,19 +536,11 @@ export default function CoursePlayerPage() {
   };
 
   const handleMarkComplete = async () => {
-    if (
-      isAdmin ||
-      !activeLessonId ||
-      completedLessons.has(activeLessonId?.toString())
-    )
-      return;
+    if (isAdmin || !activeLessonId || completedLessons.has(activeLessonId?.toString())) return;
     try {
       const res = await markLessonComplete(courseId, activeLessonId);
-      setCompletedLessons(
-        (prev) => new Set([...prev, activeLessonId?.toString()]),
-      );
-      if (res.isCompleted)
-        toast.success("🎉 Course complete! Certificate issued.");
+      setCompletedLessons((prev) => new Set([...prev, activeLessonId?.toString()]));
+      if (res.isCompleted) toast.success("🎉 Course complete! Certificate issued.");
       else toast.success("Lesson marked complete ✓");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to mark complete");
@@ -564,12 +550,12 @@ export default function CoursePlayerPage() {
   const forceDownload = async (url, title, fileType = "pdf") => {
     try {
       const response = await fetch(url);
-      const blob = await response.blob();
-      const pdfBlob = new Blob([blob], { type: "application/pdf" });
-      const blobUrl = window.URL.createObjectURL(pdfBlob);
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = `${title}.${fileType}`;
+      const blob     = await response.blob();
+      const pdfBlob  = new Blob([blob], { type: "application/pdf" });
+      const blobUrl  = window.URL.createObjectURL(pdfBlob);
+      const link     = document.createElement("a");
+      link.href      = blobUrl;
+      link.download  = `${title}.${fileType}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -580,18 +566,16 @@ export default function CoursePlayerPage() {
   };
 
   const currentIdx = allLessons.findIndex(
-    (l) =>
-      l._id === activeLessonId ||
-      l._id?.toString() === activeLessonId?.toString(),
+    (l) => l._id === activeLessonId || l._id?.toString() === activeLessonId?.toString(),
   );
   const progress =
     allLessons.length > 0
       ? Math.round((completedLessons.size / allLessons.length) * 100)
       : 0;
 
-  const hasQuiz = !!activeLesson?.quiz;
+  const hasQuiz       = !!activeLesson?.quiz;
   const hasAssignment = !!activeLesson?.assignment;
-  const hasExtras = hasQuiz || hasAssignment;
+  const hasExtras     = hasQuiz || hasAssignment;
 
   // ── Loading / not found states ─────────────────────────────────────────────
   if (isLoading) {
@@ -616,9 +600,7 @@ export default function CoursePlayerPage() {
       <div className="h-14 bg-gray-900 border-b border-gray-800 flex items-center px-4 gap-3 flex-shrink-0 z-10">
         <button
           onClick={() =>
-            navigate(
-              isAdmin ? "/admin/course-approvals" : "/student/my-courses",
-            )
+            navigate(isAdmin ? "/admin/course-approvals" : "/student/my-courses")
           }
           className="text-gray-400 hover:text-white p-1.5 hover:bg-gray-800 rounded-lg transition"
         >
@@ -626,9 +608,7 @@ export default function CoursePlayerPage() {
         </button>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-white truncate">
-            {course.title}
-          </p>
+          <p className="text-sm font-semibold text-white truncate">{course.title}</p>
           {activeLesson && (
             <p className="text-xs text-gray-500 truncate">
               {activeSection?.title} · {activeLesson.title}
@@ -650,9 +630,7 @@ export default function CoursePlayerPage() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-xs text-gray-400 w-9 text-right">
-              {progress}%
-            </span>
+            <span className="text-xs text-gray-400 w-9 text-right">{progress}%</span>
           </div>
         )}
 
@@ -818,9 +796,7 @@ export default function CoursePlayerPage() {
                       }`}
                     >
                       {isDone(activeLessonId) ? (
-                        <>
-                          <IconCheck size={14} /> Done
-                        </>
+                        <><IconCheck size={14} /> Done</>
                       ) : (
                         "Mark complete"
                       )}
@@ -843,11 +819,7 @@ export default function CoursePlayerPage() {
                         <button
                           key={note._id}
                           onClick={() =>
-                            forceDownload(
-                              note.url,
-                              note.title,
-                              note.fileType || "pdf",
-                            )
+                            forceDownload(note.url, note.title, note.fileType || "pdf")
                           }
                           className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm px-3 py-2 rounded-lg transition"
                         >
@@ -921,10 +893,7 @@ export default function CoursePlayerPage() {
 
                 <div className="flex-1 overflow-y-auto">
                   {course?.sections?.map((section) => (
-                    <div
-                      key={section._id}
-                      className="border-b border-gray-800/60"
-                    >
+                    <div key={section._id} className="border-b border-gray-800/60">
                       <button
                         onClick={() =>
                           setExpandedSections((p) => ({
@@ -940,11 +909,7 @@ export default function CoursePlayerPage() {
                           </p>
                           <p className="text-xs text-gray-500 mt-0.5">
                             {section.lessons.length} lessons ·{" "}
-                            {
-                              section.lessons.filter((l) => isDone(l._id))
-                                .length
-                            }{" "}
-                            done
+                            {section.lessons.filter((l) => isDone(l._id)).length} done
                           </p>
                         </div>
                         <IconChevronDown
@@ -966,11 +931,10 @@ export default function CoursePlayerPage() {
                             {section.lessons.map((lesson) => {
                               const isActive =
                                 lesson._id === activeLessonId ||
-                                lesson._id?.toString() ===
-                                  activeLessonId?.toString();
-                              const done = isDone(lesson._id);
+                                lesson._id?.toString() === activeLessonId?.toString();
+                              const done     = isDone(lesson._id);
                               const unlocked = isUnlocked(lesson._id);
-                              const locked = !unlocked;
+                              const locked   = !unlocked;
 
                               return (
                                 <button
@@ -988,24 +952,16 @@ export default function CoursePlayerPage() {
                                   <div className="mt-0.5 flex-shrink-0">
                                     {locked ? (
                                       <div className="w-5 h-5 rounded-full bg-gray-800 flex items-center justify-center">
-                                        <IconLock
-                                          size={12}
-                                          className="text-gray-500"
-                                        />
+                                        <IconLock size={12} className="text-gray-500" />
                                       </div>
                                     ) : done ? (
                                       <div className="w-5 h-5 rounded-full bg-green-900/50 flex items-center justify-center">
-                                        <IconCheck
-                                          size={12}
-                                          className="text-green-400"
-                                        />
+                                        <IconCheck size={12} className="text-green-400" />
                                       </div>
                                     ) : (
                                       <div
                                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                          isActive
-                                            ? "border-indigo-400"
-                                            : "border-gray-600"
+                                          isActive ? "border-indigo-400" : "border-gray-600"
                                         }`}
                                       >
                                         {isActive && (
