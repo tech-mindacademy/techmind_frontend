@@ -52,15 +52,14 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
       return;
     }
 
-    console.log("[HLS] version:", Hls.version);
-
-    // Custom loader — sends credentials for our own API, plain fetch for others
     const defaultLoader = Hls.DefaultConfig.loader;
     class CredentialedLoader extends defaultLoader {
       load(context, config, callbacks) {
-        console.log("[HLS loader] loading:", context.url.slice(0, 100));
-        // Override to use fetch with credentials for our API URLs
-        if (context.url.includes("techmindacademy.in")) {
+        console.log("[HLS loader] loading:", context.url.slice(0, 120));
+        if (
+          context.url.includes("techmindacademy.in") ||
+          context.url.startsWith("/api/")
+        ) {
           fetch(context.url, { credentials: "include" })
             .then((res) => {
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -82,40 +81,36 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
                     context,
                   );
                 });
-              } else {
-                return res.arrayBuffer().then((buf) => {
-                  callbacks.onSuccess(
-                    { data: buf, url: context.url },
-                    {
-                      trequest: performance.now(),
-                      tfirst: performance.now(),
-                      tload: performance.now(),
-                      loaded: buf.byteLength,
-                      total: buf.byteLength,
-                    },
-                    context,
-                  );
-                });
               }
+              return res.arrayBuffer().then((buf) => {
+                callbacks.onSuccess(
+                  { data: buf, url: context.url },
+                  {
+                    trequest: performance.now(),
+                    tfirst: performance.now(),
+                    tload: performance.now(),
+                    loaded: buf.byteLength,
+                    total: buf.byteLength,
+                  },
+                  context,
+                );
+              });
             })
             .catch((err) => {
               callbacks.onError({ code: 0, text: err.message }, context, null);
             });
           return;
         }
-        // Fall back to default XHR loader for anything else
         super.load(context, config, callbacks);
       }
     }
 
     const hls = new Hls({
-      enableWorker: true,
+      enableWorker: false, // must be false when using custom loader
       lowLatencyMode: false,
       startLevel: -1,
       abrEwmaDefaultEstimate: 5000000,
-      xhrSetup: (xhr) => {
-        xhr.withCredentials = true;
-      },
+      loader: CredentialedLoader, // ← actually pass it
     });
 
     hlsRef.current = hls;
