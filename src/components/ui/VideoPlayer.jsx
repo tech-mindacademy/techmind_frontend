@@ -53,6 +53,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     }
 
     const defaultLoader = Hls.DefaultConfig.loader;
+
     class CredentialedLoader extends defaultLoader {
       load(context, config, callbacks) {
         console.log("[HLS loader] loading:", context.url.slice(0, 120));
@@ -67,21 +68,38 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
             ? `${window.location.origin}${context.url}`
             : context.url;
 
-          fetch(fullUrl, { credentials: "include" })
+          // Forward Range header if HLS.js set one on the context
+          const headers = { credentials: "include" };
+          const fetchInit = { credentials: "include" };
+          if (
+            context.rangeStart !== undefined &&
+            context.rangeEnd !== undefined
+          ) {
+            fetchInit.headers = {
+              Range: `bytes=${context.rangeStart}-${context.rangeEnd}`,
+            };
+          }
+
+          const trequest = performance.now();
+
+          fetch(fullUrl, fetchInit)
             .then((res) => {
               if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const tfirst = performance.now();
               const contentType = res.headers.get("content-type") || "";
+
               if (
                 contentType.includes("mpegurl") ||
                 fullUrl.includes(".m3u8")
               ) {
                 return res.text().then((text) => {
+                  const tload = performance.now();
                   callbacks.onSuccess(
                     { data: text, url: fullUrl },
                     {
-                      trequest: performance.now(),
-                      tfirst: performance.now(),
-                      tload: performance.now(),
+                      trequest,
+                      tfirst,
+                      tload,
                       loaded: text.length,
                       total: text.length,
                     },
@@ -89,13 +107,16 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
                   );
                 });
               }
+
+              // Binary segment — must be Uint8Array, not ArrayBuffer
               return res.arrayBuffer().then((buf) => {
+                const tload = performance.now();
                 callbacks.onSuccess(
-                  { data: buf, url: fullUrl },
+                  { data: new Uint8Array(buf), url: fullUrl }, // ← key fix
                   {
-                    trequest: performance.now(),
-                    tfirst: performance.now(),
-                    tload: performance.now(),
+                    trequest,
+                    tfirst,
+                    tload,
                     loaded: buf.byteLength,
                     total: buf.byteLength,
                   },
@@ -106,6 +127,7 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
             .catch((err) => {
               callbacks.onError({ code: 0, text: err.message }, context, null);
             });
+
           return;
         }
 
