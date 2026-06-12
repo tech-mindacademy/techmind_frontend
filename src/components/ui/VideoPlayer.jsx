@@ -59,107 +59,111 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
 
     class CredentialedLoader extends defaultLoader {
       load(context, config, callbacks) {
-        console.log("[HLS loader] loading:", context.url.slice(0, 120));
+        try {
+          console.log("[HLS loader] ENTER load, url:", context.url);
 
-        const isOwnUrl =
-          context.url.includes("techmindacademy.in") ||
-          context.url.startsWith("/api/") ||
-          context.url.startsWith("/");
+          const isOwnUrl =
+            context.url.includes("techmindacademy.in") ||
+            context.url.startsWith("/api/") ||
+            context.url.startsWith("/");
 
-        if (isOwnUrl) {
-          const fullUrl = context.url.startsWith("/")
-            ? `${window.location.origin}${context.url}`
-            : context.url;
+          if (isOwnUrl) {
+            const fullUrl = context.url.startsWith("/")
+              ? `${window.location.origin}${context.url}`
+              : context.url;
 
-          // Forward Range header if HLS.js set one on the context
-          const headers = { credentials: "include" };
-          const fetchInit = { credentials: "include" };
-          if (
-            context.rangeStart !== undefined &&
-            context.rangeEnd !== undefined
-          ) {
-            fetchInit.headers = {
-              Range: `bytes=${context.rangeStart}-${context.rangeEnd}`,
-            };
-          }
+            const fetchInit = { credentials: "include" };
+            if (
+              context.rangeStart !== undefined &&
+              context.rangeEnd !== undefined
+            ) {
+              fetchInit.headers = {
+                Range: `bytes=${context.rangeStart}-${context.rangeEnd}`,
+              };
+            }
 
-          const trequest = performance.now();
+            const trequest = performance.now();
 
-          fetch(fullUrl, fetchInit)
-            .then((res) => {
-              if (!res.ok) throw new Error(`HTTP ${res.status}`);
-              const tfirst = performance.now();
-              const contentType = res.headers.get("content-type") || "";
+            fetch(fullUrl, fetchInit)
+              .then((res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const tfirst = performance.now();
+                const contentType = res.headers.get("content-type") || "";
 
-              if (
-                contentType.includes("mpegurl") ||
-                fullUrl.includes(".m3u8")
-              ) {
-                return res.text().then((text) => {
+                if (
+                  contentType.includes("mpegurl") ||
+                  fullUrl.includes(".m3u8")
+                ) {
+                  return res.text().then((text) => {
+                    const tload = performance.now();
+                    callbacks.onSuccess(
+                      { data: text, url: fullUrl },
+                      {
+                        trequest,
+                        tfirst,
+                        tload,
+                        loaded: text.length,
+                        total: text.length,
+                      },
+                      context,
+                    );
+                  });
+                }
+
+                return res.arrayBuffer().then((buf) => {
                   const tload = performance.now();
+
+                  if (buf.byteLength < 100) {
+                    const text = new TextDecoder().decode(buf);
+                    console.error(
+                      "[HLS loader] suspiciously small segment, body:",
+                      text,
+                    );
+                    callbacks.onError(
+                      { code: res.status, text: "Invalid segment response" },
+                      context,
+                      null,
+                    );
+                    return;
+                  }
+
+                  let total = buf.byteLength;
+                  const contentRange = res.headers.get("content-range");
+                  if (contentRange) {
+                    const match = contentRange.match(/\/(\d+)$/);
+                    if (match) total = parseInt(match[1], 10);
+                  }
+
                   callbacks.onSuccess(
-                    { data: text, url: fullUrl },
+                    { data: new Uint8Array(buf), url: fullUrl },
                     {
                       trequest,
                       tfirst,
                       tload,
-                      loaded: text.length,
-                      total: text.length,
+                      loaded: buf.byteLength,
+                      total,
                     },
                     context,
                   );
                 });
-              }
-
-              // Binary segment — must be Uint8Array, not ArrayBuffer
-              // Binary segment — must be Uint8Array, not ArrayBuffer
-              return res.arrayBuffer().then((buf) => {
-                const tload = performance.now();
-
-                // Guard against error payloads disguised as 200 segments
-                if (buf.byteLength < 100) {
-                  const text = new TextDecoder().decode(buf);
-                  console.error(
-                    "[HLS loader] suspiciously small segment, body:",
-                    text,
-                  );
-                  callbacks.onError(
-                    { code: res.status, text: "Invalid segment response" },
-                    context,
-                    null,
-                  );
-                  return;
-                }
-
-                // Parse total size from Content-Range for 206 responses
-                let total = buf.byteLength;
-                const contentRange = res.headers.get("content-range");
-                if (contentRange) {
-                  const match = contentRange.match(/\/(\d+)$/);
-                  if (match) total = parseInt(match[1], 10);
-                }
-
-                callbacks.onSuccess(
-                  { data: new Uint8Array(buf), url: fullUrl },
-                  {
-                    trequest,
-                    tfirst,
-                    tload,
-                    loaded: buf.byteLength,
-                    total,
-                  },
+              })
+              .catch((err) => {
+                console.error("[HLS loader] fetch error:", err);
+                callbacks.onError(
+                  { code: 0, text: err.message },
                   context,
+                  null,
                 );
               });
-            })
-            .catch((err) => {
-              callbacks.onError({ code: 0, text: err.message }, context, null);
-            });
 
-          return;
+            return;
+          }
+
+          super.load(context, config, callbacks);
+        } catch (err) {
+          console.error("[HLS loader] SYNC THROW:", err);
+          callbacks.onError({ code: 0, text: err.message }, context, null);
         }
-
-        super.load(context, config, callbacks);
       }
     }
 
