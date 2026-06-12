@@ -109,16 +109,41 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
               }
 
               // Binary segment — must be Uint8Array, not ArrayBuffer
+              // Binary segment — must be Uint8Array, not ArrayBuffer
               return res.arrayBuffer().then((buf) => {
                 const tload = performance.now();
+
+                // Guard against error payloads disguised as 200 segments
+                if (buf.byteLength < 100) {
+                  const text = new TextDecoder().decode(buf);
+                  console.error(
+                    "[HLS loader] suspiciously small segment, body:",
+                    text,
+                  );
+                  callbacks.onError(
+                    { code: res.status, text: "Invalid segment response" },
+                    context,
+                    null,
+                  );
+                  return;
+                }
+
+                // Parse total size from Content-Range for 206 responses
+                let total = buf.byteLength;
+                const contentRange = res.headers.get("content-range");
+                if (contentRange) {
+                  const match = contentRange.match(/\/(\d+)$/);
+                  if (match) total = parseInt(match[1], 10);
+                }
+
                 callbacks.onSuccess(
-                  { data: new Uint8Array(buf), url: fullUrl }, // ← key fix
+                  { data: new Uint8Array(buf), url: fullUrl },
                   {
                     trequest,
                     tfirst,
                     tload,
                     loaded: buf.byteLength,
-                    total: buf.byteLength,
+                    total,
                   },
                   context,
                 );
