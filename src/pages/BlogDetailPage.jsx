@@ -3,8 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlog, clearCurrentBlog } from "../store/slices/blogSlice";
 import { ArrowLeft, Calendar } from "lucide-react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 export default function BlogDetailPage() {
   const { slug } = useParams();
@@ -26,8 +24,6 @@ export default function BlogDetailPage() {
 
   if (!blog)
     return (
-      <>
-        <Navbar />
         <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#F4F6FF]">
           <p className="text-gray-500">Blog not found.</p>
           <button
@@ -37,13 +33,9 @@ export default function BlogDetailPage() {
             Back to blogs
           </button>
         </div>
-        <Footer />
-      </>
     );
 
   return (
-    <>
-      <Navbar />
       <div className="min-h-screen bg-[#F4F6FF] w-full overflow-x-hidden">
         {/* Back nav bar */}
         <div className="bg-[#0D1B3E] px-6 py-4 w-full">
@@ -230,7 +222,5 @@ export default function BlogDetailPage() {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

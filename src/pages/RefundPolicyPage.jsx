@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const policies = [
   {
@@ -182,9 +180,6 @@ export default function RefundPolicyPage() {
         <div className="absolute bottom-0 right-1/3 w-72 h-64 bg-violet-600/5 rounded-full blur-3xl" />
       </div>
 
-      
-      <Navbar/>
-
       <div className="max-w-7xl mx-auto px-6 py-16 relative">
         {/* Header */}
         <div className="mb-12 max-w-2xl">
@@ -313,9 +308,6 @@ export default function RefundPolicyPage() {
           </main>
         </div>
       </div>
-
-     
-      <Footer/>
     </div>
   );
 }

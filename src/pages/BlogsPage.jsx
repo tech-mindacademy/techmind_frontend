@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../store/slices/blogSlice";
 import { Link } from "react-router-dom";
 import { Tag, Calendar, User, ArrowRight } from "lucide-react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 export default function BlogsPage() {
   const dispatch = useDispatch();
@@ -25,14 +23,12 @@ export default function BlogsPage() {
     );
 
   return (
-    <>
-      <Navbar />
       <div className="min-h-screen bg-[#F4F6FF]">
         {/* Hero header */}
         <div className="bg-white py-16 px-4 border-b border-gray-100">
           <div className="max-w-6xl mx-auto text-center">
             <span className="inline-block text-xs font-semibold tracking-widest text-[#1A56DB] uppercase mb-3">
-              Tech Vidya Blog
+              Tech Mind Academy Blog
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold text-[#1A56DB] mb-3 leading-tight">
               Insights & Tutorials
@@ -220,7 +216,5 @@ export default function BlogsPage() {
           )}
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

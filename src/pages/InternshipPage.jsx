@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import {
   MapPin, Clock, Banknote, Users, Globe, Building2, Shuffle,
   Search, X, ChevronDown, ChevronUp, Send, Loader2,
@@ -274,7 +272,6 @@ export default function InternshipsPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-white font-sans">
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
@@ -804,8 +801,6 @@ export default function InternshipsPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <Footer />
     </>
   );
 }

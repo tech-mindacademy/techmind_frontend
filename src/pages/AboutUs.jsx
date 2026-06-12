@@ -18,8 +18,6 @@ import {
   Loader2,
   Send,
 } from "lucide-react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import api from "../api/axios";
 
 const fadeUp = {
@@ -158,7 +156,6 @@ export default function AboutUs() {
 
   return (
     <div className="bg-white min-h-screen overflow-x-hidden">
-      <Navbar />
 
       {/* ── Hero ── */}
       <section className="relative z-10 overflow-hidden text-center pt-28 pb-24 px-6">
@@ -629,8 +626,6 @@ export default function AboutUs() {
           </div>
         </div>
       </motion.section>
-
-      <Footer />
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const sections = [
   {
@@ -189,9 +187,6 @@ export default function PrivacyPolicyPage() {
         <div className="absolute bottom-0 left-1/2 w-96 h-64 bg-blue-600/6 rounded-full blur-3xl" />
       </div>
 
-      
-      <Navbar/>
-
       <div className="max-w-7xl mx-auto px-6 py-16 relative">
         {/* Header */}
         <div className="mb-16 max-w-2xl">
@@ -287,9 +282,6 @@ export default function PrivacyPolicyPage() {
           </main>
         </div>
       </div>
-
-     
-      <Footer/>
     </div>
   );
 }

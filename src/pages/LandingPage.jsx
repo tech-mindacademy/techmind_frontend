@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import useAuth from "../hooks/useAuth";
-import Footer from "../components/Footer";
 import HeroCarousel from "../components/HeroCarousel";
 import api from "../api/axios";
 import TestimonialsSection from "../components/TestimonialSection";
@@ -250,7 +248,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      <Navbar />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-white w-full">
@@ -520,8 +517,6 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fetchCourses } from "../api/services/course.service";
-// import Navbar from "../components/Navbar";
-// import Footer from "../components/Footer";
 
 /* ───────────────────────── COURSE CARD ───────────────────────── */
 

@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchCourses } from "../api/services/course.service";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import api from "../api/axios";
 
 const ITEMS_PER_PAGE = 6;
@@ -147,7 +145,6 @@ export default function CoursesLandingPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <Navbar />
 
       {/* Page header */}
       <div className="bg-white relative overflow-hidden border-b border-[#0D1B3E]/8">
@@ -274,8 +271,6 @@ export default function CoursesLandingPage() {
           )}
         </main>
       </div>
-
-      <Footer />
     </div>
   );
 }

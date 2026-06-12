@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { MapPin, Mail, Zap, Loader2, Send } from "lucide-react";
 import api from "../api/axios";
 
@@ -49,8 +47,6 @@ export default function ContactUsPage() {
   ];
 
   return (
-    <>
-      <Navbar />
       <div className="relative min-h-screen bg-white text-black overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-[linear-gradient(rgba(26,86,219,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(26,86,219,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
@@ -155,7 +151,5 @@ export default function ContactUsPage() {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

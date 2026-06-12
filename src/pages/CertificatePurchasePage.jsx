@@ -10,8 +10,6 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import api from "../api/axios";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const fadeUp = {
   initial: { opacity: 0, y: 32 },
@@ -214,8 +212,6 @@ export default function CertificatePurchasePage() {
   }
 
   return (
-    <>
-      <Navbar />
       <div className="min-h-screen bg-white overflow-x-hidden">
         {/* ── Hero ── */}
         <section className="relative overflow-hidden text-center pt-20 pb-16 px-6">
@@ -584,7 +580,5 @@ export default function CertificatePurchasePage() {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
   );
 }

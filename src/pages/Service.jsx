@@ -10,8 +10,6 @@ import {
   ArrowRight,
   BadgeCheck,
 } from "lucide-react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -95,7 +93,6 @@ export default function Service() {
 
   return (
     <div className="bg-white min-h-screen overflow-x-hidden">
-      <Navbar />
 
       {/* ── Hero ── */}
       
@@ -397,8 +394,6 @@ export default function Service() {
           </div>
         </div>
       </motion.section>
-
-      <Footer />
     </div>
   );
 }
