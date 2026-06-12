@@ -31,7 +31,6 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // Destroy any previous instance
     if (hlsRef.current) {
       hlsRef.current.destroy();
       hlsRef.current = null;
@@ -43,7 +42,6 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     setDuration(0);
 
     if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      // Safari — native HLS
       video.src = `${src}${src.includes("?") ? "&" : "?"}_t=${Date.now()}`;
       video.load();
       return;
@@ -54,25 +52,69 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
       return;
     }
 
+    console.log("[HLS] version:", Hls.version);
+
+    // Custom loader — sends credentials for our own API, plain fetch for others
+    const defaultLoader = Hls.DefaultConfig.loader;
+    class CredentialedLoader extends defaultLoader {
+      load(context, config, callbacks) {
+        console.log("[HLS loader] loading:", context.url.slice(0, 100));
+        // Override to use fetch with credentials for our API URLs
+        if (context.url.includes("techmindacademy.in")) {
+          fetch(context.url, { credentials: "include" })
+            .then((res) => {
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const contentType = res.headers.get("content-type") || "";
+              if (
+                contentType.includes("mpegurl") ||
+                context.url.includes(".m3u8")
+              ) {
+                return res.text().then((text) => {
+                  callbacks.onSuccess(
+                    { data: text, url: context.url },
+                    {
+                      trequest: performance.now(),
+                      tfirst: performance.now(),
+                      tload: performance.now(),
+                      loaded: text.length,
+                      total: text.length,
+                    },
+                    context,
+                  );
+                });
+              } else {
+                return res.arrayBuffer().then((buf) => {
+                  callbacks.onSuccess(
+                    { data: buf, url: context.url },
+                    {
+                      trequest: performance.now(),
+                      tfirst: performance.now(),
+                      tload: performance.now(),
+                      loaded: buf.byteLength,
+                      total: buf.byteLength,
+                    },
+                    context,
+                  );
+                });
+              }
+            })
+            .catch((err) => {
+              callbacks.onError({ code: 0, text: err.message }, context, null);
+            });
+          return;
+        }
+        // Fall back to default XHR loader for anything else
+        super.load(context, config, callbacks);
+      }
+    }
+
     const hls = new Hls({
-      enableWorker: true,
+      enableWorker: false,
       lowLatencyMode: false,
       startLevel: -1,
       abrEwmaDefaultEstimate: 5000000,
-      fetchSetup: (context, initParams) => {
-        // Send cookies only for requests to our own backend
-        if (
-          context.url.includes("techmindacademy.in") ||
-          context.url.startsWith("/")
-        ) {
-          initParams.credentials = "include";
-        }
-        return new Request(context.url, initParams);
-      },
+      loader: CredentialedLoader,
     });
-
-    console.log("[HLS] version:", Hls.version);
-console.log("[HLS] config loader:", hls.config.loader?.name);
 
     hlsRef.current = hls;
 
@@ -98,7 +140,7 @@ console.log("[HLS] config loader:", hls.config.loader?.name);
     });
 
     hls.on(Hls.Events.ERROR, (_, data) => {
-      console.error("[HLS] error:", data.type, data.details, data.fatal);
+      console.error("[HLS] error:", data.type, data.details, data.fatal, data);
       if (data.fatal) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
