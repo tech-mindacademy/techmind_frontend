@@ -41,13 +41,16 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     setCurrentTime(0);
     setDuration(0);
 
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    if (Hls.isSupported()) {
+      // proceed to HLS.js setup below
+    } else if (
+      video.canPlayType("application/vnd.apple.mpegurl") === "probably"
+    ) {
+      // genuine native HLS support (Safari)
       video.src = src;
       video.load();
       return;
-    }
-
-    if (!Hls.isSupported()) {
+    } else {
       setError("Your browser does not support video streaming.");
       return;
     }
