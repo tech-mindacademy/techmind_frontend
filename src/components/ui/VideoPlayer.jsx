@@ -109,11 +109,13 @@ export default function VideoPlayer({ src, onEnded, className = "" }) {
     }
 
     const hls = new Hls({
-      enableWorker: false,
+      enableWorker: true,
       lowLatencyMode: false,
       startLevel: -1,
       abrEwmaDefaultEstimate: 5000000,
-      loader: CredentialedLoader,
+      xhrSetup: (xhr) => {
+        xhr.withCredentials = true;
+      },
     });
 
     hlsRef.current = hls;
