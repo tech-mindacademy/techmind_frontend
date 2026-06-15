@@ -107,9 +107,7 @@ const TYPE_CFG = {
 };
 
 const DOMAINS = [
-  "All", "Web Development", "Data Science", "Machine Learning",
-  "Cybersecurity", "Cloud Computing", "Mobile Development", "UI/UX Design",
-  "DevOps", "Blockchain", "AI Research", "Game Development",
+  "All", "Web Development", "Mobile Development"
 ];
 
 const BLANK_FORM = {
