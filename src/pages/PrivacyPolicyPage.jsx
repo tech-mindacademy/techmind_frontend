@@ -269,8 +269,8 @@ export default function PrivacyPolicyPage() {
                 {[
                   { label: "Email", value: "techmindacademy70@gmail.com" },
                   { label: "Response Time", value: "Within 48 hours" },
-                  { label: "Address", value: "LearnHub Inc., Tech City, IN 141001" },
-                  { label: "DPO", value: "dpo@learnhub.com" },
+                  {/* { label: "Address", value: "LearnHub Inc., Tech City, IN 141001" },
+                  { label: "DPO", value: "dpo@learnhub.com" }, */}
                 ].map((item) => (
                   <div key={item.label} className="bg-slate-900/60 rounded-xl px-4 py-3 border border-slate-800/60">
                     <p className="text-xs text-slate-500 mb-0.5">{item.label}</p>
