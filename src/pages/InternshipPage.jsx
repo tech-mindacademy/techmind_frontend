@@ -289,8 +289,8 @@ export default function InternshipsPage() {
             <div className="inline-flex items-center divide-x divide-[#0D1B3E]/10 bg-white border border-[#0D1B3E]/8 rounded-2xl overflow-hidden shadow-sm">
               {[
                 { v: `${STATIC_INTERNSHIPS.length}+`, l: "Open Roles" },
-                { v: "10+",  l: "Tech Domains" },
-                { v: "48hr", l: "Avg Response" },
+                { v: "4+",  l: "Tech Domains" },
+                { v: "24hr", l: "Avg Response" },
               ].map((s) => (
                 <div key={s.l} className="px-6 py-3 text-center">
                   <p className="text-xl font-black text-[#1A56DB] leading-none">{s.v}</p>
