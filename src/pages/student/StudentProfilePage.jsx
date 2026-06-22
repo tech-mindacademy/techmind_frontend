@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import useAuth from "../../hooks/useAuth";
 import api from "../../api/axios";
-import { setCredentials, updateUser } from "../../store/slices/authSlice"; // adjust import to your actual action
+import {updateUser } from "../../store/slices/authSlice"; // adjust import to your actual action
 
 export default function StudentProfilePage() {
   const { user } = useAuth();

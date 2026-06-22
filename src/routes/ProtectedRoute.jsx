@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   selectIsAuthenticated,
   selectUserRole,
 } from "../store/slices/authSlice";
+import PageLoader from "../components/PageLoader";
 
 export const ROLE_DASHBOARDS = {
   student: "/student/dashboard",
@@ -25,7 +27,11 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
     return <Navigate to={ownDashboard} replace />;
   }
 
-  return <Outlet />;
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Outlet />
+    </Suspense>
+  );
 };
 
 export default ProtectedRoute;

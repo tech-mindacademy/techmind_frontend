@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
@@ -5,6 +6,7 @@ import {
   selectUserRole,
 } from "../store/slices/authSlice";
 import { ROLE_DASHBOARDS } from "./ProtectedRoute";
+import PageLoader from "../components/PageLoader";
 
 const PublicRoute = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -15,7 +17,11 @@ const PublicRoute = () => {
     return <Navigate to={dashboard} replace />;
   }
 
-  return <Outlet />;
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Outlet />
+    </Suspense>
+  );
 };
 
 export default PublicRoute;
