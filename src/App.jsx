@@ -15,6 +15,9 @@ import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import StudentLayout from "./components/layout/StudentLayout";
+import CreatorLayout from "./components/layout/CreatorLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LAZY IMPORTS WITH PREFETCH
@@ -44,7 +47,7 @@ const BlogsPage               = lazy(() => import(/* webpackPrefetch: true */ ".
 const BlogDetailPage          = lazy(() => import(/* webpackPrefetch: true */ "./pages/BlogDetailPage"));
 
 // Student
-const StudentLayout      = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/StudentLayout"));
+// const StudentLayout      = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/StudentLayout"));
 const StudentDashboard   = lazy(() => import(/* webpackPrefetch: true */ "./pages/student/StudentDashboard"));
 const CoursePlayerPage   = lazy(() => import(/* webpackPrefetch: true */ "./pages/student/CoursePlayerPage"));
 const MyCoursesPage      = lazy(() => import(/* webpackPrefetch: true */ "./pages/student/MyCoursesPage"));
@@ -54,7 +57,7 @@ const ReviewsPage        = lazy(() => import(/* webpackPrefetch: true */ "./page
 const MyRefundPage       = lazy(() => import(/* webpackPrefetch: true */ "./pages/student/MyRefundPage"));
 
 // Creator
-const CreatorLayout      = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/CreatorLayout"));
+// const CreatorLayout      = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/CreatorLayout"));
 const CreatorDashboard   = lazy(() => import(/* webpackPrefetch: true */ "./pages/creator/CreatorDashboard"));
 const MyCourses          = lazy(() => import(/* webpackPrefetch: true */ "./pages/creator/MyCourses"));
 const CourseBuilder      = lazy(() => import(/* webpackPrefetch: true */ "./pages/creator/CourseBuilder"));
@@ -69,7 +72,7 @@ const CertificateManager = lazy(() => import(/* webpackPrefetch: true */ "./page
 const CreatorProfilePage = lazy(() => import(/* webpackPrefetch: true */ "./pages/creator/CreatorProfilePage"));
 
 // Admin
-const AdminLayout           = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/AdminLayout"));
+// const AdminLayout           = lazy(() => import(/* webpackPrefetch: true */ "./components/layout/AdminLayout"));
 const AdminDashboard        = lazy(() => import(/* webpackPrefetch: true */ "./pages/admin/AdminDashboard"));
 const UserManagement        = lazy(() => import(/* webpackPrefetch: true */ "./pages/admin/UserManagement"));
 const CourseManagement      = lazy(() => import(/* webpackPrefetch: true */ "./pages/admin/CourseManagement"));
