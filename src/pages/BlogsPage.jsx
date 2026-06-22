@@ -6,7 +6,7 @@ import { Tag, Calendar, User, ArrowRight } from "lucide-react";
 
 export default function BlogsPage() {
   const dispatch = useDispatch();
-  const { blogs, totalPages, currentPage, isLoading } = useSelector(
+  const { blogs, totalPages, currentPage} = useSelector(
     (s) => s.blogs,
   );
   const [page, setPage] = useState(1);
@@ -14,13 +14,6 @@ export default function BlogsPage() {
   useEffect(() => {
     dispatch(fetchBlogs({ page }));
   }, [page]);
-
-  if (isLoading)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F4F6FF]">
-        <div className="w-10 h-10 border-4 border-[#1A56DB] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
 
   return (
       <div className="min-h-screen bg-[#F4F6FF]">
