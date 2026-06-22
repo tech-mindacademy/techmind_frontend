@@ -20,6 +20,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 // Replace these with your actual Navbar and Footer component paths
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SplashScreen from "./components/ui/SplashScreen";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LAZY IMPORTS — grouped by role for better chunk splitting
@@ -96,16 +97,26 @@ const AdminBlogPage         = lazy(() => import("./pages/admin/AdminBlogPage"));
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Full-screen spinner — shown while the session is being resolved */
-const SessionLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-    <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-  </div>
-);
+// const SessionLoader = () => (
+//   <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+//     <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+//   </div>
+// );
 
 /** Lightweight inline spinner — shown while a lazy page chunk loads */
 const PageLoader = () => (
-  <div className="min-h-[60vh] flex items-center justify-center">
-    <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+  <div className="min-h-[60vh] flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center">
+      <img
+        src="/logo.png"
+        alt="Loading"
+        className="w-14 h-14 object-contain animate-bounce"
+      />
+      <div className="mt-2 w-8 h-1.5 rounded-full bg-indigo-400/30 dark:bg-indigo-500/20 animate-pulse" />
+    </div>
+    <p className="mt-6 text-xs tracking-widest uppercase text-gray-400 dark:text-white/30 font-medium">
+      Loading...
+    </p>
   </div>
 );
 
@@ -133,7 +144,7 @@ function App() {
 
   useAdminSessionGuard();
 
-  if (!isInitialized) return <SessionLoader />;
+  if (!isInitialized) return <SplashScreen />;
 
   return (
     <>
