@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import {
   selectIsAuthenticated,
   selectUserRole,
+  selectIsInitialized,
 } from "../store/slices/authSlice";
 import PageLoader from "../components/PageLoader";
 
@@ -15,8 +16,12 @@ export const ROLE_DASHBOARDS = {
 
 const ProtectedRoute = ({ allowedRoles = [] }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const role = useSelector(selectUserRole);
-  const location = useLocation();
+  const role            = useSelector(selectUserRole);
+  const isInitialized   = useSelector(selectIsInitialized);
+  const location        = useLocation();
+
+  // ⏳ Wait for bootstrapAuth to finish before deciding anything
+  if (!isInitialized) return <PageLoader />;
 
   if (!isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />;
