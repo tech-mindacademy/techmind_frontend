@@ -10,7 +10,7 @@ import {
 
 import { useAdminSessionGuard } from "./hooks/useAdminSessionGaurd";
 import ScrollToTop from "./components/ScrollToTop";
-import SplashScreen from "./components/SplashScreen";
+import SplashScreen from "./components/ui/SplashScreen";
 import PageLoader from "./components/PageLoader";
 
 import PublicRoute from "./routes/PublicRoute";
