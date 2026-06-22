@@ -8,19 +8,14 @@ export default function BlogDetailPage() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentBlog: blog, isLoading } = useSelector((s) => s.blogs);
+  const { currentBlog: blog} = useSelector((s) => s.blogs);
 
   useEffect(() => {
     dispatch(fetchBlog(slug));
     return () => dispatch(clearCurrentBlog());
   }, [slug]);
 
-  // if (isLoading)
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-[#F4F6FF]">
-  //       <div className="w-10 h-10 border-4 border-[#1A56DB] border-t-transparent rounded-full animate-spin" />
-  //     </div>
-  //   );
+ 
 
   if (!blog)
     return (
