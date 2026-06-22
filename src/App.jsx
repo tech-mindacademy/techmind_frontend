@@ -127,7 +127,9 @@ const PublicLayout = () => (
   <>
     <Navbar />
     <main>
-      <Outlet />
+      <Suspense fallback={<PageLoader />}>
+        <Outlet />
+      </Suspense>
     </main>
     <Footer />
   </>
@@ -149,7 +151,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Suspense fallback={<PageLoader />}>
+      {/* <Suspense fallback={<PageLoader />}> */}
         <Routes>
 
           {/* ── Fully public pages — WITH Navbar + Footer ─────────────────── */}
@@ -240,7 +242,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
 
         </Routes>
-      </Suspense>
+      {/* </Suspense> */}
     </>
   );
 }

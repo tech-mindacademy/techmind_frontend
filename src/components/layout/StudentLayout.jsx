@@ -169,7 +169,10 @@ export default function StudentLayout() {
         {/* PAGE CONTENT */}
         <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-950">
           <div className="w-full max-w-7xl mx-auto p-6">
-            <Outlet />
+            <Suspense fallback={<PageLoader />}>
+              <Outlet />
+            </Suspense>
+            
           </div>
         </main>
       </div>

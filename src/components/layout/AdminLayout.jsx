@@ -225,7 +225,9 @@ export default function AdminLayout() {
         </div>
         <main className="flex-1 overflow-y-auto">
           <div className="p-6 max-w-7xl mx-auto w-full">
-            <Outlet />
+            <Suspense fallback={<PageLoader />}>
+              <Outlet />
+            </Suspense>
           </div>
         </main>
       </div>

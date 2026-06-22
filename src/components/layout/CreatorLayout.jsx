@@ -215,7 +215,10 @@ export default function CreatorLayout() {
           <span className="font-bold text-white">Studio</span>
         </div>
         <main className="flex-1 overflow-y-auto p-6 max-w-7xl mx-auto w-full">
+        <Suspense fallback={<PageLoader />}>
           <Outlet />
+        </Suspense>
+          
         </main>
       </div>
     </div>
