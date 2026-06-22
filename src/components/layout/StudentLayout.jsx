@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import PageLoader from "../PageLoader";
 
 const navItems = [
   {

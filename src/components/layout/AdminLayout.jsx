@@ -3,6 +3,7 @@ import { Outlet, NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
 import { useAdminSessionGuard } from "../../hooks/useAdminSessionGaurd";
+import PageLoader from "../PageLoader";
 
 const navItems = [
   {
