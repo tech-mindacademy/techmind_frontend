@@ -9,9 +9,11 @@ export const registerUser = createAsyncThunk(
       const { data } = await api.post("/auth/register", formData);
       return data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Registration failed");
+      return rejectWithValue(
+        err.response?.data?.message || "Registration failed",
+      );
     }
-  }
+  },
 );
 
 export const loginUser = createAsyncThunk(
@@ -24,7 +26,7 @@ export const loginUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Login failed");
     }
-  }
+  },
 );
 
 export const logoutUser = createAsyncThunk(
@@ -37,7 +39,7 @@ export const logoutUser = createAsyncThunk(
       dispatch(resetUserState()); // wipe even if API call fails
       return rejectWithValue("Logout failed");
     }
-  }
+  },
 );
 
 export const refreshAccessToken = createAsyncThunk(
@@ -49,7 +51,7 @@ export const refreshAccessToken = createAsyncThunk(
     } catch (err) {
       return rejectWithValue("Session expired");
     }
-  }
+  },
 );
 
 export const fetchCurrentUser = createAsyncThunk(
@@ -61,7 +63,7 @@ export const fetchCurrentUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue("Failed to fetch user");
     }
-  }
+  },
 );
 
 export const bootstrapAuth = createAsyncThunk(
@@ -80,7 +82,7 @@ export const bootstrapAuth = createAsyncThunk(
     } catch (err) {
       return rejectWithValue("Bootstrap failed");
     }
-  }
+  },
 );
 
 const initialState = {
@@ -153,39 +155,50 @@ const authSlice = createSlice({
       .addCase(refreshAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
         state.isAuthenticated = true;
-        state.isInitialized = true;
+        // ❌ REMOVE: state.isInitialized = true  ← this was the bug
       })
       .addCase(refreshAccessToken.rejected, (state) => {
+        state.user = null;
+        state.accessToken = null;
+        state.isAuthenticated = false;
+        state.isInitialized = true; // no session at all, safe to finalize
+      });
+
+    // ── fetchCurrentUser ────────────────────────────────────────────
+    builder
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
+        state.isInitialized = true; // ✅ only NOW is bootstrap truly done
+      })
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        // token refreshed but user fetch failed — treat as unauthenticated
         state.user = null;
         state.accessToken = null;
         state.isAuthenticated = false;
         state.isInitialized = true;
       });
 
+    // ── bootstrapAuth ───────────────────────────────────────────────
     builder
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.isAuthenticated = true;
-        state.isInitialized = true;
+      .addCase(bootstrapAuth.fulfilled, (state) => {
+        state.isInitialized = true; // belt-and-suspenders
       })
-      .addCase(fetchCurrentUser.rejected, (state) => {
+      .addCase(bootstrapAuth.rejected, (state) => {
         state.isInitialized = true;
       });
-
-    builder.addCase(bootstrapAuth.rejected, (state) => {
-      state.isInitialized = true;
-    });
   },
 });
 
-export const { setAccessToken, clearAuth, clearError, updateUser } = authSlice.actions;
+export const { setAccessToken, clearAuth, clearError, updateUser } =
+  authSlice.actions;
 
-export const selectUser            = (state) => state.auth.user;
+export const selectUser = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
-export const selectUserRole        = (state) => state.auth.user?.role;
-export const selectAccessToken     = (state) => state.auth.accessToken;
-export const selectAuthLoading     = (state) => state.auth.isLoading;
-export const selectAuthError       = (state) => state.auth.error;
-export const selectIsInitialized   = (state) => state.auth.isInitialized;
+export const selectUserRole = (state) => state.auth.user?.role;
+export const selectAccessToken = (state) => state.auth.accessToken;
+export const selectAuthLoading = (state) => state.auth.isLoading;
+export const selectAuthError = (state) => state.auth.error;
+export const selectIsInitialized = (state) => state.auth.isInitialized;
 
 export default authSlice.reducer;
