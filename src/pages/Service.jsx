@@ -179,12 +179,12 @@ export default function Service() {
               <button className="bg-[#1A56DB] hover:bg-[#0D1B3E] transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-[#1A56DB]/20">
                 Start Your Project <ArrowRight size={18} />
               </button>
-              <button
+              {/* <button
                 onClick={() => navigate("/certificate-purchase")}
                 className="bg-[#1A56DB] hover:bg-[#0D1B3E] transition-all text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-lg shadow-[#1A56DB]/20"
               >
                 Get Certificates <ArrowRight size={18} />
-              </button>
+              </button> */}
             </motion.div>
           </motion.div>
 
