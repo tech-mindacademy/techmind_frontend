@@ -248,7 +248,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-white w-full">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -312,7 +311,7 @@ export default function LandingPage() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {coursesLoading
               ? [...Array(4)].map((_, i) => (
                   <div
@@ -323,7 +322,21 @@ export default function LandingPage() {
               : topCourses.map((course) => (
                   <LandingCourseCard key={course.id} course={course} />
                 ))}
-          </div>
+          </div> */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center py-20 gap-4"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-[#1A56DB]/10 flex items-center justify-center mb-2">
+              <BookOpen className="w-8 h-8 text-[#1A56DB]" />
+            </div>
+            <h3 className="text-2xl font-black text-[#1A56DB]">Coming Soon</h3>
+            <p className="text-[#0D1B3E]/45 text-sm max-w-xs text-center">
+              We're curating the best courses for you. Check back shortly!
+            </p>
+          </motion.div>
 
           <div className="text-center mt-10">
             <Link
