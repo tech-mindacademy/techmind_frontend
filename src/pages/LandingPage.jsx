@@ -218,33 +218,33 @@ export default function LandingPage() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    api
-      .get("/courses")
-      .then(({ data }) => {
-        const raw = data.courses || data?.data || [];
-        if (!Array.isArray(raw)) {
-          setCoursesLoading(false);
-          return;
-        }
-        setTopCourses(
-          raw.slice(0, 4).map((c) => ({
-            id: c._id,
-            title: c.title,
-            slug: c.slug,
-            creator: c.creator,
-            thumbnail: c.thumbnail,
-            isFree: c.isFree,
-            price: c.price,
-            discountPrice: c.discountPrice,
-            stats: c.stats,
-            rating: c.stats?.avgRating || 0,
-          })),
-        );
-      })
-      .catch(() => {})
-      .finally(() => setCoursesLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .get("/courses")
+  //     .then(({ data }) => {
+  //       const raw = data.courses || data?.data || [];
+  //       if (!Array.isArray(raw)) {
+  //         setCoursesLoading(false);
+  //         return;
+  //       }
+  //       setTopCourses(
+  //         raw.slice(0, 4).map((c) => ({
+  //           id: c._id,
+  //           title: c.title,
+  //           slug: c.slug,
+  //           creator: c.creator,
+  //           thumbnail: c.thumbnail,
+  //           isFree: c.isFree,
+  //           price: c.price,
+  //           discountPrice: c.discountPrice,
+  //           stats: c.stats,
+  //           rating: c.stats?.avgRating || 0,
+  //         })),
+  //       );
+  //     })
+  //     .catch(() => {})
+  //     .finally(() => setCoursesLoading(false));
+  // }, []);
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
