@@ -311,7 +311,7 @@ export default function LandingPage() {
             </motion.p>
           </div>
 
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {coursesLoading
               ? [...Array(4)].map((_, i) => (
                   <div
@@ -322,8 +322,8 @@ export default function LandingPage() {
               : topCourses.map((course) => (
                   <LandingCourseCard key={course.id} course={course} />
                 ))}
-          </div> */}
-          <motion.div
+          </div>
+          {/* <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -336,7 +336,7 @@ export default function LandingPage() {
             <p className="text-[#0D1B3E]/45 text-sm max-w-xs text-center">
               We're curating the best courses for you. Check back shortly!
             </p>
-          </motion.div>
+          </motion.div> */}
 
           <div className="text-center mt-10">
             <Link
