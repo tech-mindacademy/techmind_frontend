@@ -353,7 +353,7 @@ export default function CoursesLandingPage() {
 
         {/* Courses grid */}
         <main className="lg:col-span-3">
-          {/* {loading ? (
+          {loading ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {Array(6).fill(0).map((_, i) => (
                 <div key={i} className="h-64 rounded-2xl bg-[#0D1B3E]/6 animate-pulse" />
@@ -388,8 +388,8 @@ export default function CoursesLandingPage() {
                 </div>
               )}
             </>
-          )} */}
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
+          )}
+          {/* <div className="flex flex-col items-center justify-center py-24 gap-4">
             <div className="w-16 h-16 rounded-2xl bg-[#1A56DB]/10 flex items-center justify-center mb-2">
               <svg
                 className="w-8 h-8 text-[#1A56DB]"
@@ -409,7 +409,7 @@ export default function CoursesLandingPage() {
             <p className="text-black/45 text-sm max-w-xs text-center">
               We're curating the best courses for you. Check back shortly!
             </p>
-          </div>
+          </div> */}
         </main>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const navLinks = [
-    // { to: "/techmind-courses", label: "Courses" },
+    { to: "/techmind-courses", label: "Courses" },
     { to: "/internships", label: "Internships", dot: true },
     // { to: "/contact", label: "Contact" },
     { to: "/Services", label: "Services" },
