@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://techmindacademy.in/sitemap.xml
+Sitemap: https://www.techmindacademy.in/sitemap.xml
