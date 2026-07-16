@@ -139,6 +139,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <Suspense fallback={<PageLoader />}>
       <Routes>
 
         {/* ── Public pages — WITH Navbar + Footer ───────────────────────── */}
@@ -228,6 +229,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
 
       </Routes>
+      </Suspense>
     </>
   );
 }
