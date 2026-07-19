@@ -17,10 +17,10 @@ export default function Footer() {
               className="w-10 h-10 rounded-full object-cover"
             />
             {/* <div className="flex items-center gap-1"> */}
-              <h2 className="text-2xl font-bold text-white">
-                Tech Mind <span className="text-2xl font-bold text-[#1A56DB]">Academy</span> 
-              </h2>
-              {/* <h2 className="text-2xl font-bold text-[#1A56DB]">
+            <h2 className="text-2xl font-bold text-white">
+              Tech Mind <span className="text-2xl font-bold text-[#1A56DB]">Academy</span>
+            </h2>
+            {/* <h2 className="text-2xl font-bold text-[#1A56DB]">
                 Academy
               </h2> */}
             {/* </div> */}
@@ -37,6 +37,11 @@ export default function Footer() {
             {/* <img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} /> */}
             <a target="_blank" href="https://www.linkedin.com/company/tech-mind-academy/?viewAsMember=true" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/4494/4494497.png" alt="" style={{ height: 32, width: 32 }} />
             </a>
+            <a target="_blank" href="https://www.instagram.com/techmindacademy.in?igsh=MXBwcGgwYjlpYTlpeA==" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/3955/3955024.png" alt="" style={{ height: 32, width: 32 }} />
+            </a> 
+            <a target="_blank" href="https://www.facebook.com/share/1SPPtCMsX3/" className="hover:text-white"><img src="https://cdn-icons-png.flaticon.com/128/145/145802.png" alt="" style={{ height: 32, width: 32 }} />
+            </a>
+          
             {/* </div> */}
           </div>
         </div>
