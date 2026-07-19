@@ -142,10 +142,10 @@ export default function Navbar() {
                     className="absolute right-0 mt-3 w-52 bg-white border border-blue-100 rounded-xl shadow-lg shadow-blue-100/60 overflow-hidden"
                   >
                     {[
-                      { label: "My Profile", path: "/profile" },
+                      // { label: "My Profile", path: "/profile" },
                       { label: "Dashboard", path: "/student/dashboard" },
-                      { label: "My Courses", path: "/student/my-courses" },
-                      { label: "Settings", path: "/settings" },
+                      // { label: "My Courses", path: "/student/my-courses" },
+                      // { label: "Settings", path: "/settings" },
                     ].map(({ label, path }) => (
                       <button
                         key={path}
