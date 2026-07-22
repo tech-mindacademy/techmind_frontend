@@ -37,7 +37,7 @@ const CERT_TYPES = [
   {
     value: "completion",
     label: "Certificate of Completion",
-    price: 299,
+    price: 1499,
     desc: "Standard certificate for completing the course",
     icon: GraduationCap,
     gradient: "from-[#1A56DB] to-[#0D1B3E]",
@@ -442,7 +442,7 @@ export default function CertificatePurchasePage() {
                     </p>
                   </div>
                   <p className="font-black text-[#1A56DB] text-base flex-shrink-0">
-                    ₹299
+                    ₹1499
                   </p>
                 </div>
               </motion.div>

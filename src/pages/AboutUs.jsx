@@ -145,7 +145,7 @@ export default function AboutUs() {
     {
       Icon: Mail,
       title: "Email",
-      desc: "techmindacademy70@gmail.com",
+      desc: "support@techmindacademy.in",
     },
     {
       Icon: Zap,
