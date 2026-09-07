@@ -30,34 +30,64 @@ export default function useLiveKitRoom({ url, token }) {
   const snapshot = useCallback((room) => {
     if (!room) return [];
     const all = [room.localParticipant, ...Array.from(room.remoteParticipants.values())];
-    return all.map((p) => {
-      const pubs = Array.from(p.trackPublications.values());
-      const videoPub = pubs.find(
-        (pub) => pub.kind === Track.Kind.Video && pub.source === Track.Source.Camera
-      );
-      const screenPub = pubs.find((pub) => pub.source === Track.Source.ScreenShare);
-      const audioPub = pubs.find((pub) => pub.kind === Track.Kind.Audio);
-      return {
-        identity: p.identity,
-        name: p.name || p.identity,
-        isLocal: p === room.localParticipant,
-        videoTrack: videoPub?.track || null,
-        screenTrack: screenPub?.track || null,
-        audioTrack: audioPub?.track || null,
-        isCameraOff: !videoPub || videoPub.isMuted,
-        isMuted: !audioPub || audioPub.isMuted,
-        isSpeaking: !!p.isSpeaking,
-        handRaised: !!raisedHandsRef.current[p.identity],
-      };
-    });
+    return all
+      .map((p) => {
+        // Defensive: some SDK/version-mismatch states can throw while reading
+        // publication metadata (e.g. an incompatible TrackSource enum value).
+        // One bad participant/publication should never take down the whole
+        // classroom render — skip it and keep the rest of the room working.
+        try {
+          const pubs = Array.from(p.trackPublications.values());
+          const videoPub = pubs.find(
+            (pub) => pub.kind === Track.Kind.Video && pub.source === Track.Source.Camera
+          );
+          const screenPub = pubs.find((pub) => pub.source === Track.Source.ScreenShare);
+          const audioPub = pubs.find((pub) => pub.kind === Track.Kind.Audio);
+          return {
+            identity: p.identity,
+            name: p.name || p.identity,
+            isLocal: p === room.localParticipant,
+            videoTrack: videoPub?.track || null,
+            screenTrack: screenPub?.track || null,
+            audioTrack: audioPub?.track || null,
+            isCameraOff: !videoPub || videoPub.isMuted,
+            isMuted: !audioPub || audioPub.isMuted,
+            isSpeaking: !!p.isSpeaking,
+            handRaised: !!raisedHandsRef.current[p.identity],
+          };
+        } catch (err) {
+          console.error(`Failed to read track state for participant ${p?.identity}:`, err);
+          return {
+            identity: p?.identity || `unknown-${Math.random()}`,
+            name: p?.name || p?.identity || "Participant",
+            isLocal: p === room.localParticipant,
+            videoTrack: null,
+            screenTrack: null,
+            audioTrack: null,
+            isCameraOff: true,
+            isMuted: true,
+            isSpeaking: false,
+            handRaised: false,
+          };
+        }
+      })
+      .filter(Boolean);
   }, []);
 
   useEffect(() => {
     if (!url || !token) return undefined;
 
+    // Guards against React StrictMode's dev-only mount→unmount→remount cycle:
+    // without this, the room can be told to disconnect while still mid-connect,
+    // leaving the SDK in a half-initialized state that surfaces as confusing
+    // internal errors on the very next connect attempt.
+    let cancelled = false;
+
     const room = new Room({ adaptiveStream: true, dynacast: true });
     roomRef.current = room;
-    const refresh = () => setParticipants(snapshot(room));
+    const refresh = () => {
+      if (!cancelled) setParticipants(snapshot(room));
+    };
 
     room.on(RoomEvent.ConnectionStateChanged, (state) => setConnectionState(state));
     room.on(RoomEvent.ParticipantConnected, refresh);
@@ -103,6 +133,7 @@ export default function useLiveKitRoom({ url, token }) {
       });
 
     return () => {
+      cancelled = true;
       room.disconnect();
       roomRef.current = null;
     };
