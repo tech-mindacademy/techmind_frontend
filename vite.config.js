@@ -7,7 +7,8 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://techmind-backend-h7lv.onrender.com",
+        // target: "https://techmind-backend-h7lv.onrender.com",
+        target: "https://localhost:5000",
         changeOrigin: true,
         // cookieDomainRewrite: "localhost",
       },
