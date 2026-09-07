@@ -794,7 +794,7 @@ import {
   fetchMyInternshipAccess,
   createInternshipCheckout,
   verifyInternshipPayment,
-} from "../api/internship.api";
+} from "../api/services/internship.service";
 import { loadRazorpayScript } from "../components/lib/Razorpay";
 import {
   MapPin, Clock, Banknote, Users, Globe, Building2, Shuffle,
