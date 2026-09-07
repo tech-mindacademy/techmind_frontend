@@ -1,8 +1,26 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Room, RoomEvent, Track } from "livekit-client";
+import { Room, RoomEvent, Track, MediaDeviceFailure } from "livekit-client";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
+
+/** Turns a raw getUserMedia/publish rejection into a message a user can act on. */
+function describeMediaError(err, device) {
+  const failure = MediaDeviceFailure.getFailure(err);
+  switch (failure) {
+    case MediaDeviceFailure.PermissionDenied:
+      return `${device === "camera" ? "Camera" : "Microphone"} permission was denied. Check your browser's site permissions and try again.`;
+    case MediaDeviceFailure.NotFound:
+      return `No ${device} was found on this device.`;
+    case MediaDeviceFailure.DeviceInUse:
+      return `Your ${device} is already in use by another app or browser tab.`;
+    default:
+      // Not a device-permission issue — most likely a publish permission
+      // problem (e.g. the token's canPublishSources doesn't include this
+      // source) or a transient connection issue.
+      return err?.message || `Could not enable your ${device}. Please try again.`;
+  }
+}
 
 /**
  * Wraps a LiveKit Room connection and exposes plain React state — no
@@ -99,6 +117,10 @@ export default function useLiveKitRoom({ url, token }) {
     room.on(RoomEvent.ActiveSpeakersChanged, refresh);
     room.on(RoomEvent.LocalTrackPublished, refresh);
     room.on(RoomEvent.LocalTrackUnpublished, refresh);
+    room.on(RoomEvent.MediaDevicesError, (err) => {
+      console.error("MediaDevicesError:", err);
+      setError(describeMediaError(err, "camera/microphone"));
+    });
 
     room.on(RoomEvent.DataReceived, (payload, participant) => {
       try {
@@ -143,16 +165,30 @@ export default function useLiveKitRoom({ url, token }) {
     const room = roomRef.current;
     if (!room) return;
     const next = !micEnabled;
-    await room.localParticipant.setMicrophoneEnabled(next);
-    setMicEnabled(next);
+    try {
+      await room.localParticipant.setMicrophoneEnabled(next);
+      setMicEnabled(next);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to toggle microphone:", err);
+      setError(describeMediaError(err, "microphone"));
+      // Do NOT flip micEnabled — the actual device/publish state didn't change,
+      // so the button must reflect reality, not the attempted state.
+    }
   }, [micEnabled]);
 
   const toggleCamera = useCallback(async () => {
     const room = roomRef.current;
     if (!room) return;
     const next = !cameraEnabled;
-    await room.localParticipant.setCameraEnabled(next);
-    setCameraEnabled(next);
+    try {
+      await room.localParticipant.setCameraEnabled(next);
+      setCameraEnabled(next);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to toggle camera:", err);
+      setError(describeMediaError(err, "camera"));
+    }
   }, [cameraEnabled]);
 
   const toggleScreenShare = useCallback(async () => {
