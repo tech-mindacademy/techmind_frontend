@@ -795,7 +795,7 @@ import {
   createInternshipCheckout,
   verifyInternshipPayment,
 } from "../api/internship.api";
-import { loadRazorpayScript } from "../";
+import { loadRazorpayScript } from "../components/lib/Razorpay";
 import {
   MapPin, Clock, Banknote, Users, Globe, Building2, Shuffle,
   Search, X, ChevronDown, ChevronUp, Send, Loader2,
