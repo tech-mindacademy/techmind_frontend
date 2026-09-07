@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Radio, Clock, Calendar, User, CheckCircle2, Hourglass } from "lucide-react";
-import { fetchMyLiveClasses } from "../../api/liveClass.api";
+import { fetchMyLiveClasses } from "../../api/services/liveClass.service";
 
 const fmtDate = (d) =>
   new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
