@@ -976,7 +976,7 @@ function PaymentStep({ applicationId, amount, internshipTitle, onDone }) {
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
-        name: "Tech Vidya",
+        name: "Tech Mind Academy",
         description: `Internship Fee — ${internshipTitle}`,
         order_id: order.orderId,
         prefill: { name: order.studentName, email: order.studentEmail },
