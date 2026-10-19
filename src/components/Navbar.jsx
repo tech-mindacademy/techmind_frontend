@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const navLinks = [
     { to: "/techmind-courses", label: "Courses" },
-    { to: "/internships", label: "Internships", dot: true },
+    { to: "/internships", label: "Industrial Training", dot: true },
     // { to: "/contact", label: "Contact" },
     { to: "/Services", label: "Services" },
     { to: "/about", label: "About us" },
