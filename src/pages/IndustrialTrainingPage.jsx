@@ -10,8 +10,8 @@ const DOMAINS = [
 ];
 
 const DURATIONS = [
-  ["4 Weeks", "One stack, one focused project."],
-  ["6 Weeks", "Commonly accepted for college training requirements."],
+  ["1 Month", "One stack, one focused project."],
+  ["3 Months", "Commonly accepted for college training requirements."],
   ["6 Months", "Extended training with a larger end-to-end project."],
 ];
 
