@@ -7,12 +7,21 @@ const DOMAINS = [
   { name: "Frontend Development", Icon: Monitor, desc: "HTML, CSS, JavaScript and React, building responsive interfaces." },
   { name: "Backend Development", Icon: Server, desc: "Node.js, Express, REST APIs, authentication and MongoDB." },
   { name: "Mobile App Development (React Native)", Icon: Smartphone, desc: "Android and iOS apps with React Native and Expo." },
+  { name: "Cyber Security", Icon: AlertCircle, desc: "Protecting systems and networks from digital threats." },
+  { name: "Cloud Computing", Icon: Server, desc: "Deploying and managing applications on cloud platforms." },
+  { name: "DevOps", Icon: Layers, desc: "Integrating development and operations for faster delivery." },
+  { name: "UI/UX Design", Icon: Monitor, desc: "Creating intuitive and visually appealing user interfaces." },
+  { name: "Graphic Design", Icon: Layers, desc: "Designing visual content for digital and print media." },
+  { name: "AI/ML", Icon: Layers, desc: "Building intelligent systems using machine learning algorithms." },
+  { name: "Data Science", Icon: Layers, desc: "Extracting insights from data using statistical and computational methods." },
 ];
 
 const DURATIONS = [
   ["1 Month", "One stack, one focused project."],
+  ["2 Months", "Balanced duration for comprehensive learning."],
   ["3 Months", "Commonly accepted for college training requirements."],
   ["6 Months", "Extended training with a larger end-to-end project."],
+  ["1 Year", "Deep dive into multiple stacks and advanced topics."],
 ];
 
 const WHY = [
