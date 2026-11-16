@@ -301,13 +301,7 @@ export default function Navbar() {
                       >
                         <div className="border-l-2 border-[#1A56DB]/30 pl-3 flex flex-col gap-0.5 py-1">
                           {[
-                            { label: "My Profile", path: "/profile" },
                             { label: "Dashboard", path: "/student/dashboard" },
-                            {
-                              label: "My Courses",
-                              path: "/student/my-courses",
-                            },
-                            { label: "Settings", path: "/settings" },
                           ].map(({ label, path }) => (
                             <button
                               key={path}

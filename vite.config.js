@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         // target: "https://techmind-backend-h7lv.onrender.com",
-        target: "https://localhost:5000",
+        target: "http://localhost:5000",
         changeOrigin: true,
         // cookieDomainRewrite: "localhost",
       },
