@@ -331,7 +331,7 @@ export default function CreatorLayout() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-white text-black overflow-hidden">
+    <div className="fixed inset-0 flex bg-white text-black overflow-hidden">
       {/* Desktop sidebar */}
       <div className="hidden lg:flex flex-shrink-0">
         <SidebarContent user={user} logout={logout} />
